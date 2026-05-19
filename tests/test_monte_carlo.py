@@ -173,3 +173,63 @@ def test_save_results_round_trip(ktz_baseline, realistic_scenarios, tmp_path):
     for key in ("scenario_id", "scenario_name", "mean_npv", "mean_roi",
                 "success_probability", "payback_years_median"):
         assert key in first
+
+
+def test_empirical_failure_rate_overrides_default(ktz_baseline):
+    """Regression guard: a scenario carrying an empirical prior with high
+    failure rate must produce noticeably lower success probability than
+    the same scenario without that prior."""
+    base = {
+        "id": 1,
+        "name": "Test",
+        "expected_impact": {"revenue_increase": 0.04, "cost_reduction": 0.04},
+        "investment_required": 5_000_000.0,
+        "implementation_time_months": 12,
+        "risk_level": "medium",
+    }
+    risky = {
+        **base,
+        "empirical_prior": {
+            "revenue_uplift": {"n": 10, "mean": 0.04, "std": 0.05,
+                               "p10": -0.02, "p50": 0.04, "p90": 0.10},
+            "failure_rate": 0.55,
+        },
+    }
+
+    cfg = SimulationConfig(iterations=2000)
+    no_prior = MonteCarloSimulator(cfg, random_seed=42).simulate_scenario(
+        base, ktz_baseline["revenue"], ktz_baseline["operating_costs"])
+    with_prior = MonteCarloSimulator(cfg, random_seed=42).simulate_scenario(
+        risky, ktz_baseline["revenue"], ktz_baseline["operating_costs"])
+
+    assert with_prior.success_probability < no_prior.success_probability, (
+        f"Empirical failure rate did not propagate: "
+        f"no_prior P(NPV>0)={no_prior.success_probability:.2f}, "
+        f"with_prior P(NPV>0)={with_prior.success_probability:.2f}"
+    )
+
+
+def test_empirical_failure_rate_clipped():
+    """Empirical failure rate should be clipped to [2%, 60%]
+    to prevent a single bad case-set from killing all scenarios."""
+    base = {
+        "id": 1,
+        "name": "Test",
+        "expected_impact": {"revenue_increase": 0.04, "cost_reduction": 0.04},
+        "investment_required": 5_000_000.0,
+        "implementation_time_months": 12,
+        "risk_level": "medium",
+        "empirical_prior": {
+            "revenue_uplift": {"n": 10, "mean": 0.04, "std": 0.05,
+                               "p10": -0.02, "p50": 0.04, "p90": 0.10},
+            "failure_rate": 0.99,
+        },
+    }
+    cfg = SimulationConfig(iterations=2000)
+    res = MonteCarloSimulator(cfg, random_seed=42).simulate_scenario(
+        base, 500_000_000, 450_000_000)
+    # Even with 99% empirical failure, we clip to 60% so the prob of NPV>0
+    # should be at least ~30%+ (some upside still survives clipping).
+    assert res.success_probability > 0.20, (
+        f"Clipping failed: P(NPV>0)={res.success_probability:.2f}"
+    )

@@ -198,7 +198,7 @@ def show_overview(scenarios_data, results_data, twin_data):
         st.plotly_chart(fig, use_container_width=True)
 
 
-def show_top_scenarios(results_data):
+def show_top_scenarios(results_data, scenarios_data=None):
     st.header("TOP-3 Recommended Scenarios")
     if not results_data:
         st.warning("No simulation results available.")
@@ -230,6 +230,30 @@ def show_top_scenarios(results_data):
                 st.info("**PROCEED WITH CAUTION** - good odds, but requires risk management.")
             else:
                 st.warning("**PILOT FIRST** - moderate success probability, test before scaling.")
+
+            # Show which real cases informed this scenario, if available
+            if scenarios_data:
+                matching_scen = next(
+                    (s for s in scenarios_data.get("scenarios", [])
+                     if s.get("id") == scenario["scenario_id"]),
+                    None,
+                )
+                if matching_scen and matching_scen.get("based_on_cases"):
+                    cases = matching_scen["based_on_cases"]
+                    prior = matching_scen.get("empirical_prior") or {}
+                    failure_rate = prior.get("failure_rate")
+                    rev_prior = (prior.get("revenue_uplift") or {})
+                    n_cases = rev_prior.get("n", 0)
+                    with st.container():
+                        st.markdown("**Based on real cases (empirical prior):**")
+                        st.markdown(", ".join(f"`{c}`" for c in cases[:5]))
+                        cols = st.columns(3)
+                        if failure_rate is not None:
+                            cols[0].metric("Empirical failure rate", fmt_pct(failure_rate),
+                                           f"n={n_cases} similar cases")
+                        if rev_prior.get("p10") is not None:
+                            cols[1].metric("Revenue uplift P10", fmt_pct(rev_prior["p10"]))
+                            cols[2].metric("Revenue uplift P90", fmt_pct(rev_prior["p90"]))
 
 
 def show_all_results(results_data):
@@ -393,7 +417,7 @@ def main():
     if page == "Overview":
         show_overview(scenarios, results, twin)
     elif page == "Top scenarios":
-        show_top_scenarios(results)
+        show_top_scenarios(results, scenarios)
     elif page == "All results":
         show_all_results(results)
     elif page == "Sensitivity":

@@ -124,6 +124,19 @@ class MonteCarloSimulator:
         impl_time_months = scenario["implementation_time_months"]
         risk_level = scenario.get("risk_level", "medium")
 
+        # If the scenario carries an empirical prior from the Case Library,
+        # use the observed failure rate of similar cases as a per-scenario
+        # execution_failure_prob. We clip to [2%, 60%] to avoid one outlier
+        # case-set producing an absurd rate, and we only override when the
+        # prior was built from at least 3 cases.
+        empirical_prior = scenario.get("empirical_prior") or {}
+        case_failure_rate = empirical_prior.get("failure_rate")
+        case_n = (empirical_prior.get("revenue_uplift") or {}).get("n", 0)
+        if case_failure_rate is not None and case_n >= 3:
+            execution_failure_prob = max(0.02, min(0.60, float(case_failure_rate)))
+        else:
+            execution_failure_prob = cfg.execution_failure_prob
+
         npv_samples = np.empty(cfg.iterations)
         roi_samples = np.empty(cfg.iterations)
         payback_samples = np.empty(cfg.iterations)
@@ -148,7 +161,7 @@ class MonteCarloSimulator:
             actual_investment = investment * overrun
 
             # ----- 2. Apply external shocks -----
-            if rng.random() < cfg.execution_failure_prob:
+            if rng.random() < execution_failure_prob:
                 # Project fails: investment lost, no benefits
                 annual_benefits = np.zeros(cfg.horizon_years)
                 year_zero_cost = -actual_investment
