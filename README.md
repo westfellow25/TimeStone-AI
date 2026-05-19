@@ -1,155 +1,165 @@
-# TimeStone AI 🔮
+# TimeStone AI
 
 **Predict business transformation outcomes before you commit.**
 
-TimeStone AI uses synthetic digital twins and Monte Carlo simulations to predict the success probability of business transformations with 90%+ accuracy.
+TimeStone AI uses synthetic digital twins and Monte Carlo simulations to forecast the success probability, NPV and payback of business transformations under realistic uncertainty.
 
-> "See 1,000 futures. Choose the one truth." — Inspired by GPT-5's 36,000-experiment protein folding breakthrough
+> "See 1,000 futures. Choose the one truth."
 
 ---
 
-## 🎯 What is TimeStone AI?
+## What is TimeStone AI?
 
-TimeStone creates a **digital twin** of your company, generates **1,000 transformation scenarios**, runs **Monte Carlo simulations**, and identifies the **TOP-3 strategies** with highest ROI and lowest risk.
+TimeStone creates a **digital twin** of a company, generates **up to 1,000 transformation scenarios** (Claude-powered when an API key is set, rule-based otherwise), runs **Monte Carlo simulations** with realistic risk modeling, and ranks the strategies that maximize risk-adjusted NPV.
 
-**Use Cases:**
+**Use cases:**
+
 - Digital transformation strategy
-- M&A integration planning  
+- M&A integration planning
 - Product launch decisions
 - Market expansion analysis
 - Technology adoption roadmaps
 
 ---
 
-## 🚀 How It Works
+## How it works
+
 ```
-1. DATA INPUT → Company financials, operations, market data
-2. DIGITAL TWIN → Synthetic model of your business
-3. HYPOTHESIS GENERATION → 1,000 transformation scenarios  
-4. MONTE CARLO SIMULATION → Test each hypothesis
-5. RANKING & VALIDATION → TOP-3 recommendations with confidence scores
-6. PILOT EXECUTION → Validate predictions in controlled environment
-```
-
----
-
-## 📊 Example Output
-
-**Client:** Kazakhstan Temir Zholy (KTZ) - National Railway Company
-
-**Question:** Should we implement dynamic pricing for freight?
-
-**TimeStone Analysis:**
-```
-Scenario #1: Dynamic Pricing Implementation
-├── Success Probability: 87%
-├── Expected ROI: +22% revenue
-├── Time to Breakeven: 8 months
-├── Risk Factors: IT infrastructure readiness (medium)
-└── Recommendation: PROCEED with phased rollout
-
-Scenario #2: AI-Powered Route Optimization  
-├── Success Probability: 73%
-├── Expected ROI: +15% efficiency
-└── Recommendation: PILOT first
-
-Scenario #3: Full Digital Twin for Maintenance
-├── Success Probability: 45%
-└── Recommendation: DELAY (infrastructure not ready)
+1. DATA INPUT          -> Company financials, operations, market data
+2. DIGITAL TWIN        -> Synthetic model of the business
+3. SCENARIO GENERATION -> 1,000 transformation hypotheses (Claude or rule-based)
+4. MONTE CARLO         -> 1,000 iterations per scenario with shocks & ramp-up
+5. RANKING             -> TOP-N by P(NPV>0), NPV, payback period
+6. SENSITIVITY         -> Tornado analysis on top scenarios
 ```
 
 ---
 
-## 💡 Why TimeStone?
+## Example output (KTZ - National Railway)
 
-| Traditional Consulting | TimeStone AI |
-|----------------------|--------------|
-| 3-6 months analysis | 1-2 weeks |
-| $500k-2M cost | $50k pilot |
-| Gut feeling + case studies | 1,000 simulations |
-| 50-60% success rate | 90%+ prediction accuracy |
-| Post-failure learnings | Pre-failure prevention |
+```
+RANK #1  Dynamic Pricing Implementation
+   P(NPV > 0)          : 96%
+   Mean NPV (5y)       : $43M
+   Mean ROI multiplier : 8.9x
+   Median payback      : 2 years
+   90% CI ROI          : [4.1x, 14.6x]
+   Recommendation      : PROCEED with phased rollout
+
+RANK #2  AI-Powered Route Optimization
+   P(NPV > 0)          : 94%
+   Mean NPV (5y)       : $32M
+   Median payback      : 2 years
+   Recommendation      : PROCEED, monitor adoption
+
+RANK #3  Predictive Maintenance System
+   P(NPV > 0)          : 64%
+   Mean NPV (5y)       : $4M
+   Median payback      : 5 years
+   Recommendation      : PILOT first - high execution risk
+```
 
 ---
 
-## 🛠 Tech Stack
+## Tech stack
 
-- **Language:** Python 3.12+
-- **AI Framework:** Anthropic Claude (Sonnet 4)
-- **Simulation:** NumPy, Pandas, Monte Carlo methods
+- **Language:** Python 3.10+
+- **AI:** Anthropic Claude (`anthropic` SDK) - optional, falls back to rule-based
+- **Simulation:** NumPy, Monte Carlo with NPV
 - **Visualization:** Streamlit, Plotly
-- **Data Modeling:** Pydantic
+- **Data modeling:** dataclasses + Pydantic
+- **Testing:** pytest
 
 ---
 
-## 📦 Installation
+## Installation
+
 ```bash
-# Clone repository
-git clone https://github.com/[username]/timestone-ai.git
+git clone https://github.com/westfellow25/timestone-ai.git
 cd timestone-ai
 
-# Install dependencies
 pip install -r requirements.txt
 
-# Set up environment
+# (Optional) configure Claude API for AI-generated scenarios
 cp .env.example .env
-# Add your ANTHROPIC_API_KEY
+# edit .env and set ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ---
 
-## 🎮 Quick Start
+## Quick start
+
 ```bash
-# Run digital twin creation
-python -m src.models.digital_twin --company KTZ
+# 1. Build a digital twin of KTZ (or any company)
+python -m src.models.digital_twin
 
-# Generate transformation scenarios
-python -m src.simulation.scenario_generator --count 1000
+# 2. Generate transformation scenarios (rule-based, no API key needed)
+python -m src.simulation.scenario_generator
 
-# Run simulations
-python -m src.simulation.monte_carlo --scenarios scenarios.json
+# 2b. Or use Claude for creative scenarios (requires ANTHROPIC_API_KEY)
+python -m src.simulation.claude_scenarios
 
-# View results
+# 3. Run Monte Carlo simulations
+python -m src.simulation.monte_carlo
+
+# 4. Sensitivity analysis on a specific scenario
+python -m src.simulation.sensitivity
+
+# 5. Launch the interactive dashboard
 streamlit run src/api/dashboard.py
 ```
 
 ---
 
-## 📈 Roadmap
+## Tests
 
-- [x] Core simulation engine
+```bash
+pytest tests/ -v
+```
+
+The test suite locks in the core financial-model invariants (NPV math, risk-level variance, no-perfect-success guardrail, deterministic seeding).
+
+---
+
+## Financial model
+
+- Capex paid in year 0
+- Benefits start after the (delayed) implementation period
+- Adoption ramps up: **40% / 70% / 95% / 100%** by year
+- `cost_reduction` applies to **operating costs** (not revenue)
+- 5-year NPV at configurable WACC (default 12%)
+
+External risks modeled per iteration:
+
+- **Execution failure:** 5% prob (project lost)
+- **Market downturn:** 8% prob (-30% to revenue impact)
+- **Competitive response:** 15% prob (-20% to revenue impact)
+- **Cost overruns:** up to +50% for high-risk projects
+- **Implementation delays:** up to +80% for high-risk projects
+
+All defaults are configurable through `SimulationConfig`.
+
+---
+
+## Roadmap
+
+- [x] Core simulation engine with NPV, ramp-up, external shocks
 - [x] Digital twin modeling
-- [ ] KTZ case study completion
-- [ ] KEGOC (energy) case study
-- [ ] Real-time data integration
-- [ ] Multi-industry templates
-- [ ] API for external integrations
+- [x] Multi-industry templates (transportation, energy, fintech, SaaS, manufacturing)
+- [x] Interactive dashboard with sensitivity analysis
+- [x] Claude-powered scenario generation (optional)
+- [x] Test suite locking in financial invariants
+- [ ] PDF export of executive report
+- [ ] Real-time data integration (financial APIs)
+- [ ] Multi-objective optimization (NPV vs risk vs time)
+- [ ] Bayesian updating from pilot results
 
 ---
 
-## 🤝 Built With
+## License
 
-This project uses **agentic engineering workflows** powered by:
-- Claude Code for autonomous development
-- Multi-agent parallel coding
-- CLI-first architecture for agent compatibility
+MIT - see `LICENSE`.
 
 ---
-
-## 📄 License
-
-MIT License - See LICENSE file for details
-
----
-
-## 🔗 Links
-
-- **Case Studies:** [/docs/case-studies](/docs)
-- **API Documentation:** Coming soon
-- **Research Paper:** In progress
-
----
-
-**"The best way to predict the future is to simulate it 1,000 times."**
 
 Built by [@westfellow25](https://github.com/westfellow25) | 2026
