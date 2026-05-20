@@ -110,6 +110,23 @@ See `docs/architecture.md` for the project's layered architecture.
 
 ---
 
+## Deploy
+
+**Streamlit Community Cloud (free, 30 seconds):**
+
+1. Push to a public GitHub repo
+2. Go to https://share.streamlit.io
+3. New app -> point at `streamlit_app.py` in this repo
+4. Click Deploy. URL like `https://timestone.streamlit.app`
+
+**Static landing page:**
+
+`site/index.html` is a single-file landing page (no build step). Drop it on any
+static host (GitHub Pages, Vercel, Netlify, Cloudflare Pages) and point a
+domain like `timestone.ai` at it.
+
+---
+
 ## Tests
 
 ```bash

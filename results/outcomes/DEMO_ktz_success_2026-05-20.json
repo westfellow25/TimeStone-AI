@@ -1,0 +1,23 @@
+{
+  "id": "DEMO_ktz_success_2026-05-20",
+  "run_id": "2026-05-20_083753_kazakhstan_temir_zholy_(ktz)_b85da1",
+  "company_name": "Kazakhstan Temir Zholy (KTZ)",
+  "scenario_id": 43,
+  "scenario_name": "Real-Time Tracking & Notifications",
+  "prediction_date": "2026-05-20",
+  "measurement_date": "2026-04-20",
+  "months_elapsed": 12,
+  "predicted_mean_npv": 557941524.8037797,
+  "predicted_success_probability": 0.995,
+  "predicted_revenue_uplift_pct": 0.025,
+  "predicted_cost_reduction_pct": 0.015,
+  "predicted_investment_usd": 3000000,
+  "predicted_payback_years": 1.0,
+  "actual_revenue_uplift_pct": 0.02,
+  "actual_cost_reduction_pct": 0.01,
+  "actual_investment_usd": 3400000,
+  "actual_status": "partial",
+  "decision_taken": "DEMO synthetic - delivered phased rollout 2024-2025",
+  "deviation_notes": "DEMO - illustrative outcome only",
+  "sources": []
+}

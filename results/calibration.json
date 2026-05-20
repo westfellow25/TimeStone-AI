@@ -1,0 +1,20 @@
+{
+  "by_bucket": [
+    {
+      "industry": "*",
+      "transformation_type": "*",
+      "n_outcomes": 2,
+      "revenue_uplift_residual": -0.019999999999999997,
+      "cost_reduction_residual": -0.0125,
+      "success_rate_residual": -0.7424999999999999
+    }
+  ],
+  "global": {
+    "industry": "*",
+    "transformation_type": "*",
+    "n_outcomes": 2,
+    "revenue_uplift_residual": -0.019999999999999997,
+    "cost_reduction_residual": -0.0125,
+    "success_rate_residual": -0.7424999999999999
+  }
+}

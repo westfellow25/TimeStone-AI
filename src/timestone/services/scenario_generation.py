@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 from ..domain.scenario import Scenario, TransformationType
 from ..domain.case import CaseQuery
 from .knowledge_retrieval import CaseLibrary
+from .calibration import load_calibration, apply_calibration_to_prior, CalibrationTable
 
 
 class ScenarioGenerator:
@@ -23,12 +24,16 @@ class ScenarioGenerator:
         industry: str,
         case_library: Optional[CaseLibrary] = None,
         company_profile: Optional[Dict] = None,
+        calibration: Optional[CalibrationTable] = None,
     ):
         self.company_name = company_name
         self.industry = industry
         self.scenarios: List[Scenario] = []
         self.case_library = case_library
         self.company_profile = company_profile or {}
+        # Load calibration table on demand if not provided. Empty table is
+        # a no-op (zero residuals), so this is safe when no outcomes exist.
+        self.calibration = calibration if calibration is not None else load_calibration()
 
     def generate(self, count: int = 1000) -> List[Scenario]:
         self.scenarios = []
@@ -122,6 +127,15 @@ class ScenarioGenerator:
         cost_prior = self.case_library.empirical_prior(
             retrieved, "actual_cost_reduction_pct",
             fallback=(sum(template["cost_impact"]) / 2, 0.02))
+
+        # Apply calibration shift (learned from past outcomes) - no-op if empty
+        cal_entry = self.calibration.shift_for(
+            self.company_profile.get("industry", "*"),
+            template["type"].value)
+        rev_prior = apply_calibration_to_prior(rev_prior, cal_entry,
+                                                 "actual_revenue_uplift_pct")
+        cost_prior = apply_calibration_to_prior(cost_prior, cal_entry,
+                                                  "actual_cost_reduction_pct")
 
         rev_template_mid = sum(template["revenue_impact"]) / 2
         cost_template_mid = sum(template["cost_impact"]) / 2

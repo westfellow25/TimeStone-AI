@@ -1,27 +1,119 @@
 {
   "company_name": "KEGOC (Kazakhstan Electricity Grid)",
+  "notes": "National electricity grid operator (UNEG). Quasi-sovereign under Samruk-Kazyna. IPO'd on KASE 2014. Operates 25,000+ km of high-voltage transmission across Kazakhstan plus central dispatch.",
+  "created_at": "2026-05-20",
   "metrics": {
     "revenue": 700000000,
     "operating_costs": 580000000,
-    "employee_count": 190168,
-    "market_share": 0.20889338993540474,
-    "customer_count": 71972,
-    "avg_transaction_value": 625929.9476435847,
-    "growth_rate": 0.03923160444019058,
+    "employees": 5500,
+    "profit_margin": 0.17,
+    "market_share": 1.0,
     "industry": "energy",
-    "employees": 5200,
     "geography": "Kazakhstan",
-    "industry_tags": [
-      "energy",
-      "utilities",
-      "power_transmission"
+    "industry_tags": ["energy", "utilities", "power_transmission", "regulated"],
+    "segments": [
+      {
+        "name": "Transmission tariffs (regulated)",
+        "revenue_share": 0.78,
+        "description": "Regulated tariff for use of national grid by generators and large consumers",
+        "growth_rate_pct": 0.05,
+        "margin_pct": 0.22
+      },
+      {
+        "name": "Dispatch and system services",
+        "revenue_share": 0.12,
+        "description": "Real-time balancing and frequency control via CDC dispatch center",
+        "growth_rate_pct": 0.08,
+        "margin_pct": 0.30
+      },
+      {
+        "name": "Balancing electricity market",
+        "revenue_share": 0.07,
+        "description": "Settlements for imbalance between scheduled and actual flows",
+        "growth_rate_pct": 0.12,
+        "margin_pct": 0.10
+      },
+      {
+        "name": "Cross-border trade fees",
+        "revenue_share": 0.03,
+        "description": "Wheeling and transit fees for KZ-RU, KZ-UZ, KZ-KG cross-border flows",
+        "growth_rate_pct": 0.20,
+        "margin_pct": 0.40
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Distributed generation (rooftop solar, captive)",
+        "relationship": "substitute",
+        "market_share_ratio": 0.02,
+        "notes": "Growing but small share; pressure on regulated tariff base"
+      },
+      {
+        "name": "Russian grid (UES)",
+        "relationship": "adjacent",
+        "market_share_ratio": null,
+        "notes": "Synchronously connected; import/export partner; political risk"
+      },
+      {
+        "name": "CASA-1000 corridor (Central Asia - South Asia)",
+        "relationship": "adjacent",
+        "market_share_ratio": null,
+        "notes": "New transmission corridor bypasses KEGOC for some flows"
+      },
+      {
+        "name": "Renewables IPP captive transmission",
+        "relationship": "potential",
+        "market_share_ratio": null,
+        "notes": "Future risk if IPPs build private high-voltage lines"
+      }
+    ],
+    "prior_transformations": [
+      {
+        "name": "SAP ERP implementation",
+        "year": 2015,
+        "outcome": "partial",
+        "description": "Replace 1990s-era custom systems with SAP across HQ and regional MES units",
+        "investment_usd": 45000000,
+        "learnings": "Customisation for Kazakhstan-specific tariff rules ate 60% of timeline"
+      },
+      {
+        "name": "AMR/AMI smart metering pilot",
+        "year": 2017,
+        "outcome": "partial",
+        "description": "Pilot rollout of smart meters at large industrial consumers",
+        "investment_usd": 25000000,
+        "learnings": "Tech worked; commercial use case for KEGOC unclear since meters belong to distribution companies"
+      },
+      {
+        "name": "Dispatch system modernization (SCADA upgrade)",
+        "year": 2019,
+        "outcome": "ongoing",
+        "description": "Replace Soviet-era dispatch SCADA with modern EMS at CDC",
+        "investment_usd": 80000000,
+        "learnings": "On track but timeline stretched by sanctions affecting Siemens/Schneider supply"
+      },
+      {
+        "name": "KASE IPO governance reforms",
+        "year": 2014,
+        "outcome": "success",
+        "description": "Public listing forced board independence, IFRS reporting, investor relations",
+        "investment_usd": 10000000,
+        "learnings": "Disclosure discipline raised execution quality across the org"
+      }
+    ],
+    "strategic_priorities": [
+      "Renewables integration (Kazakhstan 50% renewable target by 2050)",
+      "Cross-border power trading (Iran, China, CASA-1000)",
+      "Smart grid technologies for grid stability",
+      "ESG reporting for international borrowings (EBRD, ADB)",
+      "Cybersecurity for critical infrastructure"
+    ],
+    "pain_points": [
+      "Aging infrastructure - 60%+ of substations from Soviet era",
+      "Regulated tariff structure limits ROI on investment",
+      "Renewables intermittency causes balancing market volatility",
+      "Engineer talent flowing to private sector and abroad",
+      "Sanctions-driven supply chain risk on Western equipment"
     ]
-  },
-  "metadata": {
-    "industry": "energy",
-    "scale": "large",
-    "template_used": true
-  },
-  "created_at": "2026-02-23T07:06:53.185245",
-  "version": "1.0.0"
+  }
 }

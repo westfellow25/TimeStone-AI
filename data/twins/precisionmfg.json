@@ -1,20 +1,105 @@
 {
   "company_name": "PrecisionMfg Inc",
+  "notes": "Mid-market industrial manufacturer of precision components for aerospace, automotive and medical devices. Multi-plant, multi-region. Generic illustrative twin.",
+  "created_at": "2026-05-20",
   "metrics": {
-    "revenue": 10025000000.0,
-    "operating_costs": 8904597302.55754,
-    "employee_count": 37695,
-    "market_share": 0.096713491495662,
-    "customer_count": 53209,
-    "avg_transaction_value": 188407.7804816848,
-    "growth_rate": 0.06502261640465865,
-    "industry": "manufacturing"
-  },
-  "metadata": {
-    "industry": "manufacturing",
-    "scale": "medium",
-    "template_used": true
-  },
-  "created_at": "2026-02-23T07:06:53.185335",
-  "version": "1.0.0"
+    "revenue": 10000000000,
+    "operating_costs": 8800000000,
+    "employees": 35000,
+    "profit_margin": 0.12,
+    "market_share": 0.08,
+    "industry": "industrial_manufacturing",
+    "geography": "USA",
+    "industry_tags": ["manufacturing", "industrial_iot", "B2B", "supply_chain"],
+    "segments": [
+      {
+        "name": "Aerospace components",
+        "revenue_share": 0.42,
+        "description": "Engine and structural components for commercial and defense aerospace",
+        "growth_rate_pct": 0.06,
+        "margin_pct": 0.16
+      },
+      {
+        "name": "Automotive precision parts",
+        "revenue_share": 0.30,
+        "description": "ICE and EV powertrain components for OEMs",
+        "growth_rate_pct": 0.01,
+        "margin_pct": 0.08
+      },
+      {
+        "name": "Medical devices",
+        "revenue_share": 0.18,
+        "description": "Implant components and surgical instruments",
+        "growth_rate_pct": 0.12,
+        "margin_pct": 0.22
+      },
+      {
+        "name": "Industrial OEM",
+        "revenue_share": 0.10,
+        "description": "Heavy machinery and energy sector parts",
+        "growth_rate_pct": 0.04,
+        "margin_pct": 0.10
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Continental AG (Automotive)",
+        "relationship": "direct",
+        "market_share_ratio": 0.15,
+        "notes": "Much larger in automotive; pressures our pricing"
+      },
+      {
+        "name": "Howmet Aerospace",
+        "relationship": "direct",
+        "market_share_ratio": 0.45,
+        "notes": "Tier-1 aerospace supplier; we're tier-2"
+      },
+      {
+        "name": "Local Chinese suppliers",
+        "relationship": "substitute",
+        "market_share_ratio": 3.0,
+        "notes": "Cost-competitive at low end; pushing into mid range"
+      }
+    ],
+    "prior_transformations": [
+      {
+        "name": "ERP consolidation (Oracle to SAP)",
+        "year": 2018,
+        "outcome": "partial",
+        "description": "Unify ERP across 12 plants from 3 different systems",
+        "investment_usd": 180000000,
+        "learnings": "Plant-by-plant rollout took 4 years vs 2 planned; data migration painful"
+      },
+      {
+        "name": "Industrial IoT pilot (CNC monitoring)",
+        "year": 2020,
+        "outcome": "success",
+        "description": "Real-time monitoring of CNC machines for OEE improvement",
+        "investment_usd": 35000000,
+        "learnings": "Easy ROI; ~6% OEE uplift; rolled out to all plants by 2023"
+      },
+      {
+        "name": "EV powertrain capability acquisition",
+        "year": 2022,
+        "outcome": "ongoing",
+        "description": "Acquired EV motor specialist for $400M to pivot automotive segment",
+        "investment_usd": 400000000,
+        "learnings": "Integration ongoing; EV unit margin lower than ICE"
+      }
+    ],
+    "strategic_priorities": [
+      "EV pivot in automotive segment without losing ICE revenue",
+      "Aerospace defense backlog conversion (currently $5B+)",
+      "Reshoring / China+1 customer demand for non-China sourcing",
+      "Predictive maintenance to reduce unplanned downtime",
+      "ESG reporting for European OEM customers"
+    ],
+    "pain_points": [
+      "Auto segment margin compression from EV transition",
+      "Engineer/technician shortage in US plants",
+      "Aerospace customer concentration (Boeing + Airbus = 60% of segment)",
+      "Long aerospace certification cycles slow product innovation",
+      "Currency exposure on European customers"
+    ]
+  }
 }

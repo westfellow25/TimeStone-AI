@@ -411,6 +411,7 @@ def main():
             "All results",
             "Sensitivity",
             "Compare companies",
+            "Outcomes (moat)",
             "Methodology",
         ])
 
@@ -424,6 +425,9 @@ def main():
         show_sensitivity(scenarios, twin)
     elif page == "Compare companies":
         show_compare(companies, company_label)
+    elif page == "Outcomes (moat)":
+        from .outcomes_page import render as render_outcomes
+        render_outcomes()
     elif page == "Methodology":
         show_methodology(results)
 

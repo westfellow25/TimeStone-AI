@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TimeStone AI — evidence-based business transformation forecasting. Predict NPV, success probability and payback before you commit." />
+  <title>TimeStone AI — Forecast transformations with math, not optimism</title>
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --bg-soft: #11172A;
+      --primary: #667EEA;
+      --primary-strong: #4F46E5;
+      --text: #E5E7EB;
+      --muted: #9CA3AF;
+      --accent: #22C55E;
+      --warn: #F59E0B;
+      --danger: #EF4444;
+      --line: #1F2937;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { color: var(--primary-strong); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0;
+      background: rgba(11, 15, 26, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    nav .row { display: flex; justify-content: space-between; align-items: center; }
+    .brand {
+      font-weight: 700; font-size: 18px;
+      letter-spacing: 0.3px;
+      color: var(--text);
+    }
+    .brand span { color: var(--primary); }
+    nav .links a { margin-left: 22px; color: var(--muted); font-size: 14px; }
+    nav .links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 80px 0 60px; }
+    .hero h1 {
+      font-size: 54px; line-height: 1.1; font-weight: 800;
+      margin: 0 0 24px; letter-spacing: -1px;
+    }
+    .hero h1 .accent {
+      background: linear-gradient(90deg, #667EEA, #A855F7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      font-size: 19px; color: var(--muted); max-width: 720px;
+      margin: 0 0 36px;
+    }
+    .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 24px; border-radius: 8px; font-weight: 600;
+      font-size: 15px; display: inline-block; transition: transform .1s ease, background .15s ease;
+    }
+    .btn-primary {
+      background: var(--primary-strong); color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    }
+    .btn-primary:hover { background: #4338CA; color: white; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: var(--text); border: 1px solid var(--line);
+    }
+    .btn-ghost:hover { border-color: var(--primary); }
+
+    /* Stats card */
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      margin-top: 50px;
+    }
+    .stat {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 22px; border-radius: 10px;
+    }
+    .stat .n { font-size: 32px; font-weight: 700; color: var(--text); }
+    .stat .l { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* Section */
+    section { padding: 80px 0; border-top: 1px solid var(--line); }
+    section h2 {
+      font-size: 36px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.5px;
+    }
+    section .lead { color: var(--muted); font-size: 17px; max-width: 720px; margin: 0 0 40px; }
+
+    /* How it works pipeline */
+    .pipeline {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    }
+    .step {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 24px; border-radius: 10px;
+    }
+    .step .n {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--primary-strong); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; margin-bottom: 14px;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 17px; }
+    .step p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* Moat */
+    .moat {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    }
+    .moat ul { padding-left: 18px; margin: 14px 0 0; color: var(--muted); }
+    .moat li { margin-bottom: 10px; }
+    .moat .panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 28px; border-radius: 10px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 13px; color: var(--text);
+      line-height: 1.7;
+    }
+    .moat .panel .tag {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; margin-right: 6px;
+    }
+    .tag-ok { background: rgba(34, 197, 94, 0.15); color: #4ADE80; }
+    .tag-warn { background: rgba(245, 158, 11, 0.15); color: #FBBF24; }
+    .tag-bad { background: rgba(239, 68, 68, 0.15); color: #F87171; }
+
+    /* Footer */
+    footer { padding: 40px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--primary); }
+
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 38px; }
+      .stats, .pipeline { grid-template-columns: 1fr 1fr; }
+      .moat { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container row">
+      <div class="brand">TimeStone <span>AI</span></div>
+      <div class="links">
+        <a href="#how">How it works</a>
+        <a href="#moat">Moat</a>
+        <a href="#demo">Demo</a>
+        <a href="https://github.com/westfellow25/timestone-ai">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>
+        Forecast business transformations<br/>
+        with <span class="accent">math, not optimism</span>.
+      </h1>
+      <p>
+        TimeStone simulates 1,000 transformation scenarios on a digital twin of your company,
+        calibrates priors against 50+ real corporate transformations with documented promised-vs-actual
+        outcomes, and ranks the strategies that maximise risk-adjusted NPV.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#demo">Try the demo</a>
+        <a class="btn btn-ghost" href="https://github.com/westfellow25/timestone-ai">View on GitHub</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="n">54</div><div class="l">Real transformations in library</div></div>
+        <div class="stat"><div class="n">20</div><div class="l">CIS-region cases</div></div>
+        <div class="stat"><div class="n">23</div><div class="l">Industries covered</div></div>
+        <div class="stat"><div class="n">47</div><div class="l">Tests guarding the math</div></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="how">
+    <div class="container">
+      <h2>How it works</h2>
+      <p class="lead">From your financials to a CFO-ready PDF in one command.</p>
+      <div class="pipeline">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>Digital twin</h3>
+          <p>Capture revenue, segments, competitors, prior transformations and strategic priorities. Five enriched Kazakhstan / global twins ship in the repo.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h3>Scenario generation</h3>
+          <p>1,000 transformation hypotheses are generated, each calibrated against the most similar real cases in the library — not generic templates.</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h3>Monte Carlo + NPV</h3>
+          <p>5-year NPV at configurable WACC. Adoption ramp-up, market downturn, competitive response, execution failure modelled per iteration.</p>
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <h3>Empirical priors</h3>
+          <p>Per scenario: top-5 similar real cases inform the probability distribution. Their actual revenue uplift and failure rate ground the math.</p>
+        </div>
+        <div class="step">
+          <div class="n">5</div>
+          <h3>Top recommendations</h3>
+          <p>Ranked by P(NPV&gt;0). Each with mean NPV, ROI, payback, and citations to the cases that informed the prior.</p>
+        </div>
+        <div class="step">
+          <div class="n">6</div>
+          <h3>Executive PDF</h3>
+          <p>5-page A4 report with cover, summary, recommendations, methodology, sources. Ready to hand to a CFO.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="moat">
+    <div class="container">
+      <h2>The moat compounds</h2>
+      <p class="lead">Every engagement makes the next forecast more accurate.</p>
+      <div class="moat">
+        <div>
+          <p>
+            Generic AI tools cannot replicate this. The product becomes more valuable
+            with every recorded outcome:
+          </p>
+          <ul>
+            <li>Curated case library with promised-vs-actual outcomes</li>
+            <li>Per-engagement <strong>OutcomeRecord</strong> tracking — append-only</li>
+            <li>Bayesian calibration loop adjusts priors after each measurement</li>
+            <li>Local CIS / Kazakhstan case library that no public LLM can extract</li>
+            <li>Failure-mode aware retrieval — learn from same mistake</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <div><span class="tag tag-bad">FAILED</span>Hertz / Accenture 2016</div>
+          <div style="color: var(--muted); margin-bottom: 14px;">
+            $32M booking-platform rebuild lost — vendor underperformance, scope creep
+          </div>
+          <div><span class="tag tag-ok">SUCCESS</span>Maersk Spot 2018</div>
+          <div style="color: var(--muted); margin-bottom: 14px;">
+            +3.5% actual rev uplift vs +4% predicted; 40% cost overrun on plan
+          </div>
+          <div><span class="tag tag-warn">PARTIAL</span>Sberbank ecosystem 2017</div>
+          <div style="color: var(--muted); margin-bottom: 14px;">
+            Core banking digital nailed; non-banking units bled $2B; sanctions accelerated wind-down
+          </div>
+          <div style="color: var(--primary); font-size: 12px; margin-top: 12px;">
+            ▲ Each case carries promised vs actual, failure modes, sources.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="container">
+      <h2>Try the demo</h2>
+      <p class="lead">Five seed companies are bundled. One command produces a full assessment with executive PDF.</p>
+      <pre style="background: var(--bg-soft); border: 1px solid var(--line); padding: 22px; border-radius: 10px; overflow-x: auto;"><code style="color: var(--text); font-size: 14px;"># Install
+git clone https://github.com/westfellow25/timestone-ai
+cd timestone-ai
+pip install -e .
+
+# List bundled twins
+python -m timestone list-companies
+
+# Run a full assessment
+python -m timestone assess "Kazakhstan Temir Zholy (KTZ)"
+
+# Open the resulting PDF
+open results/runs/&lt;run_id&gt;/report.pdf
+
+# Or launch the interactive dashboard
+streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div>TimeStone AI — built by <a href="https://github.com/westfellow25">Arman Torebek</a> · 2026</div>
+      <div style="margin-top: 8px;">
+        MIT licensed · <a href="https://github.com/westfellow25/timestone-ai">github</a> · <a href="https://github.com/westfellow25/timestone-ai/blob/main/docs/architecture.md">architecture</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

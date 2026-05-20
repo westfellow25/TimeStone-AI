@@ -1,0 +1,23 @@
+{
+  "id": "DEMO_ktz_failed_2026-05-20",
+  "run_id": "2026-05-20_083753_kazakhstan_temir_zholy_(ktz)_b85da1",
+  "company_name": "Kazakhstan Temir Zholy (KTZ)",
+  "scenario_id": 25,
+  "scenario_name": "Real-Time Tracking & Notifications",
+  "prediction_date": "2026-05-20",
+  "measurement_date": "2026-05-05",
+  "months_elapsed": 18,
+  "predicted_mean_npv": 2153802035.0776854,
+  "predicted_success_probability": 0.99,
+  "predicted_revenue_uplift_pct": 0.03,
+  "predicted_cost_reduction_pct": 0.02,
+  "predicted_investment_usd": 5000000,
+  "predicted_payback_years": 1.0,
+  "actual_revenue_uplift_pct": -0.005,
+  "actual_cost_reduction_pct": 0.0,
+  "actual_investment_usd": 8500000,
+  "actual_status": "failed",
+  "decision_taken": "DEMO synthetic - corporate-sales adoption did not materialise",
+  "deviation_notes": "DEMO - mirrors the 2020 booking pilot failure mode in prior_transformations",
+  "sources": []
+}

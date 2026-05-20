@@ -1,20 +1,104 @@
 {
   "company_name": "TechFlow SaaS",
+  "notes": "Growth-stage B2B SaaS, workflow automation platform. Multi-product. Illustrative twin for tech vertical.",
+  "created_at": "2026-05-20",
   "metrics": {
-    "revenue": 500500000.0,
-    "operating_costs": 374003205.75343376,
-    "employee_count": 1054,
-    "market_share": 0.136145358092242,
-    "customer_count": 48909,
-    "avg_transaction_value": 10233.084424319764,
-    "growth_rate": 0.06173036244764396,
-    "industry": "saas"
-  },
-  "metadata": {
+    "revenue": 500000000,
+    "operating_costs": 460000000,
+    "employees": 2400,
+    "profit_margin": 0.08,
+    "market_share": 0.05,
     "industry": "saas",
-    "scale": "medium",
-    "template_used": true
-  },
-  "created_at": "2026-02-23T07:06:53.185307",
-  "version": "1.0.0"
+    "geography": "USA",
+    "industry_tags": ["technology", "saas", "B2B", "workflow_automation"],
+    "segments": [
+      {
+        "name": "Enterprise (>$10K ACV)",
+        "revenue_share": 0.62,
+        "description": "Multi-year contracts with Fortune 2000 accounts; managed by direct sales",
+        "growth_rate_pct": 0.28,
+        "margin_pct": 0.18
+      },
+      {
+        "name": "Mid-market ($1-10K ACV)",
+        "revenue_share": 0.33,
+        "description": "Inside-sales-led; growing fastest",
+        "growth_rate_pct": 0.45,
+        "margin_pct": 0.10
+      },
+      {
+        "name": "SMB / self-serve",
+        "revenue_share": 0.05,
+        "description": "Product-led growth funnel; low ACV, high logo count",
+        "growth_rate_pct": 0.60,
+        "margin_pct": -0.20
+      }
+    ],
+    "competitors": [
+      {
+        "name": "ServiceNow",
+        "relationship": "direct",
+        "market_share_ratio": 0.10,
+        "notes": "Much larger incumbent; harder to displace at enterprise"
+      },
+      {
+        "name": "Monday.com / Asana",
+        "relationship": "direct",
+        "market_share_ratio": 0.40,
+        "notes": "Stronger at SMB/mid-market with PLG motion"
+      },
+      {
+        "name": "Custom in-house solutions",
+        "relationship": "substitute",
+        "market_share_ratio": null,
+        "notes": "Build-vs-buy is still a real loss vector at enterprise"
+      },
+      {
+        "name": "GenAI-native workflow tools (newcomers)",
+        "relationship": "potential",
+        "market_share_ratio": null,
+        "notes": "AI-first startups attacking the category 2024+"
+      }
+    ],
+    "prior_transformations": [
+      {
+        "name": "PLG motion launch",
+        "year": 2021,
+        "outcome": "partial",
+        "description": "Add product-led growth funnel for SMB on top of sales-led enterprise",
+        "investment_usd": 40000000,
+        "learnings": "Logo count grew; SMB net margin still negative after 3 years"
+      },
+      {
+        "name": "Multi-product expansion (analytics, workflows, integrations)",
+        "year": 2022,
+        "outcome": "success",
+        "description": "Move from single workflow product to bundled platform with 3+ products",
+        "investment_usd": 80000000,
+        "learnings": "Multi-product attach rose to 40%; LTV up 35%"
+      },
+      {
+        "name": "AI copilot launch",
+        "year": 2024,
+        "outcome": "ongoing",
+        "description": "Native LLM-powered automation suggestions inside platform",
+        "investment_usd": 35000000,
+        "learnings": "Usage promising; price increase met with customer resistance"
+      }
+    ],
+    "strategic_priorities": [
+      "Mid-market expansion (highest-growth segment)",
+      "AI feature monetization without alienating base",
+      "Defend enterprise vs ServiceNow displacement attempts",
+      "Path to profitability (currently 8% margin)",
+      "International expansion (EU, APAC) - currently 95% US"
+    ],
+    "pain_points": [
+      "SMB segment unit economics still negative",
+      "GenAI-native competitors raising at 50x ARR with no profitability discipline",
+      "Sales cycle elongating in enterprise (avg now 7 months)",
+      "Engineer comp inflation; large competitors poaching",
+      "Customer concentration risk - top 20 accounts = 35% of ARR"
+    ]
+  }
 }
