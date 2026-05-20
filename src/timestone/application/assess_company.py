@@ -55,11 +55,26 @@ def assess_company(twin: Company,
     library = CaseLibrary(cases) if (cases and opts.use_case_library) else None
 
     # 2. Generate scenarios
+    # Aggregate failure modes from prior transformations the company already
+    # botched. This is one of the most valuable retrieval signals: "this
+    # company has already failed at X, weight cases that also failed at X".
+    prior_failure_modes = []
+    for pt in twin.metrics.prior_transformations:
+        if pt.outcome in ("failed", "partial"):
+            # Best-effort tokenisation of the prior name/description into
+            # failure-mode keywords - users may also list explicit ones later.
+            for token in (pt.name + " " + pt.description).lower().split():
+                if len(token) > 3:
+                    prior_failure_modes.append(token)
+    segment_keywords = [s.name.split()[0].lower() for s in twin.metrics.segments]
+
     profile = {
         "industry": twin.metrics.industry,
         "industry_tags": twin.metrics.industry_tags,
         "revenue_usd": twin.metrics.revenue,
         "geography": twin.metrics.geography,
+        "prior_failure_modes": prior_failure_modes,
+        "segment_keywords": segment_keywords,
     }
     generator = ScenarioGenerator(
         company_name=twin.company_name,

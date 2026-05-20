@@ -135,6 +135,53 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_calibrate(args: argparse.Namespace) -> int:
+    """Compute calibration shifts from accumulated outcomes; save table."""
+    from ..repositories.outcomes import OutcomesRepository
+    from ..services.calibration import compute_calibration, save_calibration
+
+    outcomes = OutcomesRepository().list_all()
+    table = compute_calibration(outcomes)
+    path = save_calibration(table)
+
+    if not outcomes:
+        print("No outcomes recorded yet. Nothing to calibrate.")
+        print(f"Empty calibration table written to: {path}")
+        return 0
+
+    g = table.global_residual
+    print(f"Outcomes processed: {len(outcomes)}")
+    print(f"Specific buckets calibrated: {len(table.by_bucket)}")
+    print()
+    print("Global residual (mean across all outcomes):")
+    print(f"  Revenue uplift: {g.revenue_uplift_residual:+.3f}")
+    print(f"  Cost reduction: {g.cost_reduction_residual:+.3f}")
+    print(f"  Success rate:   {g.success_rate_residual:+.3f}")
+    if table.by_bucket:
+        print()
+        print("Per-bucket residuals:")
+        for (ind, tt), entry in sorted(table.by_bucket.items()):
+            print(f"  {ind} / {tt}: n={entry.n_outcomes}, "
+                  f"rev shift {entry.revenue_uplift_residual:+.3f}")
+    print()
+    print(f"Calibration table written to: {path}")
+    return 0
+
+
+def cmd_show_outcomes(args: argparse.Namespace) -> int:
+    """List recorded outcomes."""
+    from ..repositories.outcomes import OutcomesRepository
+    outcomes = OutcomesRepository().list_all()
+    if not outcomes:
+        print("No outcomes recorded yet.")
+        return 0
+    for o in outcomes:
+        print(f"  {o.id}  ({o.company_name} / scenario #{o.scenario_id})")
+        print(f"     predicted P(NPV>0)={o.predicted_success_probability:.0%}, "
+              f"actual_status={o.actual_status}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="timestone", description="TimeStone AI CLI")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -156,6 +203,14 @@ def build_parser() -> argparse.ArgumentParser:
     r = sub.add_parser("report", help="Regenerate the PDF report for an existing run.")
     r.add_argument("run_id", help="Run id or partial match (e.g. 'ktz').")
     r.set_defaults(func=cmd_report)
+
+    cal = sub.add_parser("calibrate",
+        help="Process recorded outcomes and produce a calibration table.")
+    cal.set_defaults(func=cmd_calibrate)
+
+    out = sub.add_parser("outcomes",
+        help="List recorded outcomes (the proprietary moat).")
+    out.set_defaults(func=cmd_show_outcomes)
     return p
 
 

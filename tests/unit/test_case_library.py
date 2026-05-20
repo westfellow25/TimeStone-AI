@@ -72,3 +72,31 @@ def test_failure_rate_computation(lib):
 def test_query_with_no_matches_returns_empty(lib):
     q = CaseQuery(industry="space_tourism", transformation_type="rocket_science")
     assert lib.find_similar(q, k=5, min_score=10.0) == []
+
+
+def test_prior_failure_modes_boost_score(lib):
+    """If query carries a failure_mode the case shares, score must increase."""
+    from timestone.domain.case import CaseQuery
+    # Hertz case has failure_modes including 'vendor_underperformance'
+    base = CaseQuery(industry="transportation_rental")
+    boosted = CaseQuery(industry="transportation_rental",
+                        prior_failure_modes=["vendor_underperformance"])
+    hertz = next(c for c in lib.cases if c.id == "hertz-accenture-2016")
+    s_base = lib.score(hertz, base)
+    s_boosted = lib.score(hertz, boosted)
+    assert s_boosted > s_base
+
+
+def test_segment_keyword_boost(lib):
+    """Segment keyword matching case description must increase score."""
+    from timestone.domain.case import CaseQuery
+    q_base = CaseQuery(industry="financial_services")
+    q_boost = CaseQuery(industry="financial_services",
+                        segment_keywords=["mobile"])
+    # Find a banking case whose description likely contains 'mobile'
+    for case in lib.cases:
+        if "mobile" in (case.description.lower() + " " + case.transformation_subtype.lower()):
+            assert lib.score(case, q_boost) > lib.score(case, q_base)
+            break
+    else:
+        pytest.skip("No case with 'mobile' in description - test inapplicable")

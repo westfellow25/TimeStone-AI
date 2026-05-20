@@ -28,6 +28,8 @@ DEFAULT_WEIGHTS = {
     "size_bucket_adjacent": 1.0,
     "transformation_type_exact": 3.0,
     "geography_exact": 0.5,
+    "prior_failure_mode_overlap": 1.5,
+    "segment_keyword_overlap": 0.5,
 }
 
 
@@ -86,6 +88,17 @@ class CaseLibrary:
             s += w["transformation_type_exact"]
         if query.geography and case.geography == query.geography:
             s += w["geography_exact"]
+        # Prior failure-mode overlap: target has been burned by X before;
+        # other cases that ALSO failed via X carry tacit warning signal.
+        if query.prior_failure_modes and case.failure_modes:
+            overlap = len(set(query.prior_failure_modes) & set(case.failure_modes))
+            s += overlap * w["prior_failure_mode_overlap"]
+        # Segment keyword overlap on case description / subtype.
+        if query.segment_keywords:
+            haystack = (case.description + " " + case.transformation_subtype).lower()
+            overlap = sum(1 for kw in query.segment_keywords
+                          if kw and kw.lower() in haystack)
+            s += overlap * w["segment_keyword_overlap"]
         return s
 
     def find_similar(self, query: CaseQuery, k: int = 5,

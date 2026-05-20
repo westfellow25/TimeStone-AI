@@ -112,6 +112,8 @@ class ScenarioGenerator:
             revenue_usd=self.company_profile.get("revenue_usd"),
             transformation_type=template["type"].value,
             geography=self.company_profile.get("geography"),
+            prior_failure_modes=self.company_profile.get("prior_failure_modes", []),
+            segment_keywords=self.company_profile.get("segment_keywords", []),
         )
         retrieved = self.case_library.find_similar(query, k=5)
         rev_prior = self.case_library.empirical_prior(
