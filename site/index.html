@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TimeStone AI — evidence-based business transformation forecasting." />
-  <title>TimeStone AI — Forecast transformations with math, not optimism</title>
+  <meta name="description" content="TimeStone AI Rail — investor-grade transformation forecasting for railway operators." />
+  <title>TimeStone AI — Rail transformation forecasting for KTZ-class operators</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --bg: #060912;
       --bg-soft: #0E1424;
       --bg-card: #131A2E;
+      --bg-deep: #0a0f1f;
       --primary: #818CF8;
       --primary-strong: #6366F1;
       --primary-faint: rgba(99, 102, 241, 0.12);
       --accent: #22D3EE;
+      --gold: #FBBF24;
       --text: #F1F5F9;
       --text-soft: #CBD5E1;
       --muted: #94A3B8;
@@ -31,19 +34,14 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      margin: 0; font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.55;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
     }
     a { color: var(--primary); text-decoration: none; transition: color .15s; }
     a:hover { color: var(--accent); }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-    /* Background ornamentation */
     body::before {
       content: ''; position: fixed; inset: 0; z-index: -2;
       background:
@@ -53,66 +51,36 @@
       pointer-events: none;
     }
 
-    /* Nav */
     nav {
-      padding: 18px 0;
-      position: sticky; top: 0;
-      background: rgba(6, 9, 18, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line-soft);
-      z-index: 50;
+      padding: 18px 0; position: sticky; top: 0;
+      background: rgba(6, 9, 18, 0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line-soft); z-index: 50;
     }
     nav .row { display: flex; justify-content: space-between; align-items: center; }
     .brand { font-weight: 800; font-size: 19px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; }
-    .brand .dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--grad);
-      box-shadow: 0 0 16px rgba(129, 140, 248, 0.6);
-    }
+    .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 16px rgba(129, 140, 248, 0.6); }
     nav .links { display: flex; align-items: center; gap: 6px; }
-    nav .links a {
-      margin-left: 4px; color: var(--muted); font-size: 14px;
-      padding: 8px 12px; border-radius: 6px; transition: all .15s;
-    }
+    nav .links a { margin-left: 4px; color: var(--muted); font-size: 14px; padding: 8px 12px; border-radius: 6px; transition: all .15s; }
     nav .links a:hover { color: var(--text); background: var(--bg-soft); }
-    .lang-toggle {
-      margin-left: 14px;
-      display: inline-flex;
-      border: 1px solid var(--line); border-radius: 6px;
-      overflow: hidden;
-    }
-    .lang-toggle button {
-      background: transparent; border: none; color: var(--muted);
-      padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
-      font-family: inherit;
-      transition: all .15s;
-    }
+    .lang-toggle { margin-left: 14px; display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .lang-toggle button { background: transparent; border: none; color: var(--muted); padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
     .lang-toggle button.active { background: var(--primary-strong); color: white; }
 
-    /* Hero */
     .hero { padding: 90px 0 70px; position: relative; }
     .hero-eyebrow {
-      display: inline-block; padding: 6px 14px;
-      background: var(--primary-faint); color: var(--primary);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 100px;
-      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
-      margin-bottom: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; background: var(--primary-faint); color: var(--primary);
+      border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 24px;
     }
-    .hero h1 {
-      font-size: 64px; line-height: 1.05; font-weight: 800;
-      margin: 0 0 26px; letter-spacing: -1.5px;
+    .hero-eyebrow .pulse {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+      box-shadow: 0 0 8px var(--accent); animation: pulse-dot 1.8s ease-in-out infinite;
     }
-    .hero h1 .accent {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .hero p {
-      font-size: 20px; color: var(--text-soft); max-width: 760px;
-      margin: 0 0 36px;
-    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero h1 { font-size: 64px; line-height: 1.05; font-weight: 800; margin: 0 0 26px; letter-spacing: -1.5px; }
+    .hero h1 .accent { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { font-size: 20px; color: var(--text-soft); max-width: 760px; margin: 0 0 36px; }
     .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
     .btn {
       padding: 14px 26px; border-radius: 8px; font-weight: 600;
@@ -120,364 +88,257 @@
       transition: transform .12s, box-shadow .15s, background .15s, border-color .15s;
       cursor: pointer; border: none; font-family: inherit; text-decoration: none;
     }
-    .btn-primary {
-      background: var(--primary-strong); color: white;
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-    }
+    .btn-primary { background: var(--primary-strong); color: white; box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4); }
     .btn-primary:hover { background: #5B5FE0; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(99, 102, 241, 0.5); color: white; }
     .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
     .btn-ghost:hover { border-color: var(--primary); color: var(--text); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .stats {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-      margin-top: 60px;
-    }
-    .stat {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      padding: 22px 24px; border-radius: 12px;
-      transition: transform .2s, border-color .2s;
-    }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px; }
+    .stat { background: var(--bg-card); border: 1px solid var(--line); padding: 22px 24px; border-radius: 12px; transition: transform .2s, border-color .2s; }
     .stat:hover { transform: translateY(-3px); border-color: var(--primary); }
     .stat .n { font-size: 36px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -1px; }
     .stat .l { font-size: 13px; color: var(--muted); margin-top: 8px; }
 
-    /* Sections */
     section { padding: 100px 0; border-top: 1px solid var(--line-soft); position: relative; }
     section .head { margin-bottom: 50px; }
-    section .head .eyebrow {
-      color: var(--primary); font-size: 13px; font-weight: 600;
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    section h2 {
-      font-size: 42px; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.8px;
-    }
+    section .head .eyebrow { color: var(--primary); font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    section h2 { font-size: 42px; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.8px; }
     section .lead { color: var(--text-soft); font-size: 18px; max-width: 760px; margin: 0; }
 
-    /* Pipeline */
-    .pipeline {
-      position: relative;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
-    }
-    .step {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      padding: 28px; border-radius: 14px;
-      transition: all .25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .step::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(129,140,248,0.06), transparent 50%);
-      opacity: 0; transition: opacity .3s;
-    }
+    .pipeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .step { background: var(--bg-card); border: 1px solid var(--line); padding: 28px; border-radius: 14px; transition: all .25s; position: relative; overflow: hidden; }
+    .step::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(129,140,248,0.06), transparent 50%); opacity: 0; transition: opacity .3s; }
     .step:hover::before { opacity: 1; }
     .step:hover { transform: translateY(-3px); border-color: var(--primary); }
     .step .n {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--primary-faint); color: var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; margin-bottom: 16px;
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      width: 38px; height: 38px; border-radius: 10px; background: var(--primary-faint); color: var(--primary);
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;
+      margin-bottom: 16px; border: 1px solid rgba(99, 102, 241, 0.3);
     }
     .step h3 { margin: 0 0 10px; font-size: 18px; font-weight: 700; }
     .step p { margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.6; }
-    .step .tag {
-      display: inline-block; margin-top: 14px;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      color: var(--accent); background: rgba(34,211,238,0.08);
-      padding: 3px 8px; border-radius: 4px;
-    }
 
-    /* Methodology */
     .meth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-    .meth-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      padding: 32px; border-radius: 14px;
-    }
-    .meth-card h3 {
-      font-size: 18px; margin: 0 0 18px; display: flex; align-items: center; gap: 10px;
-    }
+    .meth-card { background: var(--bg-card); border: 1px solid var(--line); padding: 32px; border-radius: 14px; }
+    .meth-card h3 { font-size: 18px; margin: 0 0 18px; display: flex; align-items: center; gap: 10px; }
     .meth-card h3 .ico {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--primary-faint); color: var(--primary);
+      width: 32px; height: 32px; border-radius: 8px; background: var(--primary-faint); color: var(--primary);
       display: inline-flex; align-items: center; justify-content: center; font-size: 16px;
     }
     .meth-card p { color: var(--text-soft); font-size: 14px; margin: 0 0 14px; }
     .meth-formula {
       font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
       background: var(--bg); padding: 14px 16px; border-radius: 8px;
-      border: 1px solid var(--line); color: var(--accent);
-      overflow-x: auto;
+      border: 1px solid var(--line); color: var(--accent); overflow-x: auto;
     }
     .meth-formula .var { color: var(--primary); }
     .meth-formula .num { color: var(--warn); }
 
-    /* Ramp-up curve svg */
     .ramp-svg { width: 100%; height: 140px; margin-top: 8px; }
-    .ramp-svg .bar { fill: var(--primary); transition: opacity 1s; }
+    .ramp-svg .bar { fill: var(--primary); }
     .ramp-svg .axis { stroke: var(--line); }
     .ramp-svg .label { fill: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
     .ramp-svg .value { fill: var(--text); font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif; }
 
-    /* Risk shocks */
     .shocks { list-style: none; padding: 0; margin: 0; }
-    .shocks li {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--line);
-      color: var(--text-soft); font-size: 14px;
-    }
+    .shocks li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--text-soft); font-size: 14px; }
     .shocks li:last-child { border-bottom: none; }
-    .shocks .prob {
-      font-family: 'JetBrains Mono', monospace; font-size: 13px;
-      color: var(--warn); font-weight: 600;
-    }
+    .shocks .prob { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--warn); font-weight: 600; }
 
-    /* Live Demo */
-    .demo-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 16px; padding: 36px;
-      box-shadow: var(--shadow-lg);
-    }
-    .demo-controls {
-      display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; margin-bottom: 28px;
-    }
-    .demo-controls .field label {
-      font-size: 11px; color: var(--muted); text-transform: uppercase;
-      letter-spacing: 1px; display: block; margin-bottom: 8px; font-weight: 600;
-    }
-    .demo-controls .field select {
-      width: 100%; padding: 12px 14px;
-      background: var(--bg); color: var(--text);
-      border: 1px solid var(--line); border-radius: 8px;
-      font-family: inherit; font-size: 14px; cursor: pointer;
-      transition: border-color .15s;
-    }
-    .demo-controls .field select:focus { outline: none; border-color: var(--primary); }
-    .demo-controls .field button {
-      align-self: end; height: 46px; min-width: 220px;
-    }
+    /* ===== LIVE DEMO ===== */
+    .demo-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 36px; box-shadow: var(--shadow-lg); }
 
-    /* Pipeline stages */
-    .stages {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
-      margin-bottom: 28px; padding: 18px; background: var(--bg);
-      border-radius: 10px; border: 1px solid var(--line);
+    /* Twin context bar at the top of demo */
+    .twin-bar {
+      background: var(--bg-deep); border: 1px solid var(--line); border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 24px; display: grid;
+      grid-template-columns: auto 1fr auto; gap: 20px; align-items: center;
     }
-    .stage {
-      text-align: center; padding: 10px 6px;
-      border-radius: 6px;
-      transition: all .3s;
-      position: relative;
+    .twin-bar .avatar {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(129,140,248,0.2), rgba(34,211,238,0.15));
+      border: 1px solid rgba(99,102,241,0.4);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
     }
-    .stage .n {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--bg-card); color: var(--muted);
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; margin-bottom: 8px;
-      border: 1px solid var(--line);
-      transition: all .3s;
+    .twin-bar .name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .twin-bar .meta { font-size: 13px; color: var(--muted); }
+    .twin-bar .meta span { margin-right: 18px; }
+    .twin-bar .badge {
+      padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.5px; white-space: nowrap;
     }
+    .twin-bar .badge-warn { background: rgba(251,191,36,0.15); color: var(--warn); border: 1px solid rgba(251,191,36,0.3); }
+    .company-pick {
+      display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .company-pick button {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px 16px; color: var(--muted); cursor: pointer; font-family: inherit;
+      font-size: 13px; font-weight: 600; transition: all .15s;
+    }
+    .company-pick button.active { background: var(--primary-strong); color: white; border-color: var(--primary); }
+    .company-pick button.locked { opacity: 0.4; cursor: not-allowed; }
+    .company-pick button.locked::after { content: " · soon"; font-size: 11px; font-weight: 400; }
+
+    /* Filter card */
+    .filters {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+      padding: 24px; margin-bottom: 24px;
+    }
+    .filters h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+    .filters .sub { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+    .filter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .filter-row label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 8px; font-weight: 600; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      padding: 7px 12px; background: var(--bg-card); border: 1px solid var(--line);
+      border-radius: 6px; font-size: 12px; color: var(--muted); cursor: pointer;
+      transition: all .15s; user-select: none;
+    }
+    .chip:hover { color: var(--text); }
+    .chip.active { background: var(--primary-strong); color: white; border-color: var(--primary); }
+
+    .filter-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; background: var(--bg-deep); border: 1px solid var(--line);
+      border-radius: 10px; margin-bottom: 24px; font-size: 13px;
+    }
+    .filter-summary .matches {
+      font-size: 24px; font-weight: 800; color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .filter-summary .matches small { font-size: 12px; color: var(--muted); margin-left: 6px; font-weight: 400; }
+
+    .stages { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 28px; padding: 18px; background: var(--bg); border-radius: 10px; border: 1px solid var(--line); }
+    .stage { text-align: center; padding: 10px 6px; border-radius: 6px; transition: all .3s; }
+    .stage .n { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-card); color: var(--muted); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-bottom: 8px; border: 1px solid var(--line); transition: all .3s; }
     .stage .l { font-size: 11px; color: var(--muted); font-weight: 500; }
     .stage.active .n { background: var(--primary-strong); color: white; box-shadow: 0 0 16px rgba(99,102,241,0.6); border-color: var(--primary); transform: scale(1.1); }
     .stage.active .l { color: var(--text); }
     .stage.done .n { background: var(--success); color: white; border-color: var(--success); }
     .stage.done .l { color: var(--text-soft); }
 
-    /* Status line */
-    .status-line {
-      min-height: 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px;
-      color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
-    }
-    .status-line .dot-pulse {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 1.2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.7); }
-    }
+    .status-line { min-height: 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .status-line .dot-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
 
-    /* Retrieved cases */
-    .retrieved {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
-      margin-bottom: 28px; min-height: 92px;
-    }
-    .case-chip {
-      background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
-      padding: 12px; opacity: 0; transform: translateY(8px); transition: all .5s;
-      font-size: 12px;
-    }
+    .retrieved { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 24px; min-height: 110px; }
+    .case-chip { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; opacity: 0; transform: translateY(8px); transition: all .5s; font-size: 12px; }
     .case-chip.shown { opacity: 1; transform: translateY(0); }
-    .case-chip .cc-name { font-weight: 600; color: var(--text); margin-bottom: 4px; font-size: 12px; }
-    .case-chip .cc-status {
-      display: inline-block; padding: 2px 6px; border-radius: 4px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-    }
+    .case-chip .cc-name { font-weight: 700; color: var(--text); margin-bottom: 4px; font-size: 12px; }
+    .case-chip .cc-status { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
     .cc-success { background: rgba(52,211,153,0.15); color: var(--success); }
     .cc-partial { background: rgba(251,191,36,0.15); color: var(--warn); }
     .cc-failed { background: rgba(248,113,113,0.15); color: var(--danger); }
-    .case-chip .cc-meta { color: var(--muted); margin-top: 6px; font-size: 11px; }
+    .case-chip .cc-meta { color: var(--muted); margin-top: 6px; font-size: 11px; line-height: 1.4; }
+    .case-chip .cc-geo { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; }
 
-    /* MC canvas */
-    .mc-wrap {
-      background: var(--bg); border: 1px solid var(--line);
-      border-radius: 10px; padding: 18px; margin-bottom: 28px;
-      display: grid; grid-template-columns: 2fr 1fr; gap: 20px;
-      min-height: 220px;
-    }
-    .mc-wrap canvas { width: 100%; height: 200px; display: block; }
+    .mc-wrap { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin-bottom: 24px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; min-height: 240px; }
+    .mc-wrap canvas { width: 100%; height: 220px; display: block; }
     .mc-stats { font-size: 13px; }
-    .mc-stats .row {
-      display: flex; justify-content: space-between;
-      padding: 6px 0; border-bottom: 1px dashed var(--line);
-      color: var(--text-soft);
-    }
+    .mc-stats .row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--line); color: var(--text-soft); }
     .mc-stats .row:last-child { border-bottom: none; }
-    .mc-stats .val {
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text); font-weight: 600;
-    }
+    .mc-stats .val { font-family: 'JetBrains Mono', monospace; color: var(--text); font-weight: 600; }
     .mc-stats .label-pp { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
 
-    /* Recommendations */
     .recs { display: grid; gap: 14px; }
-    .rec-card {
-      background: var(--bg); border: 1px solid var(--line);
-      border-radius: 12px; padding: 22px;
-      opacity: 0; transform: translateY(10px); transition: all .5s;
-    }
+    .rec-card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 24px; opacity: 0; transform: translateY(10px); transition: all .5s; }
     .rec-card.shown { opacity: 1; transform: translateY(0); }
-    .rec-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      gap: 12px; margin-bottom: 14px;
-    }
-    .rec-name { font-size: 18px; font-weight: 700; }
-    .rec-headline {
-      font-size: 11px; padding: 5px 11px; border-radius: 5px; font-weight: 700;
-      white-space: nowrap; letter-spacing: 0.5px;
-    }
+    .rec-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+    .rec-name { font-size: 18px; font-weight: 700; line-height: 1.3; }
+    .rec-desc { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .rec-headline { font-size: 11px; padding: 5px 11px; border-radius: 5px; font-weight: 700; white-space: nowrap; letter-spacing: 0.5px; }
     .rec-strong { background: rgba(52,211,153,0.15); color: var(--success); }
     .rec-caution { background: rgba(251,191,36,0.15); color: var(--warn); }
     .rec-pilot { background: rgba(248,113,113,0.15); color: var(--danger); }
-    .rec-metrics {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-      padding: 14px 0; border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line); margin-bottom: 14px;
-    }
-    .rec-metric .ml { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .rec-metric .mv { font-size: 18px; font-weight: 700; margin-top: 4px; }
-    .rec-cases {
-      font-size: 13px; color: var(--text-soft);
-    }
-    .rec-cases code {
-      background: var(--bg-card); padding: 3px 8px; border-radius: 4px;
-      color: var(--primary); font-size: 11.5px; margin-right: 4px;
-      font-family: 'JetBrains Mono', monospace;
+    .rec-metrics { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+    .rec-metric .ml { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rec-metric .mv { font-size: 17px; font-weight: 700; margin-top: 4px; }
+    .rec-cases { font-size: 12px; color: var(--text-soft); line-height: 1.7; }
+    .rec-cases code { background: var(--bg-card); padding: 3px 8px; border-radius: 4px; color: var(--primary); font-size: 11px; margin-right: 4px; font-family: 'JetBrains Mono', monospace; }
+    .rec-flag {
+      margin-top: 12px; padding: 10px 14px; background: rgba(251,191,36,0.08);
+      border-left: 3px solid var(--warn); border-radius: 4px;
+      font-size: 12px; color: var(--text-soft);
     }
 
-    /* Tornado chart */
-    .tornado {
-      background: var(--bg); border: 1px solid var(--line);
-      border-radius: 10px; padding: 22px;
-      margin-top: 18px;
-      opacity: 0; transform: translateY(10px); transition: all .6s;
-    }
-    .tornado.shown { opacity: 1; transform: translateY(0); }
+    .tornado { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 22px; margin-top: 18px; opacity: 0; transition: opacity .6s; }
+    .tornado.shown { opacity: 1; }
     .tornado-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
-    .tornado-svg { width: 100%; height: 180px; }
-    .tornado-svg .grid-line { stroke: var(--line); stroke-dasharray: 2 2; }
+    .tornado-svg { width: 100%; height: 200px; }
     .tornado-svg .bar-high { fill: var(--success); opacity: 0; transition: opacity .6s; }
     .tornado-svg .bar-low { fill: var(--danger); opacity: 0; transition: opacity .6s; }
-    .tornado-svg .bar-high.shown, .tornado-svg .bar-low.shown { opacity: 0.8; }
+    .tornado-svg .bar-high.shown, .tornado-svg .bar-low.shown { opacity: 0.85; }
     .tornado-svg .param-label { fill: var(--text-soft); font-size: 12px; font-family: 'Inter', sans-serif; }
     .tornado-svg .axis-label { fill: var(--muted); font-size: 10px; font-family: 'JetBrains Mono', monospace; }
     .tornado-svg .baseline { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 4 3; }
 
-    /* Case library explorer */
-    .lib-controls {
-      display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;
+    /* What-if controls */
+    .whatif {
+      background: var(--bg-deep); border: 1px solid var(--line);
+      border-radius: 12px; padding: 24px; margin-top: 24px;
+      opacity: 0; transition: opacity .5s; pointer-events: none;
     }
-    .lib-filter {
-      background: var(--bg-card); border: 1px solid var(--line); border-radius: 6px;
-      padding: 8px 12px; font-size: 13px; color: var(--muted); cursor: pointer;
-      font-family: inherit; transition: all .15s;
+    .whatif.shown { opacity: 1; pointer-events: auto; }
+    .whatif h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+    .whatif .sub { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+    .whatif-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .whatif-control label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; font-weight: 600; }
+    .whatif-control .val { font-size: 16px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+    .whatif-control input[type=range] {
+      width: 100%; accent-color: var(--primary);
     }
+
+    /* PDF button */
+    .pdf-row { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 14px; flex-wrap: wrap; }
+    .pdf-row .note { color: var(--muted); font-size: 12px; flex: 1; }
+
+    /* Library */
+    .lib-controls { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+    .lib-filter { background: var(--bg-card); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 13px; color: var(--muted); cursor: pointer; font-family: inherit; transition: all .15s; }
     .lib-filter:hover { color: var(--text); }
     .lib-filter.active { background: var(--primary-strong); color: white; border-color: var(--primary); }
-    .lib-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-    }
-    .lib-card {
-      background: var(--bg-card); border: 1px solid var(--line); border-radius: 8px;
-      padding: 14px; transition: all .2s;
-    }
+    .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .lib-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 8px; padding: 14px; transition: all .2s; }
     .lib-card:hover { border-color: var(--primary); transform: translateY(-2px); }
     .lib-card .lc-row1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .lib-card .lc-name { font-size: 13px; font-weight: 700; }
     .lib-card .lc-meta { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-    .lib-card .lc-status {
-      display: inline-block; padding: 2px 6px; border-radius: 3px;
-      font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
-    }
+    .lib-card .lc-status { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; }
 
     /* Moat */
     .moat { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; align-items: center; }
     .moat ul { padding-left: 0; margin: 18px 0 0; list-style: none; }
-    .moat li {
-      margin-bottom: 14px; color: var(--text-soft); padding-left: 28px; position: relative;
-    }
-    .moat li::before {
-      content: '+'; position: absolute; left: 0; top: -2px;
-      color: var(--primary); font-weight: 700; font-size: 18px;
-    }
-    .moat .panel {
-      background: var(--bg-card); border: 1px solid var(--line);
-      padding: 32px; border-radius: 14px;
-      font-family: 'JetBrains Mono', monospace; font-size: 13px;
-      line-height: 1.8;
-    }
+    .moat li { margin-bottom: 14px; color: var(--text-soft); padding-left: 28px; position: relative; }
+    .moat li::before { content: '+'; position: absolute; left: 0; top: -2px; color: var(--primary); font-weight: 700; font-size: 18px; }
+    .moat .panel { background: var(--bg-card); border: 1px solid var(--line); padding: 32px; border-radius: 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; }
     .moat .panel .row { padding: 12px 0; border-bottom: 1px solid var(--line); }
     .moat .panel .row:last-child { border-bottom: none; }
-    .moat .panel .tag {
-      display: inline-block; padding: 3px 8px; border-radius: 4px;
-      font-size: 10px; font-weight: 700; margin-right: 8px; letter-spacing: 0.5px;
-    }
+    .moat .panel .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-right: 8px; letter-spacing: 0.5px; }
     .moat .panel .desc { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
-    /* Install */
-    pre.code-block {
-      background: var(--bg-card); border: 1px solid var(--line); padding: 28px;
-      border-radius: 12px; overflow-x: auto;
-    }
+    pre.code-block { background: var(--bg-card); border: 1px solid var(--line); padding: 28px; border-radius: 12px; overflow-x: auto; }
     pre.code-block code { color: var(--text-soft); font-size: 13.5px; font-family: 'JetBrains Mono', monospace; line-height: 1.8; }
     pre.code-block .cmt { color: var(--muted); }
 
-    /* Footer */
     footer { padding: 50px 0; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 13px; }
     footer a { color: var(--muted); }
     footer a:hover { color: var(--primary); }
 
     @media (max-width: 900px) {
       .hero h1 { font-size: 44px; }
-      .stats, .pipeline, .meth-grid, .demo-controls, .stages, .retrieved, .rec-metrics, .lib-grid, .moat {
-        grid-template-columns: 1fr 1fr;
-      }
+      .stats, .pipeline, .meth-grid, .filter-grid, .stages, .retrieved, .rec-metrics, .lib-grid, .moat, .whatif-grid { grid-template-columns: 1fr 1fr; }
       .mc-wrap { grid-template-columns: 1fr; }
+      .twin-bar { grid-template-columns: auto 1fr; }
+      .twin-bar .badge { grid-column: 1 / -1; }
     }
     @media (max-width: 600px) {
       section { padding: 60px 0; }
       .hero { padding: 50px 0 40px; }
       .hero h1 { font-size: 34px; }
       section h2 { font-size: 28px; }
-      .stats, .pipeline, .meth-grid, .stages, .retrieved, .lib-grid {
-        grid-template-columns: 1fr;
-      }
+      .stats, .pipeline, .meth-grid, .filter-grid, .stages, .retrieved, .lib-grid, .rec-metrics, .whatif-grid { grid-template-columns: 1fr; }
       nav .links a { padding: 6px 8px; font-size: 13px; }
     }
   </style>
@@ -503,202 +364,165 @@
 
   <header class="hero">
     <div class="container">
-      <div class="hero-eyebrow" data-en="Evidence-based transformation forecasting"
-           data-ru="Прогнозирование трансформаций на доказательствах">Evidence-based transformation forecasting</div>
+      <div class="hero-eyebrow">
+        <span class="pulse"></span>
+        <span data-en="Rail vertical · investor preview" data-ru="Rail-модуль · investor preview">Rail vertical · investor preview</span>
+      </div>
       <h1>
-        <span data-en="Forecast business" data-ru="Прогнозируйте">Forecast business</span><br/>
-        <span data-en="transformations with" data-ru="бизнес-трансформации">transformations with</span>
+        <span data-en="Forecast railway" data-ru="Прогнозируйте">Forecast railway</span><br/>
+        <span data-en="transformations with" data-ru="железнодорожные трансформации">transformations with</span>
         <span class="accent" data-en="math, not optimism" data-ru="математикой, не оптимизмом">math, not optimism</span>.
       </h1>
-      <p data-en="TimeStone runs 1,000 transformation scenarios on a digital twin of your company, calibrates priors against 54 real corporate transformations with documented promised-vs-actual outcomes, and ranks the strategies that maximise risk-adjusted NPV."
-         data-ru="TimeStone прогоняет 1000 трансформационных сценариев на цифровом двойнике вашей компании, калибрует priors по 54 реальным корпоративным трансформациям с задокументированными обещанными и фактическими результатами, и ранжирует стратегии, максимизирующие NPV с учётом риска.">
-        TimeStone runs 1,000 transformation scenarios on a digital twin of your company, calibrates priors against 54 real corporate transformations with documented promised-vs-actual outcomes, and ranks the strategies that maximise risk-adjusted NPV.
+      <p data-en="A purpose-built decision tool for railway holding CEOs and CFOs. Simulate dozens of granular transformation initiatives against 18 real global rail peer cases, with cash-flow-consistent NPV, ROI and payback under realistic shock scenarios. Built first for KTZ-class operators."
+         data-ru="Инструмент принятия решений для CEO и CFO железнодорожных холдингов. Симулируйте десятки конкретных трансформационных инициатив против 18 реальных мировых rail peer-кейсов с математически согласованными NPV, ROI и payback под realистичными шок-сценариями. Сделан под operators класса КТЖ.">
+        A purpose-built decision tool for railway holding CEOs and CFOs. Simulate dozens of granular transformation initiatives against 18 real global rail peer cases, with cash-flow-consistent NPV, ROI and payback under realistic shock scenarios. Built first for KTZ-class operators.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#demo">
-          <span data-en="See the live demo" data-ru="Запустить живое демо">See the live demo</span>
+          <span data-en="Run the rail demo" data-ru="Запустить rail-демо">Run the rail demo</span>
           <span>→</span>
         </a>
         <a class="btn btn-ghost" href="https://github.com/westfellow25/timestone-ai">
           <span data-en="View on GitHub" data-ru="Открыть на GitHub">View on GitHub</span>
         </a>
       </div>
-
       <div class="stats">
-        <div class="stat"><div class="n">54</div><div class="l" data-en="Real transformations in library" data-ru="Реальных кейсов в библиотеке">Real transformations in library</div></div>
-        <div class="stat"><div class="n">20</div><div class="l" data-en="CIS / Kazakhstan cases" data-ru="Кейсов СНГ и Казахстана">CIS / Kazakhstan cases</div></div>
-        <div class="stat"><div class="n">23</div><div class="l" data-en="Industries covered" data-ru="Покрытых индустрий">Industries covered</div></div>
-        <div class="stat"><div class="n">47</div><div class="l" data-en="Tests guarding the math" data-ru="Тестов защищают математику">Tests guarding the math</div></div>
+        <div class="stat"><div class="n">18</div><div class="l" data-en="Global rail peer cases (with promised vs actual)" data-ru="Глобальных rail peer-кейсов (promised vs actual)">Global rail peer cases (with promised vs actual)</div></div>
+        <div class="stat"><div class="n">40</div><div class="l" data-en="Granular KTZ-specific initiatives" data-ru="Granular инициатив под KTZ">Granular KTZ-specific initiatives</div></div>
+        <div class="stat"><div class="n">6</div><div class="l" data-en="Filter dimensions before simulation" data-ru="Измерений фильтра перед симуляцией">Filter dimensions before simulation</div></div>
+        <div class="stat"><div class="n">1k</div><div class="l" data-en="Monte Carlo iterations per initiative" data-ru="MC-итераций на инициативу">Monte Carlo iterations per initiative</div></div>
       </div>
     </div>
   </header>
 
-  <!-- HOW IT WORKS -->
   <section id="how">
     <div class="container">
       <div class="head">
-        <div class="eyebrow" data-en="Pipeline" data-ru="Пайплайн">Pipeline</div>
+        <div class="eyebrow" data-en="From holding-level data to a CFO-ready PDF" data-ru="От данных холдинга до PDF для CFO">From holding-level data to a CFO-ready PDF</div>
         <h2 data-en="How it works" data-ru="Как это работает">How it works</h2>
-        <p class="lead" data-en="Six stages from financials to a CFO-ready PDF. Every stage uses real cases from the library — not generic templates."
-           data-ru="Шесть этапов от финансов до PDF для CFO. Каждый этап использует реальные кейсы из библиотеки, не generic-шаблоны.">
-          Six stages from financials to a CFO-ready PDF. Every stage uses real cases from the library — not generic templates.
+        <p class="lead" data-en="Six stages. Each filters scenarios more tightly. Final output ranks the initiatives that survive on risk-adjusted NPV — with the real cases that backed every estimate."
+           data-ru="Шесть этапов. Каждый сужает воронку. Финал — ранжированный список инициатив по risk-adjusted NPV с реальными кейсами под каждой оценкой.">
+          Six stages. Each filters scenarios more tightly. Final output ranks the initiatives that survive on risk-adjusted NPV — with the real cases that backed every estimate.
         </p>
       </div>
       <div class="pipeline">
-        <div class="step">
-          <div class="n">1</div>
-          <h3 data-en="Digital twin" data-ru="Цифровой двойник">Digital twin</h3>
-          <p data-en="Revenue, segments, competitors, prior transformations, strategic priorities, pain points. Captured as one structured object."
-             data-ru="Выручка, сегменты, конкуренты, прошлые трансформации, стратегические приоритеты, болевые точки — структурированный объект.">
-            Revenue, segments, competitors, prior transformations, strategic priorities, pain points. Captured as one structured object.</p>
-          <span class="tag">domain.Company</span>
+        <div class="step"><div class="n">1</div>
+          <h3 data-en="Load the holding twin" data-ru="Загрузка двойника холдинга">Load the holding twin</h3>
+          <p data-en="Revenue mix by segment (freight / passenger / infrastructure / transit), competitor pressure, prior transformations, current strategic priorities. Failed past initiatives flag the same scenarios as elevated-risk."
+             data-ru="Структура выручки по сегментам (грузы / пассажиры / инфраструктура / транзит), давление конкурентов, прошлые трансформации, актуальные стратегические приоритеты. Провальные инициативы прошлого помечают аналогичные сценарии как high-risk.">
+            Revenue mix by segment, competitor pressure, prior transformations, current strategic priorities. Failed past initiatives flag the same scenarios as elevated-risk.</p>
         </div>
-        <div class="step">
-          <div class="n">2</div>
-          <h3 data-en="Case retrieval" data-ru="Поиск кейсов">Case retrieval</h3>
-          <p data-en="For each transformation type, retrieve the top-5 most similar real cases (industry, size, type, geography, shared failure modes)."
-             data-ru="Для каждого типа трансформации — топ-5 самых похожих реальных кейсов (индустрия, размер, тип, география, общие failure modes).">
-            For each transformation type, retrieve the top-5 most similar real cases (industry, size, type, geography, shared failure modes).</p>
-          <span class="tag">CaseLibrary.find_similar()</span>
+        <div class="step"><div class="n">2</div>
+          <h3 data-en="Filter the scenario universe" data-ru="Фильтрация воронки сценариев">Filter the scenario universe</h3>
+          <p data-en="Across 6 dimensions: strategic objective, investment envelope, time horizon, risk appetite, business segment, implementation model. Live counter shows how many of the 40 initiatives survive."
+             data-ru="По 6 измерениям: стратегическая цель, инвест-бюджет, горизонт, аппетит к риску, сегмент, модель реализации. Live-счётчик показывает сколько из 40 инициатив проходит фильтры.">
+            Across 6 dimensions: strategic objective, investment envelope, time horizon, risk appetite, business segment, implementation model.</p>
         </div>
-        <div class="step">
-          <div class="n">3</div>
-          <h3 data-en="Empirical prior" data-ru="Эмпирический prior">Empirical prior</h3>
-          <p data-en="Build distribution of actual revenue uplift / cost reduction from retrieved cases. Failed projects pull the left tail."
-             data-ru="Строим распределение фактических uplift / cost reduction по retrieved кейсам. Провалы тянут левый хвост.">
-            Build distribution of actual revenue uplift / cost reduction from retrieved cases. Failed projects pull the left tail.</p>
-          <span class="tag">empirical_prior()</span>
+        <div class="step"><div class="n">3</div>
+          <h3 data-en="Match rail peer cases" data-ru="Подбор rail peer-кейсов">Match rail peer cases</h3>
+          <p data-en="For each surviving scenario, pull the top 5 most relevant real transformations — only from rail operators globally (BHP, Rio Tinto, Union Pacific, DB Cargo, China Railway, RZD, CN Rail, etc). No cross-vertical noise."
+             data-ru="Для каждого сценария — топ-5 наиболее релевантных реальных трансформаций ТОЛЬКО среди rail-операторов мира (BHP, Rio Tinto, Union Pacific, DB Cargo, China Railway, РЖД, CN Rail и т.д.). Никакого кросс-вертикального шума.">
+            For each surviving scenario, pull the top 5 most relevant real transformations — only from rail operators globally. No cross-vertical noise.</p>
         </div>
-        <div class="step">
-          <div class="n">4</div>
-          <h3 data-en="Monte Carlo + NPV" data-ru="Monte Carlo + NPV">Monte Carlo + NPV</h3>
-          <p data-en="1,000 iterations per scenario. 5-year NPV at 12% WACC. Adoption ramp, delay risk, cost overrun, market shocks, execution failure."
-             data-ru="1000 итераций на сценарий. 5-летний NPV при 12% WACC. Adoption ramp, риск задержки, перерасход, рыночные шоки, провал реализации.">
-            1,000 iterations per scenario. 5-year NPV at 12% WACC. Adoption ramp, delay risk, cost overrun, market shocks, execution failure.</p>
-          <span class="tag">MonteCarloSimulator</span>
+        <div class="step"><div class="n">4</div>
+          <h3 data-en="Build empirical priors" data-ru="Построение эмпирических priors">Build empirical priors</h3>
+          <p data-en="Distribution of actual revenue uplift and cost reduction from matched peer cases. Failed projects pull the left tail. Per-scenario execution failure probability comes from observed failure rate of similar real transformations."
+             data-ru="Распределение фактических uplift и cost reduction по подобранным peer-кейсам. Провалы тянут левый хвост. Per-scenario execution failure probability — из эмпирической доли провалов.">
+            Distribution of actual uplift and cost reduction from matched peer cases. Failed projects pull the left tail.</p>
         </div>
-        <div class="step">
-          <div class="n">5</div>
-          <h3 data-en="Ranking & tornado" data-ru="Ранжирование и tornado">Ranking & tornado</h3>
-          <p data-en="Sort by P(NPV>0). For top scenarios run sensitivity analysis (which parameter swings NPV most)."
-             data-ru="Сортируем по P(NPV>0). Для топ-сценариев — sensitivity analysis (какой параметр сильнее качает NPV).">
-            Sort by P(NPV>0). For top scenarios run sensitivity analysis (which parameter swings NPV most).</p>
-          <span class="tag">sensitivity_analysis()</span>
+        <div class="step"><div class="n">5</div>
+          <h3 data-en="Monte Carlo, then ranking" data-ru="Monte Carlo и ранжирование">Monte Carlo, then ranking</h3>
+          <p data-en="1,000 cash-flow iterations per scenario at 12% WACC, 5-year NPV horizon, adoption ramp 40/70/95/100%, with shocks. All metrics — NPV, ROI, payback — derive from the same cash flows so the math reconciles."
+             data-ru="1000 итераций cash flows на сценарий при 12% WACC, 5-летний горизонт NPV, adoption ramp 40/70/95/100%, с шоками. Все метрики — NPV, ROI, payback — берутся из одних cash flows, числа согласованы.">
+            1,000 cash-flow iterations per scenario at 12% WACC. All metrics derive from the same cash flows so the math reconciles.</p>
         </div>
-        <div class="step">
-          <div class="n">6</div>
-          <h3 data-en="Executive PDF" data-ru="Executive PDF">Executive PDF</h3>
-          <p data-en="5-page A4 with cover, summary, top-3 with provenance, methodology, sources appendix citing each case used."
-             data-ru="5 страниц A4 с обложкой, summary, топ-3 с provenance, методологией, аппендиксом источников по каждому кейсу.">
-            5-page A4 with cover, summary, top-3 with provenance, methodology, sources appendix citing each case used.</p>
-          <span class="tag">generate_pdf()</span>
+        <div class="step"><div class="n">6</div>
+          <h3 data-en="What-if & executive PDF" data-ru="What-if и PDF для CEO">What-if &amp; executive PDF</h3>
+          <p data-en="Live re-run on changed assumptions (discount rate, budget, ramp speed). One-click executive PDF: cover, top recommendations, methodology, peer-case sources — ready to walk into a board meeting with."
+             data-ru="Live-пересчёт на изменённых assumptions (discount rate, бюджет, скорость ramp-up). PDF в один клик: обложка, рекомендации, методология, источники — готово выходить на правление.">
+            Live re-run on changed assumptions. One-click executive PDF ready for the board meeting.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- METHODOLOGY -->
   <section id="methodology">
     <div class="container">
       <div class="head">
-        <div class="eyebrow" data-en="The math behind the numbers" data-ru="Математика за цифрами">The math behind the numbers</div>
+        <div class="eyebrow" data-en="Math, not narrative" data-ru="Математика, не нарратив">Math, not narrative</div>
         <h2 data-en="Methodology" data-ru="Методология">Methodology</h2>
-        <p class="lead" data-en="Every number TimeStone reports has a derivation. Nothing is sleight of hand."
-           data-ru="У каждой цифры TimeStone есть вывод. Ничего не спрятано.">
-          Every number TimeStone reports has a derivation. Nothing is sleight of hand.
+        <p class="lead" data-en="Every number has a derivation. NPV, ROI and payback all come from the same Monte Carlo cash flows — they reconcile. Risk is modelled with shocks, not removed."
+           data-ru="У каждой цифры есть вывод. NPV, ROI и payback идут из одних cash flows Monte Carlo — они согласованы. Риск моделируется шоками, не игнорируется.">
+          Every number has a derivation. NPV, ROI and payback all come from the same Monte Carlo cash flows — they reconcile.
         </p>
       </div>
-
       <div class="meth-grid">
         <div class="meth-card">
-          <h3><span class="ico">$</span> <span data-en="Financial model (NPV)" data-ru="Финансовая модель (NPV)">Financial model (NPV)</span></h3>
-          <p data-en="Capex paid in year 0. Benefits begin after the implementation period. 5-year NPV discounted at WACC (default 12%, configurable)."
-             data-ru="Capex в нулевом году. Бенефиты начинаются после периода внедрения. NPV 5 лет, дисконт по WACC (по умолчанию 12%, настраивается).">
-            Capex paid in year 0. Benefits begin after the implementation period. 5-year NPV discounted at WACC (default 12%, configurable).
+          <h3><span class="ico">$</span> <span data-en="Cash-flow consistent NPV / ROI / payback" data-ru="Согласованные NPV / ROI / payback">Cash-flow consistent NPV / ROI / payback</span></h3>
+          <p data-en="Single Monte Carlo simulation produces a cash-flow path per iteration. NPV is the discounted sum. ROI is NPV divided by realized investment. Payback is the first year cumulative undiscounted cash flow turns positive. All three numbers always reconcile."
+             data-ru="Одна симуляция Monte Carlo даёт cash-flow path на итерацию. NPV = дисконтированная сумма. ROI = NPV / фактическая инвестиция. Payback = первый год где кумулятивный недисконтированный CF >0. Все три согласованы математически.">
+            One simulation produces cash flows per iteration. NPV is discounted sum. ROI is NPV/investment. Payback is first year cumulative CF turns positive. All three numbers reconcile.
           </p>
           <div class="meth-formula">
-NPV = <span class="var">-Capex</span> + Σ <sub>y=1..5</sub> ( <span class="var">benefit_y</span> · <span class="var">adoption_y</span> ) / (1 + <span class="num">0.12</span>)<sup>y</sup>
+NPV = <span class="var">-Capex</span> + Σ<sub>y=1..5</sub> ( <span class="var">benefit_y</span> · <span class="var">adoption_y</span> ) / (1 + <span class="num">r</span>)<sup>y</sup>
           </div>
-          <p style="margin-top: 14px; font-size: 13px;" data-en="Adoption ramps year by year, not full impact from day one:"
-             data-ru="Adoption нарастает по годам, не на полную мощность с первого дня:">
-            Adoption ramps year by year, not full impact from day one:
-          </p>
+          <p style="margin-top: 14px; font-size: 13px;" data-en="Adoption ramps year by year:" data-ru="Adoption нарастает по годам:">Adoption ramps year by year:</p>
           <svg class="ramp-svg" viewBox="0 0 360 130" preserveAspectRatio="none">
             <line class="axis" x1="40" y1="100" x2="350" y2="100"/>
             <line class="axis" x1="40" y1="20" x2="40" y2="100"/>
             <text class="label" x="0" y="105">0</text>
             <text class="label" x="0" y="60">50%</text>
             <text class="label" x="0" y="25">100%</text>
-            <g>
-              <rect class="bar" x="55" y="56" width="44" height="44"/>
-              <text class="value" x="77" y="50" text-anchor="middle">40%</text>
-              <text class="label" x="77" y="118" text-anchor="middle">Y1</text>
-            </g>
-            <g>
-              <rect class="bar" x="115" y="34" width="44" height="66"/>
-              <text class="value" x="137" y="28" text-anchor="middle">70%</text>
-              <text class="label" x="137" y="118" text-anchor="middle">Y2</text>
-            </g>
-            <g>
-              <rect class="bar" x="175" y="24" width="44" height="76"/>
-              <text class="value" x="197" y="18" text-anchor="middle">95%</text>
-              <text class="label" x="197" y="118" text-anchor="middle">Y3</text>
-            </g>
-            <g>
-              <rect class="bar" x="235" y="20" width="44" height="80"/>
-              <text class="value" x="257" y="14" text-anchor="middle">100%</text>
-              <text class="label" x="257" y="118" text-anchor="middle">Y4</text>
-            </g>
-            <g>
-              <rect class="bar" x="295" y="20" width="44" height="80"/>
-              <text class="value" x="317" y="14" text-anchor="middle">100%</text>
-              <text class="label" x="317" y="118" text-anchor="middle">Y5</text>
-            </g>
+            <g><rect class="bar" x="55" y="56" width="44" height="44"/><text class="value" x="77" y="50" text-anchor="middle">40%</text><text class="label" x="77" y="118" text-anchor="middle">Y1</text></g>
+            <g><rect class="bar" x="115" y="34" width="44" height="66"/><text class="value" x="137" y="28" text-anchor="middle">70%</text><text class="label" x="137" y="118" text-anchor="middle">Y2</text></g>
+            <g><rect class="bar" x="175" y="24" width="44" height="76"/><text class="value" x="197" y="18" text-anchor="middle">95%</text><text class="label" x="197" y="118" text-anchor="middle">Y3</text></g>
+            <g><rect class="bar" x="235" y="20" width="44" height="80"/><text class="value" x="257" y="14" text-anchor="middle">100%</text><text class="label" x="257" y="118" text-anchor="middle">Y4</text></g>
+            <g><rect class="bar" x="295" y="20" width="44" height="80"/><text class="value" x="317" y="14" text-anchor="middle">100%</text><text class="label" x="317" y="118" text-anchor="middle">Y5</text></g>
           </svg>
         </div>
 
         <div class="meth-card">
-          <h3><span class="ico">!</span> <span data-en="Risk model" data-ru="Модель риска">Risk model</span></h3>
-          <p data-en="Each Monte Carlo iteration draws revenue / cost impact from Gaussian distributions scaled by risk level. Then independent shocks fire:"
-             data-ru="Каждая итерация Monte Carlo сэмплирует revenue/cost impact из Gaussian с разбросом по уровню риска. Затем включаются независимые шоки:">
-            Each Monte Carlo iteration draws revenue / cost impact from Gaussian distributions scaled by risk level. Then independent shocks fire:
+          <h3><span class="ico">!</span> <span data-en="Risk modelled, not removed" data-ru="Риск моделируется, не игнорируется">Risk modelled, not removed</span></h3>
+          <p data-en="Each Monte Carlo iteration draws benefits from a Gaussian distribution scaled by the scenario risk level, then applies independent shocks:"
+             data-ru="Каждая итерация Monte Carlo сэмплирует benefits из Gaussian с разбросом по risk level, затем применяет независимые шоки:">
+            Each iteration draws from a Gaussian scaled by risk level, then applies independent shocks:
           </p>
           <ul class="shocks">
-            <li><span data-en="Execution failure (per-scenario)" data-ru="Провал реализации (per-scenario)">Execution failure (per-scenario)</span><span class="prob">2 — 60%</span></li>
-            <li><span data-en="Market downturn" data-ru="Падение рынка">Market downturn</span><span class="prob">8%</span></li>
-            <li><span data-en="Competitive response" data-ru="Ответ конкурентов">Competitive response</span><span class="prob">15%</span></li>
+            <li><span data-en="Execution failure (from rail peer empirics)" data-ru="Провал исполнения (из rail peer-эмпирики)">Execution failure (from rail peer empirics)</span><span class="prob">5 — 35%</span></li>
+            <li><span data-en="Market / commodity downturn" data-ru="Падение рынка / сырьевой шок">Market / commodity downturn</span><span class="prob">8%</span></li>
+            <li><span data-en="Cross-border / geopolitical shock" data-ru="Геополитический шок (трансгранично)">Cross-border / geopolitical shock</span><span class="prob">12%</span></li>
             <li><span data-en="Cost overrun" data-ru="Перерасход бюджета">Cost overrun</span><span class="prob">+10 — 50%</span></li>
             <li><span data-en="Implementation delay" data-ru="Задержка внедрения">Implementation delay</span><span class="prob">+20 — 80%</span></li>
           </ul>
           <p style="margin-top: 16px; font-size: 12px; color: var(--muted);"
-             data-en="Per-scenario execution_failure_prob is derived from the empirical failure rate of similar real cases — not picked by hand."
-             data-ru="Per-scenario execution_failure_prob берётся из эмпирической failure rate похожих кейсов — не вручную.">
-            Per-scenario execution_failure_prob is derived from the empirical failure rate of similar real cases — not picked by hand.
+             data-en="Per-scenario failure probability isn't picked by hand — it's the observed failure rate of similar real rail transformations."
+             data-ru="Per-scenario failure probability не задаётся вручную — это эмпирическая доля провалов среди похожих rail-кейсов.">
+            Per-scenario failure probability is the observed failure rate of similar real rail transformations.
           </p>
         </div>
 
         <div class="meth-card">
-          <h3><span class="ico">★</span> <span data-en="Empirical priors" data-ru="Эмпирические priors">Empirical priors</span></h3>
-          <p data-en="Instead of asking 'what is a reasonable revenue uplift for digital booking?', TimeStone asks 'what did Maersk Spot, Hertz/Accenture, Halyk Homebank actually deliver?'"
-             data-ru="Вместо вопроса «какой revenue uplift разумен для digital booking?», TimeStone спрашивает «что в реальности дали Maersk Spot, Hertz/Accenture, Halyk Homebank?»">
-            Instead of asking "what is a reasonable revenue uplift for digital booking?", TimeStone asks "what did Maersk Spot, Hertz/Accenture, Halyk Homebank actually deliver?"
+          <h3><span class="ico">★</span> <span data-en="Empirical priors from rail peers only" data-ru="Эмпирические priors — только из rail peers">Empirical priors from rail peers only</span></h3>
+          <p data-en="Instead of guessing 'what's a reasonable uplift for digital booking', TimeStone retrieves what DB Cargo, Trenitalia, Brightline, Indian Railways actually delivered — and what failed at SNCF Fret Cabotage."
+             data-ru="Вместо «какой uplift разумен для digital booking», TimeStone достаёт что в реальности дали DB Cargo, Trenitalia, Brightline, Indian Railways — и что провалилось у SNCF Fret Cabotage.">
+            Instead of guessing, TimeStone retrieves what DB Cargo, Trenitalia, Brightline, Indian Railways actually delivered — and what failed at SNCF Fret Cabotage.
           </p>
           <div class="meth-formula">
 prior_mean = w · empirical_mean + (1 − w) · template_mid<br/>
-where w = min(<span class="num">n_cases</span> / <span class="num">5</span>, 1.0)
+where w = min(<span class="num">n_rail_peers</span> / <span class="num">5</span>, 1.0)
           </div>
           <p style="margin-top: 14px; font-size: 13px;"
-             data-en="At n=5 similar cases or more, the empirical mean is used fully. At lower n, it shrinks toward a conservative template midpoint."
-             data-ru="При n≥5 похожих кейсов эмпирический mean используется полностью. При меньшем — стягивается к консервативному template midpoint.">
-            At n≥5 similar cases, the empirical mean is used fully. At lower n, it shrinks toward a conservative template midpoint.
+             data-en="At 5 or more matched rail peers, the empirical mean is used in full. Below that, it shrinks toward a conservative template — never trusts a single outlier."
+             data-ru="При ≥5 подобранных rail peer-кейсах эмпирический mean используется полностью. Меньше — стягивается к консервативному шаблону, не доверяет одиночному outlier.">
+            At ≥5 matched rail peers, the empirical mean is used in full. Below that, it shrinks toward a conservative template.
           </p>
         </div>
 
         <div class="meth-card">
-          <h3><span class="ico">∞</span> <span data-en="Bayesian calibration loop" data-ru="Bayesian калибровочный цикл">Bayesian calibration loop</span></h3>
-          <p data-en="Every real engagement produces an OutcomeRecord — append-only, never deleted. The system reads these to compute per-bucket residuals (actual minus predicted) and shifts future priors automatically."
-             data-ru="Каждое реальное взаимодействие создаёт OutcomeRecord — append-only, никогда не удаляется. Система читает их, считает per-bucket residuals (actual минус predicted) и автоматически сдвигает priors будущих симуляций.">
-            Every real engagement produces an OutcomeRecord — append-only, never deleted. The system reads these to compute per-bucket residuals (actual minus predicted) and shifts future priors automatically.
+          <h3><span class="ico">∞</span> <span data-en="The moat: every engagement compounds" data-ru="Moat: каждый проект усиливает следующий">The moat: every engagement compounds</span></h3>
+          <p data-en="When a recommendation is implemented, the real outcome 12-24 months later is recorded as an immutable OutcomeRecord. The system computes residual (actual − predicted), grouped by transformation type, and shifts future priors automatically."
+             data-ru="Когда рекомендация реализуется, фактический результат через 12-24 месяца записывается как иммутабельный OutcomeRecord. Система считает residual (actual − predicted), группирует по типу трансформации, автоматически сдвигает будущие priors.">
+            When a recommendation is implemented, the real outcome 12-24 months later is recorded as an immutable OutcomeRecord. The system shifts future priors automatically.
           </p>
           <div class="meth-formula">
 residual = <span class="var">actual</span> − <span class="var">predicted</span><br/>
@@ -706,82 +530,157 @@ shift = residual · min(<span class="num">n</span> / <span class="num">5</span>,
 prior_mean_next = prior_mean + shift
           </div>
           <p style="margin-top: 14px; font-size: 13px;"
-             data-en="More engagements → tighter calibration → harder for any competitor to catch up. This is the compounding moat."
-             data-ru="Больше реальных проектов → точнее калибровка → конкурентам сложнее догнать. Это и есть compounding moat.">
-            More engagements → tighter calibration → harder for any competitor to catch up. This is the compounding moat.
+             data-en="More real engagements → tighter calibration → impossible for a zero-history competitor to replicate."
+             data-ru="Больше реальных проектов → точнее калибровка → конкуренту с нулевой историей не воспроизвести.">
+            More real engagements → tighter calibration → impossible for a zero-history competitor to replicate.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- LIVE DEMO -->
   <section id="demo">
     <div class="container">
       <div class="head">
-        <div class="eyebrow" data-en="Watch the engine run" data-ru="Посмотрите как работает движок">Watch the engine run</div>
+        <div class="eyebrow" data-en="The actual decision tool" data-ru="Реальный инструмент принятия решений">The actual decision tool</div>
         <h2 data-en="Live demo" data-ru="Живое демо">Live demo</h2>
-        <p class="lead" data-en="Pick a company and transformation type. See every stage of the pipeline animate — retrieval, prior, Monte Carlo, ranking, sensitivity. Numbers shown are calibrated illustrations of what the real engine produces."
-           data-ru="Выберите компанию и тип трансформации. Посмотрите как анимируется каждый этап пайплайна — retrieval, prior, Monte Carlo, ранжирование, sensitivity. Цифры — откалиброванные иллюстрации того, что выдаёт реальный движок.">
-          Pick a company and transformation type. See every stage of the pipeline animate — retrieval, prior, Monte Carlo, ranking, sensitivity. Numbers shown are calibrated illustrations of what the real engine produces.
+        <p class="lead" data-en="Filter the universe of railway transformation initiatives by your real constraints, run the engine, drill into top scenarios, stress-test with what-if sliders, export the executive PDF. This is what the CEO of a national rail holding gets in 60 seconds."
+           data-ru="Отфильтруйте воронку железнодорожных инициатив под реальные ограничения, запустите движок, посмотрите топ-сценарии, проверьте под what-if, выгрузите PDF. Это то что CEO национального rail-холдинга получает за 60 секунд.">
+          Filter the universe of railway initiatives by your real constraints, run the engine, drill into top scenarios, stress-test with what-if, export PDF. 60 seconds for a CEO.
         </p>
       </div>
 
       <div class="demo-card">
-        <div class="demo-controls">
-          <div class="field">
-            <label data-en="Company" data-ru="Компания">COMPANY</label>
-            <select id="company">
-              <option value="ktz">Kazakhstan Temir Zholy (KTZ)</option>
-              <option value="kaspi">Kaspi.kz</option>
-              <option value="kegoc">KEGOC (Kazakhstan Electricity Grid)</option>
-              <option value="precisionmfg">PrecisionMfg Inc</option>
-              <option value="techflow">TechFlow SaaS</option>
-            </select>
+        <!-- Company pick: KTZ active, others locked as 'coming soon' -->
+        <div class="company-pick">
+          <button class="active" data-co="ktz">Kazakhstan Temir Zholy (KTZ)</button>
+          <button class="locked" data-co="rzd" disabled>RZD (Russian Railways)</button>
+          <button class="locked" data-co="ir" disabled>Indian Railways</button>
+          <button class="locked" data-co="db" disabled>DB Cargo</button>
+          <button class="locked" data-co="cz" disabled>China Railway</button>
+        </div>
+
+        <!-- Twin context bar -->
+        <div class="twin-bar">
+          <div class="avatar">▮▮</div>
+          <div>
+            <div class="name">Kazakhstan Temir Zholy (KTZ)</div>
+            <div class="meta">
+              <span>$5.5B revenue</span>
+              <span>130,000 employees</span>
+              <span>5 segments</span>
+              <span data-en="4 prior transformations on record" data-ru="4 прошлые трансформации в записях">4 prior transformations on record</span>
+            </div>
           </div>
-          <div class="field">
-            <label data-en="Transformation type" data-ru="Тип трансформации">TRANSFORMATION TYPE</label>
-            <select id="ttype">
-              <option value="digital_transformation" data-en="Digital transformation" data-ru="Цифровая трансформация">Digital transformation</option>
-              <option value="operational_efficiency" data-en="Operational efficiency" data-ru="Операционная эффективность">Operational efficiency</option>
-              <option value="customer_experience" data-en="Customer experience" data-ru="Customer experience">Customer experience</option>
-              <option value="product_innovation" data-en="Product innovation" data-ru="Продуктовая инновация">Product innovation</option>
-              <option value="market_expansion" data-en="Market expansion" data-ru="Выход на новый рынок">Market expansion</option>
-            </select>
+          <div class="badge badge-warn" data-en="⚠ 2020 digital booking pilot FAILED — similar scenarios flagged"
+               data-ru="⚠ Digital booking pilot 2020 — ПРОВАЛ, схожие сценарии flagged">⚠ 2020 digital booking pilot FAILED — similar scenarios flagged</div>
+        </div>
+
+        <!-- Filter card -->
+        <div class="filters">
+          <h4 data-en="Filter the scenario universe" data-ru="Фильтр воронки сценариев">Filter the scenario universe</h4>
+          <div class="sub" data-en="Choose your strategic constraints. Counter below shows how many initiatives survive."
+               data-ru="Выберите стратегические ограничения. Счётчик ниже покажет сколько инициатив проходит.">
+            Choose your strategic constraints. Counter shows how many initiatives survive.
           </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn btn-primary" id="run-demo">
-              <span data-en="Run simulation" data-ru="Запустить симуляцию">Run simulation</span>
-              <span>▶</span>
-            </button>
+          <div class="filter-grid">
+            <div class="filter-row" data-filter="objective">
+              <label data-en="Strategic objective" data-ru="Стратегическая цель">Strategic objective</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="cost_reduction" data-en="Cost reduction" data-ru="Снижение затрат">Cost reduction</div>
+                <div class="chip" data-v="revenue_growth" data-en="Revenue growth" data-ru="Рост выручки">Revenue growth</div>
+                <div class="chip" data-v="service_quality" data-en="Service quality" data-ru="Качество сервиса">Service quality</div>
+                <div class="chip" data-v="decarbonization" data-en="Decarbonization" data-ru="Декарбонизация">Decarbonization</div>
+                <div class="chip" data-v="resilience" data-en="Resilience" data-ru="Устойчивость">Resilience</div>
+              </div>
+            </div>
+            <div class="filter-row" data-filter="budget">
+              <label data-en="Investment envelope" data-ru="Инвестиционный envelope">Investment envelope</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="under5">&lt; $5M</div>
+                <div class="chip" data-v="5_25">$5 — 25M</div>
+                <div class="chip" data-v="25_100">$25 — 100M</div>
+                <div class="chip" data-v="over100">&gt; $100M</div>
+              </div>
+            </div>
+            <div class="filter-row" data-filter="horizon">
+              <label data-en="Time horizon" data-ru="Горизонт">Time horizon</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="pilot" data-en="Pilot 6-12mo" data-ru="Пилот 6-12 мес">Pilot 6-12mo</div>
+                <div class="chip" data-v="short" data-en="Short 1-3y" data-ru="Кратко 1-3 г">Short 1-3y</div>
+                <div class="chip" data-v="long" data-en="Long 3-7y" data-ru="Длинно 3-7 л">Long 3-7y</div>
+              </div>
+            </div>
+            <div class="filter-row" data-filter="risk">
+              <label data-en="Risk appetite" data-ru="Аппетит к риску">Risk appetite</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="conservative" data-en="Conservative" data-ru="Консервативный">Conservative</div>
+                <div class="chip" data-v="balanced" data-en="Balanced" data-ru="Сбалансированный">Balanced</div>
+                <div class="chip" data-v="aggressive" data-en="Aggressive" data-ru="Агрессивный">Aggressive</div>
+              </div>
+            </div>
+            <div class="filter-row" data-filter="segment">
+              <label data-en="Business segment" data-ru="Бизнес-сегмент">Business segment</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="freight" data-en="Freight" data-ru="Грузы">Freight</div>
+                <div class="chip" data-v="passenger" data-en="Passenger" data-ru="Пассажиры">Passenger</div>
+                <div class="chip" data-v="operations" data-en="Operations" data-ru="Операции">Operations</div>
+                <div class="chip" data-v="strategic" data-en="Strategic" data-ru="Стратегические">Strategic</div>
+                <div class="chip" data-v="tech" data-en="Tech foundation" data-ru="Tech-фундамент">Tech foundation</div>
+              </div>
+            </div>
+            <div class="filter-row" data-filter="impl">
+              <label data-en="Implementation model" data-ru="Модель реализации">Implementation model</label>
+              <div class="chip-row">
+                <div class="chip active" data-v="all" data-en="All" data-ru="Все">All</div>
+                <div class="chip" data-v="in_house" data-en="In-house" data-ru="In-house">In-house</div>
+                <div class="chip" data-v="vendor" data-en="Vendor-led" data-ru="Vendor-led">Vendor-led</div>
+                <div class="chip" data-v="jv" data-en="JV" data-ru="JV">JV</div>
+                <div class="chip" data-v="ma" data-en="M&amp;A" data-ru="M&amp;A">M&amp;A</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Pipeline stages -->
+        <!-- Filter result counter -->
+        <div class="filter-summary">
+          <div>
+            <span data-en="Scenarios matching your filters:" data-ru="Сценариев под фильтры:">Scenarios matching your filters:</span>
+            <span class="matches" id="match-count">40</span>
+            <small data-en="of 40 in the rail library" data-ru="из 40 в rail-библиотеке">of 40 in the rail library</small>
+          </div>
+          <button class="btn btn-primary" id="run-demo">
+            <span data-en="Run simulation" data-ru="Запустить симуляцию">Run simulation</span>
+            <span>▶</span>
+          </button>
+        </div>
+
         <div class="stages">
-          <div class="stage" data-stage="1"><div class="n">1</div><div class="l" data-en="Twin loaded" data-ru="Загрузка двойника">Twin loaded</div></div>
-          <div class="stage" data-stage="2"><div class="n">2</div><div class="l" data-en="Retrieve cases" data-ru="Поиск кейсов">Retrieve cases</div></div>
-          <div class="stage" data-stage="3"><div class="n">3</div><div class="l" data-en="Build prior" data-ru="Построение prior">Build prior</div></div>
-          <div class="stage" data-stage="4"><div class="n">4</div><div class="l" data-en="Monte Carlo" data-ru="Monte Carlo">Monte Carlo</div></div>
-          <div class="stage" data-stage="5"><div class="n">5</div><div class="l" data-en="Rank & explain" data-ru="Ранжирование">Rank &amp; explain</div></div>
+          <div class="stage" data-stage="1"><div class="n">1</div><div class="l" data-en="Twin loaded" data-ru="Twin загружен">Twin loaded</div></div>
+          <div class="stage" data-stage="2"><div class="n">2</div><div class="l" data-en="Rail peers matched" data-ru="Rail peers подобраны">Rail peers matched</div></div>
+          <div class="stage" data-stage="3"><div class="n">3</div><div class="l" data-en="Empirical priors built" data-ru="Priors построены">Empirical priors built</div></div>
+          <div class="stage" data-stage="4"><div class="n">4</div><div class="l" data-en="Monte Carlo running" data-ru="Monte Carlo">Monte Carlo running</div></div>
+          <div class="stage" data-stage="5"><div class="n">5</div><div class="l" data-en="Top initiatives ranked" data-ru="Топ инициатив">Top initiatives ranked</div></div>
         </div>
 
-        <!-- Live status line -->
         <div class="status-line" id="status">
           <span class="dot-pulse" style="background: var(--muted); animation: none;"></span>
-          <span id="status-text" data-en="Ready. Click Run simulation." data-ru="Готов. Нажмите Запустить симуляцию.">Ready. Click Run simulation.</span>
+          <span id="status-text" data-en="Ready. Set filters and click Run simulation." data-ru="Готов. Установите фильтры и жмите Запустить.">Ready. Set filters and click Run simulation.</span>
         </div>
 
-        <!-- Retrieved cases (animated cards) -->
         <div class="retrieved" id="retrieved"></div>
 
-        <!-- Monte Carlo canvas + stats -->
         <div class="mc-wrap" id="mc-wrap" style="display: none;">
           <div>
             <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;"
-                 data-en="NPV distribution (1,000 iterations)" data-ru="Распределение NPV (1000 итераций)">NPV distribution (1,000 iterations)</div>
-            <canvas id="mc-canvas" width="600" height="180"></canvas>
+                 data-en="NPV distribution — top initiative (1,000 iterations)"
+                 data-ru="Распределение NPV — топ-инициатива (1000 итераций)">NPV distribution — top initiative (1,000 iterations)</div>
+            <canvas id="mc-canvas" width="600" height="220"></canvas>
           </div>
           <div class="mc-stats">
             <div class="label-pp" data-en="Live statistics" data-ru="Лайв-статистика">Live statistics</div>
@@ -789,119 +688,147 @@ prior_mean_next = prior_mean + shift
             <div class="row"><span data-en="Mean NPV" data-ru="Mean NPV">Mean NPV</span><span class="val" id="mc-mean">-</span></div>
             <div class="row"><span data-en="P(NPV > 0)" data-ru="P(NPV > 0)">P(NPV > 0)</span><span class="val" id="mc-p">-</span></div>
             <div class="row"><span data-en="P10 / P90" data-ru="P10 / P90">P10 / P90</span><span class="val" id="mc-pct">-</span></div>
+            <div class="row"><span data-en="Mean ROI" data-ru="Mean ROI">Mean ROI</span><span class="val" id="mc-roi">-</span></div>
+            <div class="row"><span data-en="Median payback" data-ru="Median payback">Median payback</span><span class="val" id="mc-pb">-</span></div>
           </div>
         </div>
 
-        <!-- Recommendations -->
         <div class="recs" id="recs"></div>
 
-        <!-- Tornado -->
         <div class="tornado" id="tornado">
-          <div class="tornado-title" data-en="Sensitivity analysis — top recommendation" data-ru="Sensitivity-анализ — топ-рекомендация">Sensitivity analysis — top recommendation</div>
-          <svg class="tornado-svg" id="tornado-svg" viewBox="0 0 600 180"></svg>
+          <div class="tornado-title" data-en="Sensitivity analysis — top initiative" data-ru="Sensitivity — топ-инициатива">Sensitivity analysis — top initiative</div>
+          <svg class="tornado-svg" id="tornado-svg" viewBox="0 0 600 200"></svg>
+        </div>
+
+        <!-- What-if -->
+        <div class="whatif" id="whatif">
+          <h4 data-en="What-if · re-run instantly" data-ru="What-if · мгновенный пересчёт">What-if · re-run instantly</h4>
+          <div class="sub" data-en="Stress-test assumptions live. The engine re-runs Monte Carlo in <1s on every slider change."
+               data-ru="Stress-test assumptions в реальном времени. Движок пересчитывает Monte Carlo за <1с на каждое изменение слайдера.">
+            Stress-test assumptions live. The engine re-runs Monte Carlo in &lt;1s on every change.
+          </div>
+          <div class="whatif-grid">
+            <div class="whatif-control">
+              <label data-en="Discount rate (WACC)" data-ru="Ставка дисконтирования">Discount rate (WACC)</label>
+              <div class="val" id="wi-r-val">12%</div>
+              <input type="range" id="wi-r" min="6" max="24" step="1" value="12"/>
+            </div>
+            <div class="whatif-control">
+              <label data-en="Investment multiplier" data-ru="Множитель инвестиций">Investment multiplier</label>
+              <div class="val" id="wi-i-val">1.0x</div>
+              <input type="range" id="wi-i" min="50" max="200" step="10" value="100"/>
+            </div>
+            <div class="whatif-control">
+              <label data-en="Adoption ramp speed" data-ru="Скорость adoption ramp">Adoption ramp speed</label>
+              <div class="val" id="wi-a-val">Standard</div>
+              <input type="range" id="wi-a" min="0" max="2" step="1" value="1"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="pdf-row">
+          <div class="note" data-en="Each Monte Carlo run produces NPV, ROI and payback from the same cash flows. Numbers are calibrated illustrations — install the open-source engine to run on your real holding data."
+               data-ru="Каждый прогон Monte Carlo выдаёт NPV, ROI и payback из одних cash flows. Цифры — откалиброванные иллюстрации, установите open-source движок для запуска на реальных данных холдинга.">
+            Each Monte Carlo run produces NPV, ROI and payback from the same cash flows.
+          </div>
+          <button class="btn btn-ghost" id="export-pdf" disabled>
+            <span data-en="Export executive PDF" data-ru="Выгрузить PDF для CEO">Export executive PDF</span>
+            <span>⬇</span>
+          </button>
         </div>
       </div>
-
-      <p style="color: var(--muted); font-size: 13px; margin-top: 18px;"
-         data-en="Numbers are calibrated illustrations. The real engine generates 1,000 scenarios per company, produces a 5-page PDF, and writes a learning-loop OutcomeRecord. Install below to run on your own data."
-         data-ru="Цифры — откалиброванные иллюстрации. Реальный движок генерирует 1000 сценариев на компанию, делает 5-страничный PDF и пишет OutcomeRecord для learning loop. Установите ниже, чтобы запустить на своих данных.">
-        Numbers are calibrated illustrations. The real engine generates 1,000 scenarios per company, produces a 5-page PDF, and writes a learning-loop OutcomeRecord. Install below to run on your own data.
-      </p>
     </div>
   </section>
 
-  <!-- CASE LIBRARY EXPLORER -->
   <section id="library">
     <div class="container">
       <div class="head">
-        <div class="eyebrow" data-en="The corpus" data-ru="Корпус">The corpus</div>
-        <h2 data-en="Case library" data-ru="Библиотека кейсов">Case library</h2>
-        <p class="lead" data-en="54 real corporate transformations. Each carries promised-vs-actual outcomes, failure modes, and citation sources. The CIS-region cases are the local moat: no public LLM can extract them at this quality."
-           data-ru="54 реальные корпоративные трансформации. У каждого — promised vs actual, failure modes и источники. СНГ-кейсы — это локальный moat: никакая публичная LLM не извлечёт их в таком качестве.">
-          54 real corporate transformations. Each carries promised-vs-actual outcomes, failure modes, and citation sources. The CIS-region cases are the local moat: no public LLM can extract them at this quality.
+        <div class="eyebrow" data-en="The rail corpus" data-ru="Rail-корпус">The rail corpus</div>
+        <h2 data-en="Rail peer library" data-ru="Библиотека rail-кейсов">Rail peer library</h2>
+        <p class="lead" data-en="18 real railway transformations from operators globally. Each carries promised-vs-actual outcomes, failure modes, and citation sources. Cross-vertical cases (banking, retail) are deliberately excluded from rail simulations — they were noise, not signal."
+           data-ru="18 реальных трансформаций железнодорожных операторов мира. У каждой promised-vs-actual, failure modes и источники. Кросс-вертикальные кейсы (банки, retail) намеренно исключены из rail-симуляций — это был шум.">
+          18 real railway transformations from operators globally. Cross-vertical cases are deliberately excluded — they were noise, not signal.
         </p>
       </div>
       <div class="lib-controls">
-        <button class="lib-filter active" data-filter="all">All (54)</button>
-        <button class="lib-filter" data-filter="success" data-en="Success (22)" data-ru="Успех (22)">Success (22)</button>
-        <button class="lib-filter" data-filter="partial" data-en="Partial (13)" data-ru="Частично (13)">Partial (13)</button>
-        <button class="lib-filter" data-filter="failed" data-en="Failed (19)" data-ru="Провал (19)">Failed (19)</button>
-        <button class="lib-filter" data-filter="cis" data-en="CIS region (20)" data-ru="СНГ (20)">CIS region (20)</button>
+        <button class="lib-filter active" data-filter="all">All (18)</button>
+        <button class="lib-filter" data-filter="freight" data-en="Freight" data-ru="Грузы">Freight</button>
+        <button class="lib-filter" data-filter="passenger" data-en="Passenger" data-ru="Пассажирские">Passenger</button>
+        <button class="lib-filter" data-filter="operations" data-en="Operations" data-ru="Операции">Operations</button>
+        <button class="lib-filter" data-filter="success" data-en="Success only" data-ru="Только успех">Success only</button>
+        <button class="lib-filter" data-filter="failed" data-en="Failed only" data-ru="Только провалы">Failed only</button>
       </div>
       <div class="lib-grid" id="lib-grid"></div>
     </div>
   </section>
 
-  <!-- MOAT -->
   <section id="moat">
     <div class="container">
       <div class="head">
         <div class="eyebrow" data-en="The flywheel" data-ru="Маховик">The flywheel</div>
-        <h2 data-en="The moat compounds" data-ru="Защита со временем нарастает">The moat compounds</h2>
-        <p class="lead" data-en="Every engagement makes the next forecast more accurate. This is not replicable by a zero-history competitor or by any generic LLM."
-           data-ru="Каждый реальный проект делает следующий прогноз точнее. Это нельзя повторить конкуренту с нулевой историей или любой generic LLM.">
-          Every engagement makes the next forecast more accurate. This is not replicable by a zero-history competitor or by any generic LLM.
+        <h2 data-en="Why a generic LLM cannot replicate this" data-ru="Почему generic LLM этого не повторит">Why a generic LLM cannot replicate this</h2>
+        <p class="lead" data-en="Three structural advantages stack and compound over time."
+           data-ru="Три структурных преимущества накапливаются и усиливают друг друга со временем.">
+          Three structural advantages stack and compound over time.
         </p>
       </div>
       <div class="moat">
         <div>
           <ul>
-            <li data-en="Curated case library with documented promised-vs-actual outcomes."
-                data-ru="Курированная библиотека кейсов с promised-vs-actual исходами.">
-              Curated case library with documented promised-vs-actual outcomes.</li>
-            <li data-en="Per-engagement OutcomeRecord — append-only, fed back into priors."
-                data-ru="Per-engagement OutcomeRecord — append-only, возвращается в priors.">
-              Per-engagement OutcomeRecord — append-only, fed back into priors.</li>
-            <li data-en="Bayesian calibration loop adjusts priors after each real measurement."
-                data-ru="Bayesian калибровка сдвигает priors после каждого реального замера.">
-              Bayesian calibration loop adjusts priors after each real measurement.</li>
-            <li data-en="Local CIS / Kazakhstan case library — no public LLM extracts these cleanly."
-                data-ru="Локальная библиотека СНГ / Казахстана — никакая публичная LLM не достанет их чисто.">
-              Local CIS / Kazakhstan case library — no public LLM extracts these cleanly.</li>
-            <li data-en="Failure-mode aware retrieval — your client's past mistakes inform what to avoid."
-                data-ru="Failure-mode aware retrieval — прошлые ошибки клиента подсказывают чего избегать.">
-              Failure-mode aware retrieval — your client's past mistakes inform what to avoid.</li>
+            <li data-en="Vertical-specific case libraries — rail peers for rail clients, banking peers for banking clients. No cross-vertical pollution."
+                data-ru="Vertical-specific библиотеки — rail peers для rail клиентов, banking peers для banking клиентов. Никакого кросс-вертикального шума.">
+              Vertical-specific case libraries — rail peers for rail clients, banking peers for banking clients. No cross-vertical pollution.</li>
+            <li data-en="Append-only OutcomeRecord database. Every real engagement adds a 'predicted vs actual' pair that feeds Bayesian recalibration."
+                data-ru="Append-only база OutcomeRecord. Каждый реальный проект добавляет пару 'predicted vs actual' в Bayesian recalibration.">
+              Append-only OutcomeRecord database. Every real engagement adds a 'predicted vs actual' pair.</li>
+            <li data-en="Failure-mode aware retrieval. If KTZ already failed at digital booking in 2020, the model knows to flag similar scenarios as elevated risk."
+                data-ru="Failure-mode aware retrieval. Если KTZ уже провалил digital booking в 2020, модель помечает похожие сценарии как elevated risk.">
+              Failure-mode aware retrieval. If KTZ already failed at digital booking in 2020, the model flags similar scenarios as elevated risk.</li>
+            <li data-en="Region-specific peers (CIS / Kazakhstan) cannot be extracted by a public LLM at this quality — they require ground-truth interviews."
+                data-ru="Региональные peers (СНГ / Казахстан) публичная LLM не достанет в таком качестве — нужны живые интервью с участниками.">
+              Region-specific peers cannot be extracted by a public LLM at this quality.</li>
+            <li data-en="Open-source engine, closed-source data. The code is auditable; the moat is the curated proprietary corpus."
+                data-ru="Open-source движок, closed-source данные. Код проверяем; moat — это курированный проприетарный корпус.">
+              Open-source engine, closed-source data. Code is auditable; the moat is the curated proprietary corpus.</li>
           </ul>
         </div>
         <div class="panel">
           <div class="row">
-            <div><span class="tag cc-failed">FAILED</span>Hertz / Accenture · 2016</div>
-            <div class="desc" data-en="$32M booking-platform rebuild — never delivered. Vendor underperformance, scope creep, leadership change."
-                 data-ru="$32M на ребилд платформы бронирования — не доставлено. Vendor underperformance, scope creep, смена руководства.">
-              $32M booking-platform rebuild — never delivered. Vendor underperformance, scope creep, leadership change.</div>
+            <div><span class="tag cc-failed">FAILED</span>SNCF Fret Cabotage · 2018</div>
+            <div class="desc" data-en="€340M digital freight platform — derailed by union blockades and B2B sales adoption gap."
+                 data-ru="€340M digital freight platform — заблокировано профсоюзами + B2B sales не приняли.">
+              €340M digital freight platform — derailed by union blockades and B2B sales adoption gap.</div>
           </div>
           <div class="row">
-            <div><span class="tag cc-success">SUCCESS</span>Maersk Spot · 2018</div>
-            <div class="desc" data-en="+3.5% actual revenue uplift vs +4% predicted. 40% cost overrun on plan. Reached target by year 3."
-                 data-ru="+3.5% фактический uplift vs +4% обещанных. 40% cost overrun. Достигли цели на 3 год.">
-              +3.5% actual revenue uplift vs +4% predicted. 40% cost overrun on plan. Reached target by year 3.</div>
+            <div><span class="tag cc-success">SUCCESS</span>BHP Mt. Newman · 2010-2020</div>
+            <div class="desc" data-en="−13% maintenance cost, +18% throughput on iron-ore corridor after $1.5B autonomous rail rollout."
+                 data-ru="−13% maintenance, +18% throughput на железорудном коридоре после $1.5B на autonomous rail.">
+              −13% maintenance cost, +18% throughput on iron-ore corridor after $1.5B autonomous rail rollout.</div>
           </div>
           <div class="row">
-            <div><span class="tag cc-partial">PARTIAL</span>Sberbank ecosystem · 2017</div>
-            <div class="desc" data-en="Core banking digital nailed. Non-banking units bled $2B. Sanctions accelerated wind-down 2022."
-                 data-ru="Core banking digital — отлично. Non-banking юниты съели $2B. Санкции ускорили wind-down в 2022.">
-              Core banking digital nailed. Non-banking units bled $2B. Sanctions accelerated wind-down 2022.</div>
+            <div><span class="tag cc-partial">PARTIAL</span>DB Cargo myRailLog · 2017-2022</div>
+            <div class="desc" data-en="Technology delivered. Adoption stalled at 30% of corporate shippers — relationship sales still wins."
+                 data-ru="Технология сдана. Adoption застрял на 30% корпоративных грузоотправителей — relationship sales всё ещё побеждает.">
+              Technology delivered. Adoption stalled at 30% of corporate shippers — relationship sales still wins.</div>
           </div>
           <div class="row" style="border-bottom: none; padding-top: 16px;">
             <div style="color: var(--accent); font-size: 12px;"
-                 data-en="▲ Every case carries promised vs actual numbers, failure modes, and citation sources."
-                 data-ru="▲ Каждый кейс несёт promised vs actual числа, failure modes и ссылки на источники.">
-              ▲ Every case carries promised vs actual numbers, failure modes, and citation sources.</div>
+                 data-en="▲ These three signal patterns directly shape KTZ recommendations."
+                 data-ru="▲ Эти три сигнала прямо влияют на рекомендации KTZ.">▲ These three signal patterns directly shape KTZ recommendations.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- INSTALL -->
   <section id="install">
     <div class="container">
       <div class="head">
-        <div class="eyebrow" data-en="Get started" data-ru="Начать">Get started</div>
-        <h2 data-en="Install &amp; run on your data" data-ru="Установка и запуск на своих данных">Install &amp; run on your data</h2>
-        <p class="lead" data-en="Five seed companies bundled. One command produces a full assessment with executive PDF."
-           data-ru="Пять seed-компаний в комплекте. Одна команда — полный assessment с PDF.">
-          Five seed companies bundled. One command produces a full assessment with executive PDF.
+        <div class="eyebrow" data-en="Open source under the hood" data-ru="Open source под капотом">Open source under the hood</div>
+        <h2 data-en="Install &amp; run on your data" data-ru="Установка на ваши данные">Install &amp; run on your data</h2>
+        <p class="lead" data-en="The Python engine generating these forecasts is open source. Clone, install, run on your holding's actual data."
+           data-ru="Python-движок что генерирует эти прогнозы — open source. Склонируйте, установите, запустите на реальных данных холдинга.">
+          The Python engine generating these forecasts is open source. Clone, install, run on your data.
         </p>
       </div>
       <pre class="code-block"><code><span class="cmt"># Clone &amp; install</span>
@@ -909,17 +836,10 @@ git clone https://github.com/westfellow25/timestone-ai
 cd timestone-ai
 pip install -e .
 
-<span class="cmt"># List bundled twins</span>
-python -m timestone list-companies
-
 <span class="cmt"># Run a full assessment (produces PDF + JSON artifacts)</span>
 python -m timestone assess "Kazakhstan Temir Zholy (KTZ)"
 
-<span class="cmt"># Browse past runs and re-generate any PDF</span>
-python -m timestone list-runs
-python -m timestone report &lt;run_id&gt;
-
-<span class="cmt"># Process outcomes and recompute calibration</span>
+<span class="cmt"># Process recorded outcomes and recompute calibration</span>
 python -m timestone calibrate
 
 <span class="cmt"># Or launch the interactive dashboard</span>
@@ -929,8 +849,7 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
 
   <footer>
     <div class="container">
-      <div data-en="TimeStone AI — built by " data-ru="TimeStone AI — создатель ">TimeStone AI — built by </div>
-      <span><a href="https://github.com/westfellow25">Arman Torebek</a> · 2026 · MIT</span>
+      <div>TimeStone AI · Rail vertical · investor preview · 2026 · MIT</div>
       <div style="margin-top: 10px;">
         <a href="https://github.com/westfellow25/timestone-ai">github</a> ·
         <a href="https://github.com/westfellow25/timestone-ai/blob/main/docs/architecture.md" data-en="architecture" data-ru="архитектура">architecture</a>
@@ -938,11 +857,325 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     </div>
   </footer>
 
-  <!-- ============================ JS ============================ -->
   <script>
-    // ============================================================
+
+    // ===================================================================
+    // RAIL PEER LIBRARY — 18 real global rail operator transformations
+    // ===================================================================
+    const RAIL_CASES = [
+      { id: "bhp-mt-newman-2010", name: "BHP Mt. Newman autonomous rail", country: "Australia", year: 2010, segment: "freight", status: "success",
+        investment_m: 1500, promised_uplift: 0.20, actual_uplift: 0.18, actual_cost_cut: 0.13,
+        peer_for: ["predictive_maintenance", "yard_automation", "wagon_optimization", "autonomous_locomotive"],
+        summary: "Autonomous iron-ore rail Pilbara — −13% maintenance, +18% throughput",
+        failure_modes: [], success_factors: ["concentrated_geography","labor_arbitrage"] },
+      { id: "rio-tinto-autohaul-2018", name: "Rio Tinto AutoHaul", country: "Australia", year: 2018, segment: "freight", status: "success",
+        investment_m: 940, promised_uplift: 0.10, actual_uplift: 0.08, actual_cost_cut: 0.10,
+        peer_for: ["autonomous_locomotive", "yard_automation"],
+        summary: "World's first fully autonomous heavy-haul rail — Pilbara network",
+        failure_modes: ["initial_software_glitches"], success_factors: ["captive_network","no_passenger_constraint"] },
+      { id: "union-pacific-ptc-2008", name: "Union Pacific PTC + predictive maintenance", country: "USA", year: 2008, segment: "freight", status: "success",
+        investment_m: 3000, promised_uplift: 0.05, actual_uplift: 0.04, actual_cost_cut: 0.08,
+        peer_for: ["predictive_maintenance", "wheel_rail_sensing", "dispatch_modernization"],
+        summary: "Positive Train Control + predictive maintenance — $3B over 12 years",
+        failure_modes: ["regulatory_scope_creep"], success_factors: ["scale","sustained_capex"] },
+      { id: "db-cargo-myraillog-2017", name: "DB Cargo myRailLog B2B platform", country: "Germany", year: 2017, segment: "freight", status: "partial",
+        investment_m: 280, promised_uplift: 0.06, actual_uplift: 0.025, actual_cost_cut: 0.01,
+        peer_for: ["b2b_freight_portal", "shipper_etа_platform"],
+        summary: "Tech delivered, adoption stalled at 30% corporate shippers",
+        failure_modes: ["relationship_sales_resistance","integration_complexity"], success_factors: ["partial_yield_gain"] },
+      { id: "sncf-fret-cabotage-2018", name: "SNCF Fret Cabotage digital", country: "France", year: 2018, segment: "freight", status: "failed",
+        investment_m: 340, promised_uplift: 0.08, actual_uplift: -0.02, actual_cost_cut: 0.0,
+        peer_for: ["b2b_freight_portal", "yield_management", "tariff_optimization"],
+        summary: "€340M digital freight project derailed by union blockades and B2B adoption gap",
+        failure_modes: ["union_blockade","b2b_adoption_gap","government_intervention"], success_factors: [] },
+      { id: "china-rail-yield-2015", name: "China Railway yield management", country: "China", year: 2015, segment: "freight", status: "success",
+        investment_m: 850, promised_uplift: 0.08, actual_uplift: 0.06, actual_cost_cut: 0.04,
+        peer_for: ["yield_management", "container_optimization", "tariff_optimization", "middle_corridor"],
+        summary: "+6% freight revenue from dynamic pricing and container yield optimization",
+        failure_modes: [], success_factors: ["state_mandate","container_volume_scale"] },
+      { id: "indian-rail-fois-2018", name: "Indian Railways FOIS modernization", country: "India", year: 2018, segment: "freight", status: "partial",
+        investment_m: 220, promised_uplift: 0.05, actual_uplift: 0.02, actual_cost_cut: 0.03,
+        peer_for: ["fleet_management", "wagon_optimization", "freight_ops"],
+        summary: "Freight Operations Information System — partial wins on data quality issues",
+        failure_modes: ["data_quality","legacy_integration"], success_factors: ["incremental_rollout"] },
+      { id: "rzd-its-2018", name: "RZD ИТС freight digital", country: "Russia", year: 2018, segment: "freight", status: "partial",
+        investment_m: 460, promised_uplift: 0.07, actual_uplift: 0.03, actual_cost_cut: 0.04,
+        peer_for: ["b2b_freight_portal","yield_management","container_optimization","middle_corridor","cross_border"],
+        summary: "Corporate freight digital with variable success; sanctions disrupted 2022",
+        failure_modes: ["sanctions_2022","b2b_adoption_lag"], success_factors: ["container_segment_strong"] },
+      { id: "cn-rail-edmonton-2017", name: "CN Rail Edmonton yard automation", country: "Canada", year: 2017, segment: "operations", status: "success",
+        investment_m: 180, promised_uplift: 0.06, actual_uplift: 0.06, actual_cost_cut: 0.10,
+        peer_for: ["yard_automation","crew_scheduling","dispatch_modernization"],
+        summary: "Yard ops automation — 10% cost cut, 25% throughput gain at hub",
+        failure_modes: [], success_factors: ["single_hub_focus","strong_change_management"] },
+      { id: "network-rail-scada-2019", name: "Network Rail UK SCADA modernization", country: "UK", year: 2019, segment: "operations", status: "partial",
+        investment_m: 1800, promised_uplift: 0.04, actual_uplift: 0.02, actual_cost_cut: 0.03,
+        peer_for: ["dispatch_modernization","infrastructure_monitoring","scada_upgrade","track_inspection"],
+        summary: "Sanctions-era supply chain risk; on track but slipping",
+        failure_modes: ["vendor_supply_chain","scope_creep"], success_factors: ["partial_dispatch_wins"] },
+      { id: "trenitalia-booking-2016", name: "Trenitalia digital booking", country: "Italy", year: 2016, segment: "passenger", status: "success",
+        investment_m: 95, promised_uplift: 0.08, actual_uplift: 0.10, actual_cost_cut: 0.04,
+        peer_for: ["passenger_booking","loyalty_program","mobile_app"],
+        summary: "Mobile-first passenger booking — +10% direct revenue, 65% mobile share by 2020",
+        failure_modes: ["initial_payment_friction"], success_factors: ["mobile_first","loyalty_link"] },
+      { id: "brightline-booking-2018", name: "Brightline passenger booking", country: "USA", year: 2018, segment: "passenger", status: "success",
+        investment_m: 60, promised_uplift: 0.12, actual_uplift: 0.15, actual_cost_cut: 0.0,
+        peer_for: ["passenger_booking","loyalty_program","mobile_app","multimodal"],
+        summary: "Greenfield passenger rail booking — full mobile, dynamic pricing from day one",
+        failure_modes: [], success_factors: ["greenfield_no_legacy","mobile_first"] },
+      { id: "csx-psr-2017", name: "CSX Precision Scheduled Railroading IT", country: "USA", year: 2017, segment: "freight", status: "partial",
+        investment_m: 240, promised_uplift: 0.10, actual_uplift: 0.04, actual_cost_cut: 0.18,
+        peer_for: ["fleet_management","crew_scheduling","operating_ratio"],
+        summary: "Cost-cut win, customer-service hit; operating ratio dropped 14 points",
+        failure_modes: ["service_quality_decline","customer_churn"], success_factors: ["margin_expansion"] },
+      { id: "czech-rail-cd-2019", name: "Czech Railways (ČD) freight digitization", country: "Czechia", year: 2019, segment: "freight", status: "partial",
+        investment_m: 80, promised_uplift: 0.05, actual_uplift: 0.025, actual_cost_cut: 0.03,
+        peer_for: ["b2b_freight_portal","cross_border","container_optimization"],
+        summary: "Cross-border CZ-DE-PL freight digital — modest gains, complex integration",
+        failure_modes: ["cross_border_complexity"], success_factors: ["regional_partnership"] },
+      { id: "mongolian-rail-china-2020", name: "Mongolian Railways China connection digital", country: "Mongolia", year: 2020, segment: "freight", status: "partial",
+        investment_m: 45, promised_uplift: 0.10, actual_uplift: 0.06, actual_cost_cut: 0.0,
+        peer_for: ["cross_border","middle_corridor","container_optimization"],
+        summary: "Cross-border CN-MN-RU corridor digital coordination — moderate volume gain",
+        failure_modes: ["geopolitics","gauge_mismatch"], success_factors: ["corridor_demand_growth"] },
+      { id: "uzbek-rail-2018", name: "Uzbek Temir Yo'llari modernization", country: "Uzbekistan", year: 2018, segment: "operations", status: "partial",
+        investment_m: 110, promised_uplift: 0.06, actual_uplift: 0.03, actual_cost_cut: 0.04,
+        peer_for: ["dispatch_modernization","fleet_management","b2b_freight_portal"],
+        summary: "Quasi-sovereign modernization, World Bank financed; mixed pace",
+        failure_modes: ["procurement_complexity"], success_factors: ["donor_financing"] },
+      { id: "ktz-express-cargo-2020", name: "KTZ Express Trans-Caspian cargo platform", country: "Kazakhstan", year: 2020, segment: "freight", status: "partial",
+        investment_m: 70, promised_uplift: 0.05, actual_uplift: 0.03, actual_cost_cut: 0.02,
+        peer_for: ["b2b_freight_portal","middle_corridor","container_optimization","cross_border"],
+        summary: "Middle Corridor digital — geopolitics drove demand more than the platform",
+        failure_modes: ["complex_cross_border_processes"], success_factors: ["middle_corridor_tailwind"] },
+      { id: "ptt-tulomsas-2019", name: "TÜLOMSAŞ Türk train manufacturing digital", country: "Turkey", year: 2019, segment: "operations", status: "partial",
+        investment_m: 55, promised_uplift: 0.04, actual_uplift: 0.02, actual_cost_cut: 0.05,
+        peer_for: ["manufacturing_digital","fleet_management"],
+        summary: "Locomotive / wagon manufacturing digital — modest plant-level gains",
+        failure_modes: ["legacy_systems","skills_gap"], success_factors: ["government_priority"] }
+    ];
+
+    // ===================================================================
+    // KTZ-SPECIFIC INITIATIVES — 40 granular scenarios
+    // segment: freight / passenger / operations / strategic / tech
+    // ===================================================================
+    const KTZ_SCENARIOS = [
+      // === FREIGHT (12) ===
+      { id: "f1", name: "Predictive maintenance pilot — Astana hub TE10M/2TE10M diesel locomotives",
+        desc: "IoT sensors + ML on first 50 mainline diesel locomotives at Astana depot. Mirrors Union Pacific predictive maintenance and BHP Mt. Newman playbooks.",
+        segment: "freight", objective: "cost_reduction", risk: "balanced", impl: "vendor",
+        invest_min: 12, invest_max: 22, time_min: 9, time_max: 15,
+        rev_uplift: 0.0, cost_reduction: 0.045, peers: ["bhp-mt-newman-2010","union-pacific-ptc-2008","cn-rail-edmonton-2017"] },
+      { id: "f2", name: "Wheel-rail interface sensors — first 100 wagons of grain corridor (Astana–Aktobe–Atyrau)",
+        desc: "Bluetooth sensors on bearings + brake pads; ML model for wear prediction. Pilot at peak grain harvest fleet.",
+        segment: "freight", objective: "cost_reduction", risk: "conservative", impl: "vendor",
+        invest_min: 3, invest_max: 6, time_min: 6, time_max: 9,
+        rev_uplift: 0.0, cost_reduction: 0.025, peers: ["union-pacific-ptc-2008","bhp-mt-newman-2010"] },
+      { id: "f3", name: "Wagon GPS + ETA platform for corporate shippers (top-50 accounts)",
+        desc: "Real-time location and arrival-time forecasting exposed via API to large grain, oil, metals shippers. Like DB Cargo myRailLog but tighter scope.",
+        segment: "freight", objective: "service_quality", risk: "balanced", impl: "in_house",
+        invest_min: 8, invest_max: 14, time_min: 10, time_max: 16,
+        rev_uplift: 0.015, cost_reduction: 0.01, peers: ["db-cargo-myraillog-2017","indian-rail-fois-2018","rzd-its-2018"] },
+      { id: "f4", name: "Real-time yield optimization — Middle Corridor container traffic",
+        desc: "Dynamic pricing engine for Trans-Caspian container flows (China–EU). China Railway yield management playbook adapted for KTZ Khorgos terminal.",
+        segment: "freight", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 6, invest_max: 12, time_min: 9, time_max: 14,
+        rev_uplift: 0.04, cost_reduction: 0.0, peers: ["china-rail-yield-2015","ktz-express-cargo-2020","rzd-its-2018"] },
+      { id: "f5", name: "Empty wagon repositioning ML across Almaty/Karaganda/Astana hubs",
+        desc: "Forecast demand and optimize empty wagon flows to reduce deadhead miles. Saves diesel and frees capacity in peak season.",
+        segment: "freight", objective: "cost_reduction", risk: "balanced", impl: "in_house",
+        invest_min: 4, invest_max: 9, time_min: 8, time_max: 13,
+        rev_uplift: 0.005, cost_reduction: 0.03, peers: ["china-rail-yield-2015","union-pacific-ptc-2008","csx-psr-2017"] },
+      { id: "f6", name: "B2B freight portal with API — for SME shippers (5,000+ accounts)",
+        desc: "Self-service booking for small and medium shippers (segment currently sold by phone). Mirrors DB Cargo myRailLog but targeted at SMEs where relationship sales gap is smaller. WARNING: KTZ 2020 booking pilot failed in corporate segment — restrict scope to SME only.",
+        segment: "freight", objective: "revenue_growth", risk: "aggressive", impl: "in_house",
+        invest_min: 8, invest_max: 16, time_min: 12, time_max: 18,
+        rev_uplift: 0.02, cost_reduction: 0.005,
+        peers: ["db-cargo-myraillog-2017","sncf-fret-cabotage-2018","ktz-express-cargo-2020"],
+        flag: "prior_failure_2020_booking" },
+      { id: "f7", name: "Dynamic tariffs for grain harvest peak (Aug–Oct)",
+        desc: "Surge pricing for grain wagons during harvest peak when capacity is constrained. Yield management restricted to a 3-month seasonal window.",
+        segment: "freight", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 2, invest_max: 5, time_min: 4, time_max: 8,
+        rev_uplift: 0.025, cost_reduction: 0.0, peers: ["china-rail-yield-2015","rzd-its-2018"] },
+      { id: "f8", name: "Cross-border customs pre-clearance with China Railway (Khorgos / Dostyk)",
+        desc: "Pre-clearance of customs paperwork before container crosses border. Cuts dwell time at Khorgos terminal by 6–10 hours per shipment.",
+        segment: "freight", objective: "service_quality", risk: "aggressive", impl: "jv",
+        invest_min: 5, invest_max: 12, time_min: 12, time_max: 24,
+        rev_uplift: 0.02, cost_reduction: 0.01, peers: ["mongolian-rail-china-2020","ktz-express-cargo-2020","czech-rail-cd-2019"] },
+      { id: "f9", name: "Container yield management at Khorgos terminal",
+        desc: "Slot allocation + dynamic pricing for Khorgos dry-port containers. Direct extension of (f4) but localized to the terminal layer.",
+        segment: "freight", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 4, invest_max: 8, time_min: 6, time_max: 12,
+        rev_uplift: 0.03, cost_reduction: 0.005, peers: ["china-rail-yield-2015","ktz-express-cargo-2020"] },
+      { id: "f10", name: "Full mainline fleet predictive maintenance rollout (after f1 pilot)",
+        desc: "Scale predictive maintenance from Astana pilot to all 1,800 mainline locomotives. Requires successful f1 first.",
+        segment: "freight", objective: "cost_reduction", risk: "balanced", impl: "vendor",
+        invest_min: 80, invest_max: 140, time_min: 24, time_max: 42,
+        rev_uplift: 0.0, cost_reduction: 0.08, peers: ["bhp-mt-newman-2010","union-pacific-ptc-2008","rio-tinto-autohaul-2018"] },
+      { id: "f11", name: "AI-powered route optimization across mainline network",
+        desc: "Network-wide path optimization considering maintenance windows, freight priorities and energy cost. Network Rail SCADA playbook.",
+        segment: "freight", objective: "cost_reduction", risk: "aggressive", impl: "vendor",
+        invest_min: 28, invest_max: 55, time_min: 18, time_max: 30,
+        rev_uplift: 0.015, cost_reduction: 0.04, peers: ["network-rail-scada-2019","union-pacific-ptc-2008","csx-psr-2017"] },
+      { id: "f12", name: "Automated freight classification (computer vision at yards)",
+        desc: "Camera + ML auto-classification of incoming cargo for routing. Pilot at Almaty-1 yard.",
+        segment: "freight", objective: "cost_reduction", risk: "balanced", impl: "vendor",
+        invest_min: 4, invest_max: 9, time_min: 9, time_max: 15,
+        rev_uplift: 0.005, cost_reduction: 0.025, peers: ["cn-rail-edmonton-2017","bhp-mt-newman-2010"] },
+
+      // === OPERATIONS (8) ===
+      { id: "o1", name: "Yard automation — Almaty-1 hub (Rio Tinto Pilbara playbook)",
+        desc: "Autonomous shunting locomotives + automated coupling at the largest cargo yard. Pilot then scale.",
+        segment: "operations", objective: "cost_reduction", risk: "aggressive", impl: "vendor",
+        invest_min: 35, invest_max: 75, time_min: 18, time_max: 36,
+        rev_uplift: 0.0, cost_reduction: 0.07, peers: ["rio-tinto-autohaul-2018","bhp-mt-newman-2010","cn-rail-edmonton-2017"] },
+      { id: "o2", name: "ML-based crew scheduling for long-distance freight routes",
+        desc: "Optimization engine for crew rotations across 1,500+ km freight routes. Cuts overtime and crew downtime.",
+        segment: "operations", objective: "cost_reduction", risk: "balanced", impl: "in_house",
+        invest_min: 3, invest_max: 7, time_min: 6, time_max: 12,
+        rev_uplift: 0.0, cost_reduction: 0.02, peers: ["csx-psr-2017","cn-rail-edmonton-2017","union-pacific-ptc-2008"] },
+      { id: "o3", name: "Energy management for traction electricity — recuperative braking",
+        desc: "ML control of regenerative braking and energy recovery on electric locomotives. Mainline electrified network 7,000+ km.",
+        segment: "operations", objective: "decarbonization", risk: "balanced", impl: "vendor",
+        invest_min: 15, invest_max: 35, time_min: 14, time_max: 22,
+        rev_uplift: 0.0, cost_reduction: 0.035, peers: ["network-rail-scada-2019","union-pacific-ptc-2008"] },
+      { id: "o4", name: "Robotic track inspection (UK Network Rail playbook)",
+        desc: "Autonomous inspection trains + ML defect detection. Cuts manual track-walking by 80% and catches defects earlier.",
+        segment: "operations", objective: "cost_reduction", risk: "balanced", impl: "vendor",
+        invest_min: 18, invest_max: 32, time_min: 15, time_max: 24,
+        rev_uplift: 0.0, cost_reduction: 0.04, peers: ["network-rail-scada-2019","bhp-mt-newman-2010","rio-tinto-autohaul-2018"] },
+      { id: "o5", name: "Centralized dispatch (CDC) modernization — replace 1990s SCADA",
+        desc: "Modern EMS at central dispatch. Replaces legacy SCADA. Network Rail UK playbook — sanctions-aware vendor selection.",
+        segment: "operations", objective: "resilience", risk: "balanced", impl: "vendor",
+        invest_min: 45, invest_max: 95, time_min: 30, time_max: 48,
+        rev_uplift: 0.005, cost_reduction: 0.025, peers: ["network-rail-scada-2019","union-pacific-ptc-2008","cn-rail-edmonton-2017"] },
+      { id: "o6", name: "Spare parts inventory optimization with ML forecasting",
+        desc: "Demand-forecast-driven inventory at 30+ depots. Cuts working capital tied up in stock.",
+        segment: "operations", objective: "cost_reduction", risk: "conservative", impl: "in_house",
+        invest_min: 2, invest_max: 5, time_min: 6, time_max: 12,
+        rev_uplift: 0.0, cost_reduction: 0.02, peers: ["csx-psr-2017","indian-rail-fois-2018","cn-rail-edmonton-2017"] },
+      { id: "o7", name: "Locomotive driver simulator training rollout (12 regional depots)",
+        desc: "VR-based simulators replace 30% of physical training. Improves safety, cuts diesel for training runs.",
+        segment: "operations", objective: "cost_reduction", risk: "conservative", impl: "vendor",
+        invest_min: 8, invest_max: 15, time_min: 9, time_max: 15,
+        rev_uplift: 0.0, cost_reduction: 0.015, peers: ["uzbek-rail-2018","ptt-tulomsas-2019","union-pacific-ptc-2008"] },
+      { id: "o8", name: "Workforce mobility apps for field operations",
+        desc: "Mobile platform for inspectors, conductors, depot crews. Replaces paper forms; real-time defect reporting.",
+        segment: "operations", objective: "cost_reduction", risk: "conservative", impl: "in_house",
+        invest_min: 3, invest_max: 6, time_min: 8, time_max: 14,
+        rev_uplift: 0.0, cost_reduction: 0.018, peers: ["cn-rail-edmonton-2017","indian-rail-fois-2018"] },
+
+      // === PASSENGER (6) ===
+      { id: "p1", name: "E-ticketing replatform — Astana–Almaty Express (Talgo)",
+        desc: "Mobile-first booking for the flagship 4-hour Astana–Almaty service. Direct revenue capture; loyalty link. Trenitalia / Brightline playbook.",
+        segment: "passenger", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 4, invest_max: 9, time_min: 9, time_max: 14,
+        rev_uplift: 0.06, cost_reduction: 0.015, peers: ["trenitalia-booking-2016","brightline-booking-2018"] },
+      { id: "p2", name: "Dynamic pricing for off-peak passenger routes",
+        desc: "Yield management on long-distance passenger trains during off-peak. Test in summer 2026.",
+        segment: "passenger", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 2, invest_max: 5, time_min: 6, time_max: 10,
+        rev_uplift: 0.035, cost_reduction: 0.0, peers: ["trenitalia-booking-2016","china-rail-yield-2015","brightline-booking-2018"] },
+      { id: "p3", name: 'Loyalty programme "Nomad Rail" (Air Astana Nomad Club model)',
+        desc: "Tiered loyalty with miles-style rewards across passenger services. Cross-promo with Air Astana possible.",
+        segment: "passenger", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 5, invest_max: 11, time_min: 12, time_max: 18,
+        rev_uplift: 0.04, cost_reduction: 0.0, peers: ["trenitalia-booking-2016","brightline-booking-2018"] },
+      { id: "p4", name: "Multimodal integration — rail + bus + taxi in passenger app",
+        desc: "First/last-mile integration. Partnership with Yandex Taxi KZ + intercity bus operators.",
+        segment: "passenger", objective: "service_quality", risk: "aggressive", impl: "jv",
+        invest_min: 6, invest_max: 13, time_min: 15, time_max: 24,
+        rev_uplift: 0.025, cost_reduction: 0.0, peers: ["brightline-booking-2018","trenitalia-booking-2016"] },
+      { id: "p5", name: "Real-time delay notifications + compensation automation",
+        desc: "Push alerts, automatic refund for delays >30 min. Reduces complaint handling cost; improves NPS.",
+        segment: "passenger", objective: "service_quality", risk: "conservative", impl: "in_house",
+        invest_min: 2, invest_max: 4, time_min: 5, time_max: 9,
+        rev_uplift: 0.005, cost_reduction: 0.01, peers: ["trenitalia-booking-2016","brightline-booking-2018"] },
+      { id: "p6", name: "Onboard WiFi + entertainment platform",
+        desc: "Premium WiFi + content for long-distance and high-speed routes. Ad revenue + ticket upsell.",
+        segment: "passenger", objective: "revenue_growth", risk: "balanced", impl: "vendor",
+        invest_min: 8, invest_max: 16, time_min: 10, time_max: 16,
+        rev_uplift: 0.02, cost_reduction: 0.0, peers: ["brightline-booking-2018","trenitalia-booking-2016"] },
+
+      // === STRATEGIC (8) ===
+      { id: "s1", name: "Logistics-as-a-Service B2B platform — full transit corridor offering",
+        desc: "Multi-modal corridor service: rail + dry port + customs + last mile. Compete with Maersk on Trans-Caspian.",
+        segment: "strategic", objective: "revenue_growth", risk: "aggressive", impl: "jv",
+        invest_min: 60, invest_max: 140, time_min: 30, time_max: 48,
+        rev_uplift: 0.06, cost_reduction: 0.0, peers: ["ktz-express-cargo-2020","rzd-its-2018","mongolian-rail-china-2020"] },
+      { id: "s2", name: "Green Rail premium service for EU exporters (carbon certified)",
+        desc: "Branded carbon-neutral rail freight to Europe with verified emissions accounting. Targets ESG-conscious shippers paying premium.",
+        segment: "strategic", objective: "decarbonization", risk: "balanced", impl: "in_house",
+        invest_min: 12, invest_max: 28, time_min: 18, time_max: 28,
+        rev_uplift: 0.02, cost_reduction: 0.0, peers: ["network-rail-scada-2019","db-cargo-myraillog-2017"] },
+      { id: "s3", name: "Hydrogen locomotive pilot — northern corridor",
+        desc: "First H2 locomotive in Central Asia. Long-term decarbonization play with EBRD financing potential.",
+        segment: "strategic", objective: "decarbonization", risk: "aggressive", impl: "jv",
+        invest_min: 80, invest_max: 180, time_min: 36, time_max: 72,
+        rev_uplift: 0.005, cost_reduction: 0.0, peers: ["network-rail-scada-2019","rio-tinto-autohaul-2018"] },
+      { id: "s4", name: "M&A — acquire private wagon operator",
+        desc: "Buy out a top-3 private freight wagon operator. Consolidates yield + reduces empty haul.",
+        segment: "strategic", objective: "revenue_growth", risk: "aggressive", impl: "ma",
+        invest_min: 150, invest_max: 380, time_min: 12, time_max: 24,
+        rev_uplift: 0.04, cost_reduction: 0.02, peers: ["csx-psr-2017","union-pacific-ptc-2008"] },
+      { id: "s5", name: "Trans-Caspian Middle Corridor capacity scale-up",
+        desc: "Double container throughput on Trans-Caspian route. Infrastructure + ferry coordination + digital flow.",
+        segment: "strategic", objective: "revenue_growth", risk: "balanced", impl: "jv",
+        invest_min: 220, invest_max: 480, time_min: 36, time_max: 60,
+        rev_uplift: 0.07, cost_reduction: 0.0, peers: ["ktz-express-cargo-2020","china-rail-yield-2015","mongolian-rail-china-2020"] },
+      { id: "s6", name: "Integrated freight forwarder spin-off",
+        desc: "Separate freight forwarding entity that owns customer relationships. KTZ becomes infrastructure provider; forwarder competes commercially.",
+        segment: "strategic", objective: "resilience", risk: "aggressive", impl: "ma",
+        invest_min: 35, invest_max: 80, time_min: 18, time_max: 30,
+        rev_uplift: 0.02, cost_reduction: 0.01, peers: ["csx-psr-2017","rzd-its-2018","db-cargo-myraillog-2017"] },
+      { id: "s7", name: "Cross-border dry port network — Iran connection",
+        desc: "Rail + dry port infrastructure connecting KZ to Iran via Turkmenistan. Strategic alternative to Russian transit.",
+        segment: "strategic", objective: "resilience", risk: "aggressive", impl: "jv",
+        invest_min: 180, invest_max: 420, time_min: 36, time_max: 72,
+        rev_uplift: 0.045, cost_reduction: 0.0, peers: ["mongolian-rail-china-2020","ktz-express-cargo-2020"] },
+      { id: "s8", name: "Mongolia / Uzbekistan rail interoperability standard",
+        desc: "Common digital and gauge interface for regional corridor. KTZ leads the standard, controls coordination.",
+        segment: "strategic", objective: "resilience", risk: "balanced", impl: "jv",
+        invest_min: 25, invest_max: 60, time_min: 24, time_max: 42,
+        rev_uplift: 0.025, cost_reduction: 0.0, peers: ["mongolian-rail-china-2020","uzbek-rail-2018","czech-rail-cd-2019"] },
+
+      // === TECH FOUNDATION (6) ===
+      { id: "t1", name: "Cybersecurity for critical rail infrastructure",
+        desc: "OT/IT segmentation, intrusion detection, regulator compliance for critical infrastructure. Pre-requisite for most other tech initiatives.",
+        segment: "tech", objective: "resilience", risk: "conservative", impl: "vendor",
+        invest_min: 14, invest_max: 28, time_min: 14, time_max: 22,
+        rev_uplift: 0.0, cost_reduction: 0.0, peers: ["network-rail-scada-2019","union-pacific-ptc-2008"] },
+      { id: "t2", name: "Data lakehouse for ops + commercial analytics",
+        desc: "Unified data layer across ops and commercial. Foundation for ML initiatives like f4 / f5 / o2.",
+        segment: "tech", objective: "resilience", risk: "balanced", impl: "vendor",
+        invest_min: 10, invest_max: 22, time_min: 12, time_max: 20,
+        rev_uplift: 0.005, cost_reduction: 0.01, peers: ["jpmorgan-tech","union-pacific-ptc-2008","cn-rail-edmonton-2017"] },
+      { id: "t3", name: "Cloud migration from on-prem ERPs",
+        desc: "SAP and ancillary ERPs to private cloud. Cost-base reduction and continuous deployment.",
+        segment: "tech", objective: "cost_reduction", risk: "balanced", impl: "vendor",
+        invest_min: 22, invest_max: 48, time_min: 24, time_max: 36,
+        rev_uplift: 0.0, cost_reduction: 0.02, peers: ["network-rail-scada-2019","indian-rail-fois-2018"] },
+      { id: "t4", name: "API platform for partner integration (shippers, customs, neighbours)",
+        desc: "Unified API gateway. Required for f3, f8, p4. Enables fast partner onboarding.",
+        segment: "tech", objective: "service_quality", risk: "balanced", impl: "in_house",
+        invest_min: 4, invest_max: 9, time_min: 9, time_max: 14,
+        rev_uplift: 0.005, cost_reduction: 0.005, peers: ["db-cargo-myraillog-2017","cn-rail-edmonton-2017"] },
+      { id: "t5", name: "AI/ML platform consolidation",
+        desc: "Standardize tooling for the 8+ ML initiatives. Cuts duplication, raises quality of models in production.",
+        segment: "tech", objective: "cost_reduction", risk: "balanced", impl: "in_house",
+        invest_min: 4, invest_max: 9, time_min: 12, time_max: 18,
+        rev_uplift: 0.0, cost_reduction: 0.012, peers: ["union-pacific-ptc-2008","jpmorgan-tech"] },
+      { id: "t6", name: "Network observability + RCA automation",
+        desc: "Network-wide observability for IT and OT systems. ML-driven root-cause analysis cuts incident response time.",
+        segment: "tech", objective: "service_quality", risk: "conservative", impl: "vendor",
+        invest_min: 3, invest_max: 7, time_min: 8, time_max: 14,
+        rev_uplift: 0.0, cost_reduction: 0.012, peers: ["network-rail-scada-2019","cn-rail-edmonton-2017"] }
+    ];
+
+    // ===================================================================
     // I18N
-    // ============================================================
+    // ===================================================================
     const I18N = {
       cur: localStorage.getItem("ts-lang") || "en",
       apply() {
@@ -955,96 +1188,36 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
           b.classList.toggle("active", b.dataset.lang === this.cur);
         });
       },
-      set(lang) {
-        this.cur = lang;
-        localStorage.setItem("ts-lang", lang);
-        this.apply();
-      },
+      set(lang) { this.cur = lang; localStorage.setItem("ts-lang", lang); this.apply(); },
     };
     document.querySelectorAll(".lang-toggle button").forEach(b => {
       b.addEventListener("click", () => I18N.set(b.dataset.lang));
     });
     I18N.apply();
 
-    // ============================================================
-    // CASE LIBRARY (subset of the real 54 — shown in the explorer)
-    // Each entry mirrors the JSON shape of data/case_library.json
-    // ============================================================
-    const CASES = [
-      {id:"hertz-accenture-2016", company:"Hertz", industry:"transportation_rental", geo:"USA", year:2016, status:"failed", cis:false},
-      {id:"lidl-sap-2018", company:"Lidl", industry:"retail_grocery", geo:"EU", year:2011, status:"failed", cis:false},
-      {id:"revlon-sap-2018", company:"Revlon", industry:"consumer_goods_beauty", geo:"USA", year:2017, status:"failed", cis:false},
-      {id:"ge-predix-2015", company:"GE Predix", industry:"industrial_manufacturing", geo:"USA", year:2015, status:"failed", cis:false},
-      {id:"boeing-737max-2017", company:"Boeing 737 MAX", industry:"aerospace", geo:"USA", year:2011, status:"failed", cis:false},
-      {id:"maersk-digital-2018", company:"Maersk Spot", industry:"shipping_logistics", geo:"Denmark", year:2018, status:"success", cis:false},
-      {id:"walmart-flipkart-2018", company:"Walmart / Flipkart", industry:"retail", geo:"India", year:2018, status:"partial", cis:false},
-      {id:"dominos-pizza-tracker-2008", company:"Domino's Tracker", industry:"food_service", geo:"USA", year:2008, status:"success", cis:false},
-      {id:"target-canada-2013", company:"Target Canada", industry:"retail", geo:"Canada", year:2011, status:"failed", cis:false},
-      {id:"starbucks-mobile-2015", company:"Starbucks Mobile", industry:"food_service", geo:"USA", year:2015, status:"success", cis:false},
-      {id:"ing-agile-2015", company:"ING Agile", industry:"financial_services", geo:"Netherlands", year:2015, status:"success", cis:false},
-      {id:"nokia-symbian-2010", company:"Nokia / Microsoft", industry:"consumer_electronics", geo:"Finland", year:2010, status:"failed", cis:false},
-      {id:"maersk-tradelens-2018", company:"Maersk TradeLens", industry:"shipping_logistics", geo:"Global", year:2018, status:"failed", cis:false},
-      {id:"tesco-fresh-easy-2007", company:"Tesco Fresh & Easy", industry:"retail_grocery", geo:"USA", year:2007, status:"failed", cis:false},
-      {id:"ab-inbev-bees-2019", company:"AB InBev BEES", industry:"consumer_goods_beverage", geo:"Global", year:2019, status:"success", cis:false},
-      {id:"siemens-mindsphere-2016", company:"Siemens MindSphere", industry:"industrial_manufacturing", geo:"Germany", year:2016, status:"failed", cis:false},
-      {id:"sberbank-digital-2017", company:"Sberbank Ecosystem", industry:"financial_services", geo:"Russia", year:2017, status:"partial", cis:true},
-      {id:"tinkoff-digital-2010", company:"Tinkoff", industry:"financial_services", geo:"Russia", year:2010, status:"success", cis:true},
-      {id:"kazakhstan-egov-2012", company:"Kazakhstan eGov", industry:"government", geo:"Kazakhstan", year:2012, status:"success", cis:true},
-      {id:"yandex-taxi-expansion-2015", company:"Yandex Taxi", industry:"consumer_services", geo:"Russia-CIS", year:2015, status:"partial", cis:true},
-      {id:"carlsberg-business-standards-2018", company:"Carlsberg", industry:"consumer_goods_beverage", geo:"Denmark", year:2018, status:"success", cis:false},
-      {id:"jpmorgan-tech-spend-2016", company:"JPMorgan", industry:"financial_services", geo:"USA", year:2016, status:"success", cis:false},
-      {id:"kraft-heinz-3g-2015", company:"Kraft Heinz / 3G", industry:"consumer_goods_food", geo:"USA", year:2015, status:"failed", cis:false},
-      {id:"walmart-india-cash-carry-2013", company:"Walmart Bharti JV", industry:"retail", geo:"India", year:2007, status:"failed", cis:false},
-      {id:"amazon-fire-phone-2014", company:"Amazon Fire Phone", industry:"consumer_electronics", geo:"USA", year:2014, status:"failed", cis:false},
-      {id:"ford-rivian-investment-2019", company:"Ford / Rivian", industry:"automotive", geo:"USA", year:2019, status:"failed", cis:false},
-      {id:"att-time-warner-2018", company:"AT&T / Time Warner", industry:"telecom", geo:"USA", year:2018, status:"failed", cis:false},
-      {id:"reliance-jio-launch-2016", company:"Reliance Jio", industry:"telecom", geo:"India", year:2016, status:"success", cis:false},
-      {id:"vodafone-mpesa-2007", company:"Vodafone M-Pesa", industry:"telecom", geo:"Kenya", year:2007, status:"success", cis:false},
-      {id:"mts-digital-2017", company:"MTS", industry:"telecom", geo:"Russia", year:2017, status:"partial", cis:true},
-      {id:"nhs-npfit-2002", company:"UK NHS NPfIT", industry:"healthcare", geo:"UK", year:2002, status:"failed", cis:false},
-      {id:"healthcare-gov-2013", company:"HealthCare.gov", industry:"healthcare", geo:"USA", year:2013, status:"partial", cis:false},
-      {id:"cvs-aetna-merger-2018", company:"CVS / Aetna", industry:"healthcare", geo:"USA", year:2018, status:"partial", cis:false},
-      {id:"bp-beyond-petroleum-2000", company:"BP Beyond Petroleum", industry:"oil_and_gas", geo:"UK", year:2000, status:"failed", cis:false},
-      {id:"saudi-aramco-digital-2018", company:"Saudi Aramco 4IR", industry:"oil_and_gas", geo:"Saudi Arabia", year:2018, status:"success", cis:false},
-      {id:"kazatomprom-ipo-2018", company:"Kazatomprom IPO", industry:"mining", geo:"Kazakhstan", year:2018, status:"success", cis:true},
-      {id:"rio-tinto-autonomous-2008", company:"Rio Tinto Autonomous", industry:"mining", geo:"Australia", year:2008, status:"success", cis:false},
-      {id:"katerra-construction-2015", company:"Katerra", industry:"construction", geo:"USA", year:2015, status:"failed", cis:false},
-      {id:"marriott-bonvoy-2018", company:"Marriott Bonvoy", industry:"hospitality", geo:"USA", year:2018, status:"partial", cis:false},
-      {id:"john-deere-precision-2017", company:"John Deere Precision", industry:"agriculture", geo:"USA", year:2017, status:"success", cis:false},
-      {id:"pfizer-mrna-pivot-2020", company:"Pfizer mRNA", industry:"pharma", geo:"USA", year:2020, status:"success", cis:false},
-      {id:"magnit-retail-digital-2018", company:"Magnit", industry:"retail_grocery", geo:"Russia", year:2018, status:"partial", cis:true},
-      {id:"halyk-homebank-2017", company:"Halyk Homebank", industry:"financial_services", geo:"Kazakhstan", year:2017, status:"success", cis:true},
-      {id:"kaspi-evolution-2008", company:"Kaspi.kz", industry:"financial_services", geo:"Kazakhstan", year:2008, status:"success", cis:true},
-      {id:"air-astana-digital-2018", company:"Air Astana", industry:"transportation", geo:"Kazakhstan", year:2018, status:"partial", cis:true},
-      {id:"kmg-digital-oilfield-2019", company:"KazMunayGas", industry:"oil_and_gas", geo:"Kazakhstan", year:2019, status:"partial", cis:true},
-      {id:"ktz-express-cargo-2020", company:"KTZ Express", industry:"transportation_rail", geo:"Kazakhstan", year:2020, status:"partial", cis:true},
-      {id:"beeline-kz-network-2019", company:"Beeline KZ", industry:"telecom", geo:"Kazakhstan", year:2019, status:"partial", cis:true},
-      {id:"vtb-digital-2018", company:"VTB", industry:"financial_services", geo:"Russia", year:2018, status:"partial", cis:true},
-      {id:"polyus-digital-mining-2019", company:"Polyus", industry:"mining", geo:"Russia", year:2019, status:"success", cis:true},
-      {id:"x5-pyaterochka-digital-2017", company:"X5 / Pyaterochka", industry:"retail_grocery", geo:"Russia", year:2017, status:"success", cis:true},
-      {id:"severstal-industry-4-0-2016", company:"Severstal", industry:"industrial_manufacturing", geo:"Russia", year:2016, status:"success", cis:true},
-      {id:"sovcombank-halva-2014", company:"Sovcombank Halva", industry:"financial_services", geo:"Russia", year:2014, status:"success", cis:true},
-      {id:"yandex-market-pivot-2018", company:"Yandex.Market", industry:"retail", geo:"Russia", year:2018, status:"failed", cis:true},
-    ];
-
-    // Library renderer
+    // ===================================================================
+    // RAIL LIBRARY RENDERING
+    // ===================================================================
     function renderLibrary(filter) {
       const grid = document.getElementById("lib-grid");
-      const list = CASES.filter(c => {
+      const list = RAIL_CASES.filter(c => {
         if (filter === "all") return true;
-        if (filter === "cis") return c.cis;
-        return c.status === filter;
+        if (filter === "freight") return c.segment === "freight";
+        if (filter === "passenger") return c.segment === "passenger";
+        if (filter === "operations") return c.segment === "operations";
+        if (filter === "success") return c.status === "success";
+        if (filter === "failed") return c.status === "failed";
+        return true;
       });
       grid.innerHTML = list.map(c => {
         const klass = c.status === "success" ? "cc-success" :
                        c.status === "partial" ? "cc-partial" : "cc-failed";
-        return `<div class="lib-card">
-          <div class="lc-row1">
-            <span class="lc-name">${c.company}</span>
-            <span class="lc-status ${klass}">${c.status.toUpperCase()}</span>
-          </div>
-          <div class="lc-meta">${c.geo} · ${c.year}</div>
-        </div>`;
+        return '<div class="lib-card">' +
+          '<div class="lc-row1"><span class="lc-name">' + c.name + '</span>' +
+          '<span class="lc-status ' + klass + '">' + c.status.toUpperCase() + '</span></div>' +
+          '<div class="lc-meta">' + c.country + ' · ' + c.year + ' · $' + c.investment_m + 'M</div>' +
+          '<div style="margin-top:6px; font-size: 11px; color: var(--muted);">' + c.summary + '</div>' +
+          '</div>';
       }).join("");
     }
     document.querySelectorAll(".lib-filter").forEach(b => {
@@ -1056,180 +1229,177 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     });
     renderLibrary("all");
 
-    // ============================================================
-    // DEMO ENGINE
-    // ============================================================
-    // Predefined retrieval + recommendation data (subset of original interactive demo)
-    // For unmatched (company, transformation) combos we synthesise something plausible.
-    const REC_DATA = {
-      "ktz|digital_transformation": {
-        cases: [
-          {id:"maersk-digital-2018", company:"Maersk Spot", status:"success", meta:"+3.5% actual rev"},
-          {id:"tinkoff-digital-2010", company:"Tinkoff", status:"success", meta:"+45% rev / 40% cost cut"},
-          {id:"halyk-homebank-2017", company:"Halyk Homebank", status:"success", meta:"+12% rev (Kazakhstan)"},
-          {id:"ktz-express-cargo-2020", company:"KTZ Express", status:"partial", meta:"+3% rev (corridor effect)"},
-          {id:"hertz-accenture-2016", company:"Hertz/Accenture", status:"failed", meta:"$32M lost, never delivered"},
-        ],
-        prior: { mean_rev: 0.024, p10: -0.018, p90: 0.082, failure_rate: 0.20 },
-        recs: [
-          {name:"Digital Booking Platform", p:0.83, npv:312, roi:14.2, payback:1.8, level:"strong",
-           tornado:[
-            {param:"revenue_increase", low:180, high:430, swing:250},
-            {param:"discount_rate", low:240, high:380, swing:140},
-            {param:"impl_time_months", low:260, high:355, swing:95},
-            {param:"investment_required", low:280, high:340, swing:60},
-            {param:"cost_reduction", low:295, high:325, swing:30},
-           ]},
-          {name:"Real-Time Tracking & Notifications", p:0.78, npv:187, roi:9.1, payback:2.0, level:"caution"},
-          {name:"Predictive Maintenance System", p:0.42, npv:-18, roi:-0.3, payback:5.5, level:"pilot"},
-        ],
-      },
-      "ktz|operational_efficiency": {
-        cases: [
-          {id:"maersk-digital-2018", company:"Maersk Spot", status:"success", meta:"+2.5% cost cut"},
-          {id:"kazatomprom-ipo-2018", company:"Kazatomprom", status:"success", meta:"+6% cost cut (KZ)"},
-          {id:"ing-agile-2015", company:"ING Agile", status:"success", meta:"+6% cost cut"},
-          {id:"rio-tinto-autonomous-2008", company:"Rio Tinto", status:"success", meta:"+13% cost cut"},
-          {id:"polyus-digital-mining-2019", company:"Polyus", status:"success", meta:"+8% cost cut"},
-        ],
-        prior: { mean_rev: 0.005, p10: -0.005, p90: 0.030, failure_rate: 0.0 },
-        recs: [
-          {name:"Yield Management / Dynamic Pricing", p:0.81, npv:246, roi:11.4, payback:1.9, level:"strong",
-           tornado:[
-            {param:"cost_reduction", low:160, high:330, swing:170},
-            {param:"revenue_increase", low:180, high:320, swing:140},
-            {param:"discount_rate", low:200, high:300, swing:100},
-            {param:"impl_time_months", low:225, high:275, swing:50},
-            {param:"investment_required", low:230, high:265, swing:35},
-           ]},
-          {name:"Autonomous Freight Classification", p:0.74, npv:134, roi:6.8, payback:2.4, level:"caution"},
-          {name:"Cross-Border Customs Automation", p:0.55, npv:41, roi:1.7, payback:3.8, level:"caution"},
-        ],
-      },
-      "kaspi|digital_transformation": {
-        cases: [
-          {id:"kaspi-evolution-2008", company:"Kaspi.kz history", status:"success", meta:"+45% rev (super-app)"},
-          {id:"halyk-homebank-2017", company:"Halyk Homebank", status:"success", meta:"+12% rev (KZ)"},
-          {id:"tinkoff-digital-2010", company:"Tinkoff", status:"success", meta:"+45% rev, 40% cost cut"},
-          {id:"sovcombank-halva-2014", company:"Sovcombank Halva", status:"success", meta:"+30% rev (BNPL)"},
-          {id:"jpmorgan-tech-spend-2016", company:"JPMorgan", status:"success", meta:"+4% rev / +3% cost"},
-        ],
-        prior: { mean_rev: 0.07, p10: 0.02, p90: 0.18, failure_rate: 0.0 },
-        recs: [
-          {name:"B2B Merchant Credit Platform", p:0.86, npv:412, roi:18.2, payback:1.4, level:"strong",
-           tornado:[
-            {param:"revenue_increase", low:280, high:540, swing:260},
-            {param:"discount_rate", low:340, high:480, swing:140},
-            {param:"impl_time_months", low:365, high:460, swing:95},
-            {param:"cost_reduction", low:380, high:445, swing:65},
-            {param:"investment_required", low:390, high:430, swing:40},
-           ]},
-          {name:"Cross-Border CIS Payments", p:0.78, npv:268, roi:11.2, payback:1.8, level:"caution"},
-          {name:"AI Underwriting Engine", p:0.71, npv:184, roi:8.0, payback:2.0, level:"caution"},
-        ],
-      },
-      "kegoc|operational_efficiency": {
-        cases: [
-          {id:"saudi-aramco-digital-2018", company:"Saudi Aramco 4IR", status:"success", meta:"+5% cost cut"},
-          {id:"siemens-mindsphere-2016", company:"Siemens MindSphere", status:"failed", meta:"-$2B writedown"},
-          {id:"severstal-industry-4-0-2016", company:"Severstal", status:"success", meta:"+4% cost cut"},
-          {id:"rio-tinto-autonomous-2008", company:"Rio Tinto", status:"success", meta:"+13% cost cut"},
-          {id:"ge-predix-2015", company:"GE Predix", status:"failed", meta:"-$5B writeoff"},
-        ],
-        prior: { mean_rev: 0.0, p10: -0.005, p90: 0.04, failure_rate: 0.40 },
-        recs: [
-          {name:"SCADA / EMS modernization (completion)", p:0.74, npv:88, roi:1.8, payback:3.2, level:"caution",
-           tornado:[
-            {param:"cost_reduction", low:50, high:130, swing:80},
-            {param:"impl_time_months", low:65, high:115, swing:50},
-            {param:"investment_required", low:70, high:108, swing:38},
-            {param:"discount_rate", low:75, high:102, swing:27},
-            {param:"revenue_increase", low:84, high:92, swing:8},
-           ]},
-          {name:"Predictive maintenance for substations", p:0.69, npv:56, roi:1.2, payback:3.6, level:"caution"},
-          {name:"Workforce mobility / field-ops app", p:0.62, npv:34, roi:0.9, payback:4.0, level:"caution"},
-        ],
-      },
-      "precisionmfg|operational_efficiency": {
-        cases: [
-          {id:"rio-tinto-autonomous-2008", company:"Rio Tinto", status:"success", meta:"+13% cost cut"},
-          {id:"severstal-industry-4-0-2016", company:"Severstal", status:"success", meta:"+4% cost cut"},
-          {id:"polyus-digital-mining-2019", company:"Polyus", status:"success", meta:"+8% cost cut"},
-          {id:"carlsberg-business-standards-2018", company:"Carlsberg", status:"success", meta:"+3.5% cost cut"},
-          {id:"siemens-mindsphere-2016", company:"Siemens MindSphere", status:"failed", meta:"-$2B writedown"},
-        ],
-        prior: { mean_rev: 0.005, p10: -0.005, p90: 0.05, failure_rate: 0.20 },
-        recs: [
-          {name:"Plant-wide CNC IoT roll-out (next 6 plants)", p:0.87, npv:384, roi:9.6, payback:1.6, level:"strong",
-           tornado:[
-            {param:"cost_reduction", low:240, high:520, swing:280},
-            {param:"impl_time_months", low:300, high:455, swing:155},
-            {param:"discount_rate", low:330, high:430, swing:100},
-            {param:"investment_required", low:355, high:410, swing:55},
-            {param:"revenue_increase", low:375, high:395, swing:20},
-           ]},
-          {name:"Predictive maintenance v2 (vibration + thermal)", p:0.74, npv:196, roi:4.2, payback:2.4, level:"caution"},
-          {name:"Energy-management ISO 50001 platform", p:0.65, npv:128, roi:2.8, payback:3.0, level:"caution"},
-        ],
-      },
-      "techflow|digital_transformation": {
-        cases: [
-          {id:"dominos-pizza-tracker-2008", company:"Domino's", status:"success", meta:"+25% actual rev"},
-          {id:"tinkoff-digital-2010", company:"Tinkoff", status:"success", meta:"+45% rev / 40% cost"},
-          {id:"ab-inbev-bees-2019", company:"AB InBev BEES", status:"success", meta:"+6% rev"},
-          {id:"sovcombank-halva-2014", company:"Sovcombank Halva", status:"success", meta:"+30% rev (BNPL)"},
-          {id:"halyk-homebank-2017", company:"Halyk Homebank", status:"success", meta:"+12% rev"},
-        ],
-        prior: { mean_rev: 0.09, p10: 0.04, p90: 0.20, failure_rate: 0.0 },
-        recs: [
-          {name:"AI copilot monetization", p:0.81, npv:124, roi:8.8, payback:1.4, level:"strong",
-           tornado:[
-            {param:"revenue_increase", low:80, high:170, swing:90},
-            {param:"discount_rate", low:100, high:150, swing:50},
-            {param:"impl_time_months", low:110, high:140, swing:30},
-            {param:"cost_reduction", low:118, high:132, swing:14},
-            {param:"investment_required", low:120, high:128, swing:8},
-           ]},
-          {name:"Mid-market PLG funnel v2", p:0.74, npv:88, roi:5.6, payback:1.8, level:"caution"},
-          {name:"Enterprise SSO / governance suite", p:0.62, npv:42, roi:2.4, payback:2.6, level:"caution"},
-        ],
-      },
+    // ===================================================================
+    // FILTER STATE
+    // ===================================================================
+    const FILTERS = {
+      objective: "all", budget: "all", horizon: "all",
+      risk: "all", segment: "all", impl: "all",
     };
+    function filterMatch(scenario) {
+      if (FILTERS.objective !== "all" && scenario.objective !== FILTERS.objective) return false;
+      if (FILTERS.segment !== "all" && scenario.segment !== FILTERS.segment) return false;
+      if (FILTERS.risk !== "all" && scenario.risk !== FILTERS.risk) return false;
+      if (FILTERS.impl !== "all" && scenario.impl !== FILTERS.impl) return false;
+      // budget
+      if (FILTERS.budget !== "all") {
+        const mid = (scenario.invest_min + scenario.invest_max) / 2;
+        if (FILTERS.budget === "under5" && mid >= 5) return false;
+        if (FILTERS.budget === "5_25" && (mid < 5 || mid > 25)) return false;
+        if (FILTERS.budget === "25_100" && (mid < 25 || mid > 100)) return false;
+        if (FILTERS.budget === "over100" && mid <= 100) return false;
+      }
+      // horizon
+      if (FILTERS.horizon !== "all") {
+        const midM = (scenario.time_min + scenario.time_max) / 2;
+        if (FILTERS.horizon === "pilot" && midM > 12) return false;
+        if (FILTERS.horizon === "short" && (midM < 12 || midM > 36)) return false;
+        if (FILTERS.horizon === "long" && midM < 36) return false;
+      }
+      return true;
+    }
+    function updateMatchCount() {
+      const n = KTZ_SCENARIOS.filter(filterMatch).length;
+      document.getElementById("match-count").textContent = n;
+    }
+    // Wire filter chips
+    document.querySelectorAll(".filter-row").forEach(row => {
+      const key = row.dataset.filter;
+      row.querySelectorAll(".chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          row.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          FILTERS[key] = chip.dataset.v;
+          updateMatchCount();
+        });
+      });
+    });
+    updateMatchCount();
 
-    // Synthesise filler combos so every selection produces output
-    function makeFiller(c, t) {
-      const seed = (c + t).split("").reduce((a,b) => a + b.charCodeAt(0), 0);
-      const rng = () => { let x = (seed * 9301 + 49297) % 233280; return x / 233280; };
-      const r1 = rng(), r2 = rng(), r3 = rng();
-      const baseP = 0.5 + r1 * 0.35;
-      const baseNpv = Math.round(40 + r2 * 220);
+    // ===================================================================
+    // MATH ENGINE — Monte Carlo with consistent NPV / ROI / Payback
+    // ===================================================================
+    const WHATIF = { discount: 0.12, investmentMul: 1.0, rampSpeed: 1 };
+    const RAMP_CURVES = [
+      [0.20, 0.50, 0.80, 0.95, 1.00], // slow
+      [0.40, 0.70, 0.95, 1.00, 1.00], // standard
+      [0.60, 0.90, 1.00, 1.00, 1.00], // fast
+    ];
+    const RAMP_LABELS = ["Slow", "Standard", "Fast"];
+    const RAMP_LABELS_RU = ["Медленный", "Стандартный", "Быстрый"];
+
+    function gaussian(mean, std) {
+      const u1 = 1 - Math.random(), u2 = 1 - Math.random();
+      const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      return mean + std * z;
+    }
+
+    // Build empirical prior from rail peer cases
+    function buildPrior(scenario, baselineRevenue, baselineOpCosts) {
+      const peerIds = scenario.peers || [];
+      const peers = RAIL_CASES.filter(c => peerIds.includes(c.id));
+      if (peers.length === 0) {
+        return { revImpact: scenario.rev_uplift, costImpact: scenario.cost_reduction, failureProb: 0.10, peers: [] };
+      }
+      const failed = peers.filter(c => c.status === "failed").length;
+      const failureProb = Math.max(0.05, Math.min(0.55, failed / peers.length));
+
+      const revActuals = peers.map(c => c.actual_uplift).filter(v => v != null && !isNaN(v));
+      const costActuals = peers.map(c => c.actual_cost_cut).filter(v => v != null && !isNaN(v));
+
+      const empRev = revActuals.length ? revActuals.reduce((a,b)=>a+b,0) / revActuals.length : scenario.rev_uplift;
+      const empCost = costActuals.length ? costActuals.reduce((a,b)=>a+b,0) / costActuals.length : scenario.cost_reduction;
+
+      // Shrink to template at low n
+      const w = Math.min(peers.length / 5, 1);
+      const revImpact = w * empRev + (1 - w) * scenario.rev_uplift;
+      const costImpact = w * empCost + (1 - w) * scenario.cost_reduction;
+      return { revImpact, costImpact, failureProb, peers };
+    }
+
+    // Run Monte Carlo for one scenario; returns array of samples (one per iteration)
+    // Each sample is {npv, roi, payback}
+    function simulate(scenario, baselineRevenue, baselineOpCosts, prior, opts) {
+      opts = opts || {};
+      const iterations = opts.iterations || 1000;
+      const discountRate = WHATIF.discount;
+      const horizonYears = 5;
+      const investmentMid = (scenario.invest_min + scenario.invest_max) / 2 * 1e6 * WHATIF.investmentMul;
+      const implTimeMonthsMid = (scenario.time_min + scenario.time_max) / 2;
+      const adoptionCurve = RAMP_CURVES[WHATIF.rampSpeed];
+
+      const riskMul = scenario.risk === "conservative" ? 0.6 : scenario.risk === "aggressive" ? 1.4 : 1.0;
+      const revVariance = 0.25 * riskMul, costVariance = 0.20 * riskMul;
+      const costOverrunMax = 0.15 + 0.35 * (scenario.risk === "aggressive" ? 1 : scenario.risk === "balanced" ? 0.6 : 0.3);
+      const delayFactorMax = 0.20 + 0.60 * (scenario.risk === "aggressive" ? 1 : scenario.risk === "balanced" ? 0.6 : 0.3);
+
+      const samples = [];
+      for (let i = 0; i < iterations; i++) {
+        // Sample shocks
+        const overrun = 1 + Math.random() * costOverrunMax;
+        const delay = 1 + Math.random() * delayFactorMax;
+        const actualInvest = investmentMid * overrun;
+        const startYear = (implTimeMonthsMid * delay) / 12;
+
+        // Execution failure
+        if (Math.random() < prior.failureProb) {
+          samples.push({ npv: -actualInvest, roi: -1.0, payback: horizonYears + 1, invest: actualInvest });
+          continue;
+        }
+
+        // Sample impacts
+        let revImpact = gaussian(prior.revImpact, Math.abs(prior.revImpact) * revVariance + 0.005);
+        let costImpact = gaussian(prior.costImpact, Math.abs(prior.costImpact) * costVariance + 0.005);
+
+        // Apply external shocks
+        if (Math.random() < 0.08) revImpact += -0.30 * Math.abs(prior.revImpact);  // market downturn
+        if (Math.random() < 0.12) revImpact += -0.25 * Math.abs(prior.revImpact);  // geopolitical
+
+        // Build annual cash flows
+        let npv = -actualInvest;
+        let cum = -actualInvest;
+        let payback = horizonYears + 1;
+        for (let y = 1; y <= horizonYears; y++) {
+          const yearStart = y - 1, yearEnd = y;
+          const activeFraction = Math.max(0, Math.min(1, yearEnd - startYear));
+          if (activeFraction <= 0) continue;
+          const yearsSinceImpl = Math.max(0, y - 1 - Math.floor(startYear));
+          const adoption = adoptionCurve[Math.min(yearsSinceImpl, adoptionCurve.length - 1)];
+          const grossRev = baselineRevenue * revImpact;
+          const grossCost = baselineOpCosts * costImpact;
+          const annualBenefit = (grossRev + grossCost) * adoption * activeFraction;
+          npv += annualBenefit / Math.pow(1 + discountRate, y);
+          cum += annualBenefit;
+          if (payback > horizonYears && cum >= 0) payback = y;
+        }
+        const roi = actualInvest > 0 ? npv / actualInvest : 0;
+        samples.push({ npv, roi, payback, invest: actualInvest });
+      }
+      return samples;
+    }
+
+    function aggregate(samples) {
+      const n = samples.length;
+      const npvs = samples.map(s => s.npv).sort((a,b)=>a-b);
+      const rois = samples.map(s => s.roi).sort((a,b)=>a-b);
+      const paybacks = samples.map(s => s.payback).sort((a,b)=>a-b);
+      const investAvg = samples.reduce((a,s)=>a+s.invest,0) / n;
+      const mean = arr => arr.reduce((a,b)=>a+b,0) / n;
+      const pct = (arr, p) => arr[Math.floor(n * p)];
       return {
-        cases: [
-          {id:"ing-agile-2015", company:"ING Agile", status:"success", meta:"+6% cost cut"},
-          {id:"maersk-digital-2018", company:"Maersk Spot", status:"success", meta:"+3.5% rev"},
-          {id:"halyk-homebank-2017", company:"Halyk Homebank", status:"success", meta:"+12% rev"},
-          {id:"siemens-mindsphere-2016", company:"Siemens MindSphere", status:"failed", meta:"-$2B writedown"},
-          {id:"carlsberg-business-standards-2018", company:"Carlsberg", status:"success", meta:"+3.5% cost cut"},
-        ],
-        prior: { mean_rev: 0.025, p10: -0.01, p90: 0.07, failure_rate: 0.20 },
-        recs: [
-          {name: "Strategic Initiative A", p: Math.round(baseP*100)/100, npv: baseNpv, roi: Math.round(baseNpv*0.04*10)/10, payback: 2.0, level: baseP > 0.75 ? "strong" : baseP > 0.55 ? "caution" : "pilot",
-            tornado:[
-              {param:"revenue_increase", low: baseNpv*0.6, high: baseNpv*1.4, swing: baseNpv*0.8},
-              {param:"discount_rate", low: baseNpv*0.75, high: baseNpv*1.25, swing: baseNpv*0.5},
-              {param:"impl_time_months", low: baseNpv*0.85, high: baseNpv*1.15, swing: baseNpv*0.3},
-              {param:"cost_reduction", low: baseNpv*0.9, high: baseNpv*1.1, swing: baseNpv*0.2},
-              {param:"investment_required", low: baseNpv*0.93, high: baseNpv*1.07, swing: baseNpv*0.14},
-            ]},
-          {name: "Strategic Initiative B", p: Math.round((baseP-0.1)*100)/100, npv: Math.round(baseNpv*0.65), roi: Math.round(baseNpv*0.65*0.04*10)/10, payback: 2.4, level: "caution"},
-          {name: "Strategic Initiative C", p: Math.round((baseP-0.3)*100)/100, npv: Math.round(baseNpv*0.3), roi: Math.round(baseNpv*0.3*0.04*10)/10, payback: 3.5, level: baseP-0.3 > 0.5 ? "caution" : "pilot"},
-        ],
+        meanNPV: mean(npvs), medianNPV: pct(npvs, 0.5),
+        meanROI: mean(rois), medianROI: pct(rois, 0.5),
+        p10NPV: pct(npvs, 0.1), p90NPV: pct(npvs, 0.9),
+        successP: samples.filter(s => s.npv > 0).length / n,
+        medianPayback: pct(paybacks, 0.5),
+        meanInvest: investAvg,
+        npvs: npvs,
       };
     }
 
-    // ============================================================
-    // ANIMATION ENGINE
-    // ============================================================
+    // ===================================================================
+    // DEMO ANIMATION FLOW
+    // ===================================================================
     const wait = (ms) => new Promise(r => setTimeout(r, ms));
     const $ = id => document.getElementById(id);
 
@@ -1243,171 +1413,235 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       $("status").querySelector(".dot-pulse").style.background = "var(--success)";
       $("status").querySelector(".dot-pulse").style.animation = "none";
     }
-
-    function setStage(n, state) {
+    function setStage(n) {
       document.querySelectorAll(".stage").forEach(s => {
         const num = parseInt(s.dataset.stage, 10);
-        if (state === "active" && num === n) s.classList.add("active");
-        else s.classList.remove("active");
+        s.classList.remove("active");
+        if (num === n) s.classList.add("active");
         if (num < n) s.classList.add("done");
       });
     }
+    function setStagesDone() {
+      document.querySelectorAll(".stage").forEach(s => { s.classList.remove("active"); s.classList.add("done"); });
+    }
 
-    async function showRetrieved(cases) {
+    async function showRetrieved(peers) {
       const wrap = $("retrieved");
-      wrap.innerHTML = cases.map(c => {
-        const klass = c.status === "success" ? "cc-success" :
-                       c.status === "partial" ? "cc-partial" : "cc-failed";
-        return `<div class="case-chip">
-          <div class="cc-name">${c.company}</div>
-          <div><span class="cc-status ${klass}">${c.status.toUpperCase()}</span></div>
-          <div class="cc-meta">${c.meta}</div>
-        </div>`;
+      wrap.innerHTML = peers.slice(0,5).map(c => {
+        const klass = c.status === "success" ? "cc-success" : c.status === "partial" ? "cc-partial" : "cc-failed";
+        return '<div class="case-chip">' +
+          '<div class="cc-name">' + c.name + '</div>' +
+          '<div><span class="cc-status ' + klass + '">' + c.status.toUpperCase() + '</span></div>' +
+          '<div class="cc-meta">' + c.summary + '</div>' +
+          '<div class="cc-geo">' + c.country + ' · ' + c.year + '</div>' +
+          '</div>';
       }).join("");
-      // Reveal one by one
       const chips = wrap.querySelectorAll(".case-chip");
       for (let i = 0; i < chips.length; i++) {
-        await wait(180);
+        await wait(160);
         chips[i].classList.add("shown");
       }
     }
 
-    async function runMonteCarlo(prior) {
+    let lastTopScenario = null; let lastAgg = null; let lastSamples = null; let lastTopPrior = null;
+    const BASELINE_REVENUE = 5_500_000_000;
+    const BASELINE_OP_COSTS = 4_800_000_000;
+
+    async function drawMonteCarlo(samples, finalAgg, animate) {
       const canvas = $("mc-canvas");
       $("mc-wrap").style.display = "grid";
       const ctx = canvas.getContext("2d");
       const W = canvas.width, H = canvas.height;
-      const N_ITER = 1000;
-      const N_BINS = 40;
+      const N_BINS = 50;
+
+      const allNPVsM = samples.map(s => s.npv / 1e6);
+      let lo = Math.min(...allNPVsM), hi = Math.max(...allNPVsM);
+      const span = hi - lo;
+      lo = Math.floor(lo - span * 0.05); hi = Math.ceil(hi + span * 0.05);
+      if (hi - lo < 20) { lo -= 10; hi += 10; }
+
       const bins = new Array(N_BINS).fill(0);
-      const samples = [];
-      // Convert prior into NPV space — simulate a Gaussian centered at mean
-      const mean = prior.mean_rev * 200;
-      const stdev = (prior.p90 - prior.p10) * 100 / 2.56;
-      const failureProb = prior.failure_rate;
-
-      function sample() {
-        if (Math.random() < failureProb) return -Math.abs(stdev) * 1.8 - Math.random() * 40;
-        // Box-Muller
-        const u1 = 1 - Math.random(), u2 = 1 - Math.random();
-        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-        return mean + stdev * z;
-      }
-
-      const allRange = [-150, 250];
       function binFor(v) {
-        const idx = Math.floor((v - allRange[0]) / (allRange[1] - allRange[0]) * N_BINS);
+        const idx = Math.floor((v - lo) / (hi - lo) * N_BINS);
         return Math.max(0, Math.min(N_BINS - 1, idx));
       }
 
-      function draw(progress) {
+      function draw(sampleSubset) {
         ctx.clearRect(0, 0, W, H);
         // axis
-        ctx.strokeStyle = "#1F2A44";
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(40, H - 24); ctx.lineTo(W - 10, H - 24);
-        ctx.stroke();
+        ctx.strokeStyle = "#1F2A44"; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(40, H - 28); ctx.lineTo(W - 10, H - 28); ctx.stroke();
         // zero line
-        const zeroX = 40 + (0 - allRange[0]) / (allRange[1] - allRange[0]) * (W - 50);
-        ctx.strokeStyle = "#F1F5F9";
-        ctx.setLineDash([4, 3]);
-        ctx.beginPath();
-        ctx.moveTo(zeroX, 10); ctx.lineTo(zeroX, H - 24);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = "#94A3B8";
-        ctx.font = "10px JetBrains Mono, monospace";
-        ctx.fillText("0", zeroX - 5, H - 8);
-        ctx.fillText(allRange[0] + "M", 40, H - 8);
-        ctx.fillText(allRange[1] + "M", W - 35, H - 8);
-        // histogram bars
+        const zeroX = 40 + (0 - lo) / (hi - lo) * (W - 50);
+        if (zeroX > 40 && zeroX < W - 10) {
+          ctx.strokeStyle = "#F1F5F9"; ctx.setLineDash([4, 3]);
+          ctx.beginPath(); ctx.moveTo(zeroX, 10); ctx.lineTo(zeroX, H - 28); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = "#94A3B8"; ctx.font = "10px JetBrains Mono, monospace";
+          ctx.fillText("0", zeroX - 5, H - 10);
+        }
+        ctx.fillStyle = "#94A3B8"; ctx.font = "10px JetBrains Mono, monospace";
+        ctx.fillText(lo.toFixed(0) + "M", 40, H - 10);
+        ctx.fillText(hi.toFixed(0) + "M", W - 50, H - 10);
+
         const maxBin = Math.max(...bins, 1);
         const barW = (W - 50) / N_BINS;
         for (let i = 0; i < N_BINS; i++) {
-          const h = (bins[i] / maxBin) * (H - 40);
+          const h = (bins[i] / maxBin) * (H - 45);
           const x = 40 + i * barW;
-          const y = H - 24 - h;
-          // Color: red if negative bin, green if positive
-          const binCenterVal = allRange[0] + (i + 0.5) / N_BINS * (allRange[1] - allRange[0]);
-          ctx.fillStyle = binCenterVal < 0 ? "rgba(248,113,113,0.7)" : "rgba(52,211,153,0.7)";
+          const y = H - 28 - h;
+          const binCenter = lo + (i + 0.5) / N_BINS * (hi - lo);
+          ctx.fillStyle = binCenter < 0 ? "rgba(248,113,113,0.75)" : "rgba(52,211,153,0.75)";
           ctx.fillRect(x + 1, y, barW - 2, h);
         }
       }
 
-      const iterPerFrame = 25;
-      const totalFrames = N_ITER / iterPerFrame;
-      for (let frame = 0; frame < totalFrames; frame++) {
-        for (let k = 0; k < iterPerFrame; k++) {
-          const v = sample();
-          samples.push(v);
-          bins[binFor(v)]++;
+      if (animate) {
+        const iterPerFrame = 25;
+        for (let frame = 0; frame * iterPerFrame < samples.length; frame++) {
+          for (let k = 0; k < iterPerFrame; k++) {
+            const idx = frame * iterPerFrame + k;
+            if (idx >= samples.length) break;
+            bins[binFor(allNPVsM[idx])]++;
+          }
+          const n = Math.min((frame + 1) * iterPerFrame, samples.length);
+          const partial = samples.slice(0, n);
+          const partialAgg = aggregate(partial);
+          $("mc-iter").textContent = n.toLocaleString();
+          $("mc-mean").textContent = "$" + (partialAgg.meanNPV / 1e6).toFixed(1) + "M";
+          $("mc-p").textContent = (partialAgg.successP * 100).toFixed(0) + "%";
+          $("mc-pct").textContent = "$" + (partialAgg.p10NPV/1e6).toFixed(0) + "M / $" + (partialAgg.p90NPV/1e6).toFixed(0) + "M";
+          $("mc-roi").textContent = partialAgg.meanROI.toFixed(2) + "x";
+          $("mc-pb").textContent = partialAgg.medianPayback.toFixed(1) + "y";
+          draw();
+          await wait(28);
         }
-        // Stats live update
-        const n = samples.length;
-        const mn = samples.reduce((a,b)=>a+b,0) / n;
-        const sorted = [...samples].sort((a,b)=>a-b);
-        const p10 = sorted[Math.floor(n*0.1)] || 0;
-        const p90 = sorted[Math.floor(n*0.9)] || 0;
-        const positives = samples.filter(v => v > 0).length / n;
-        $("mc-iter").textContent = n.toLocaleString();
-        $("mc-mean").textContent = "$" + mn.toFixed(1) + "M";
-        $("mc-p").textContent = (positives * 100).toFixed(0) + "%";
-        $("mc-pct").textContent = "$" + p10.toFixed(0) + "M / $" + p90.toFixed(0) + "M";
-        draw(frame / totalFrames);
-        await wait(35);
+      } else {
+        bins.fill(0);
+        allNPVsM.forEach(v => bins[binFor(v)]++);
+        $("mc-iter").textContent = samples.length.toLocaleString();
+        $("mc-mean").textContent = "$" + (finalAgg.meanNPV / 1e6).toFixed(1) + "M";
+        $("mc-p").textContent = (finalAgg.successP * 100).toFixed(0) + "%";
+        $("mc-pct").textContent = "$" + (finalAgg.p10NPV/1e6).toFixed(0) + "M / $" + (finalAgg.p90NPV/1e6).toFixed(0) + "M";
+        $("mc-roi").textContent = finalAgg.meanROI.toFixed(2) + "x";
+        $("mc-pb").textContent = finalAgg.medianPayback.toFixed(1) + "y";
+        draw();
       }
     }
 
-    async function showRecs(recs) {
+    function headlineFor(successP) {
+      return successP >= 0.75 ? "strong" : successP >= 0.55 ? "caution" : "pilot";
+    }
+    function headlineLabel(level) {
+      const RU = I18N.cur === "ru";
+      if (level === "strong") return RU ? "СИЛЬНАЯ РЕКОМЕНДАЦИЯ" : "STRONG RECOMMENDATION";
+      if (level === "caution") return RU ? "ОСТОРОЖНО" : "PROCEED WITH CAUTION";
+      return RU ? "ПИЛОТИРОВАТЬ" : "PILOT FIRST";
+    }
+
+    async function showRecs(recsData) {
       const wrap = $("recs");
-      wrap.innerHTML = recs.map((r, i) => {
-        const klass = r.level === "strong" ? "rec-strong" : r.level === "caution" ? "rec-caution" : "rec-pilot";
-        const label = r.level === "strong" ? (I18N.cur === "ru" ? "СИЛЬНАЯ РЕКОМЕНДАЦИЯ" : "STRONG RECOMMENDATION") :
-                      r.level === "caution" ? (I18N.cur === "ru" ? "ОСТОРОЖНО" : "PROCEED WITH CAUTION") :
-                                                (I18N.cur === "ru" ? "ПИЛОТИРОВАТЬ" : "PILOT FIRST");
-        const npvStr = (r.npv >= 0 ? "$" : "-$") + Math.abs(r.npv).toFixed(0) + "M";
-        return `<div class="rec-card">
-          <div class="rec-top">
-            <div class="rec-name">#${i+1}. ${r.name}</div>
-            <span class="rec-headline ${klass}">${label}</span>
-          </div>
-          <div class="rec-metrics">
-            <div class="rec-metric"><div class="ml">P(NPV>0)</div><div class="mv">${(r.p*100).toFixed(0)}%</div></div>
-            <div class="rec-metric"><div class="ml">Mean NPV</div><div class="mv">${npvStr}</div></div>
-            <div class="rec-metric"><div class="ml">Mean ROI</div><div class="mv">${r.roi.toFixed(1)}x</div></div>
-            <div class="rec-metric"><div class="ml">Payback</div><div class="mv">${r.payback.toFixed(1)}y</div></div>
-          </div>
-        </div>`;
+      wrap.innerHTML = recsData.map((r, i) => {
+        const level = headlineFor(r.agg.successP);
+        const klass = "rec-" + level;
+        const npvStr = (r.agg.meanNPV >= 0 ? "$" : "-$") + Math.abs(r.agg.meanNPV / 1e6).toFixed(1) + "M";
+        const peers = r.prior.peers.slice(0, 3).map(p => '<code>' + p.id + '</code>').join(" · ");
+        const flagBlock = r.scenario.flag === "prior_failure_2020_booking" ?
+          '<div class="rec-flag">⚠ ' +
+          (I18N.cur === "ru" ?
+            "Flagged: KTZ already failed a similar pilot in 2020 (corporate booking). This scenario scopes to SME-only to dodge the documented adoption gap." :
+            "Flagged: KTZ already failed a similar pilot in 2020 (corporate booking). This scenario scopes to SME-only to dodge the documented adoption gap.") +
+          '</div>' : '';
+        return '<div class="rec-card">' +
+          '<div class="rec-top">' +
+            '<div class="rec-name">#' + (i+1) + '. ' + r.scenario.name + '</div>' +
+            '<span class="rec-headline ' + klass + '">' + headlineLabel(level) + '</span>' +
+          '</div>' +
+          '<div class="rec-desc">' + r.scenario.desc + '</div>' +
+          '<div class="rec-metrics">' +
+            '<div class="rec-metric"><div class="ml">P(NPV&gt;0)</div><div class="mv">' + (r.agg.successP*100).toFixed(0) + '%</div></div>' +
+            '<div class="rec-metric"><div class="ml">Mean NPV</div><div class="mv">' + npvStr + '</div></div>' +
+            '<div class="rec-metric"><div class="ml">Mean ROI</div><div class="mv">' + r.agg.meanROI.toFixed(1) + 'x</div></div>' +
+            '<div class="rec-metric"><div class="ml">Payback</div><div class="mv">' + r.agg.medianPayback.toFixed(1) + 'y</div></div>' +
+            '<div class="rec-metric"><div class="ml">Investment</div><div class="mv">$' + (r.agg.meanInvest / 1e6).toFixed(0) + 'M</div></div>' +
+          '</div>' +
+          '<div class="rec-cases">Based on rail peers: ' + peers + '</div>' +
+          flagBlock +
+          '</div>';
       }).join("");
       const cards = wrap.querySelectorAll(".rec-card");
-      for (let i = 0; i < cards.length; i++) {
-        await wait(220);
-        cards[i].classList.add("shown");
-      }
+      for (let i = 0; i < cards.length; i++) { await wait(220); cards[i].classList.add("shown"); }
+    }
+
+    function tornado(scenario, prior) {
+      const baseSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+      const baseAgg = aggregate(baseSamples);
+      const params = [
+        {name: "revenue_increase", mul: 0.7, key: "revImpact"},
+        {name: "cost_reduction", mul: 0.7, key: "costImpact"},
+        {name: "investment_required", mul: 1.3, key: "INV"},
+        {name: "discount_rate", mul: 1.5, key: "DR"},
+        {name: "impl_time_months", mul: 1.4, key: "TIME"},
+      ];
+      const rows = params.map(p => {
+        const origInv = WHATIF.investmentMul, origDR = WHATIF.discount;
+        let priorLo = {...prior}, priorHi = {...prior};
+        let lowSamples, highSamples;
+        if (p.key === "revImpact" || p.key === "costImpact") {
+          priorLo[p.key] = prior[p.key] * p.mul;
+          priorHi[p.key] = prior[p.key] * (2 - p.mul);
+          lowSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, priorLo, {iterations: 300});
+          highSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, priorHi, {iterations: 300});
+        } else if (p.key === "INV") {
+          WHATIF.investmentMul = origInv * p.mul;
+          lowSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          WHATIF.investmentMul = origInv * (2 - p.mul);
+          highSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          WHATIF.investmentMul = origInv;
+        } else if (p.key === "DR") {
+          WHATIF.discount = origDR * p.mul;
+          lowSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          WHATIF.discount = origDR / p.mul;
+          highSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          WHATIF.discount = origDR;
+        } else {
+          // time: scale time fields temporarily
+          const origMin = scenario.time_min, origMax = scenario.time_max;
+          scenario.time_min *= p.mul; scenario.time_max *= p.mul;
+          lowSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          scenario.time_min = origMin / p.mul; scenario.time_max = origMax / p.mul;
+          highSamples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 300});
+          scenario.time_min = origMin; scenario.time_max = origMax;
+        }
+        const loMean = aggregate(lowSamples).meanNPV / 1e6;
+        const hiMean = aggregate(highSamples).meanNPV / 1e6;
+        return { param: p.name, low: Math.min(loMean, hiMean), high: Math.max(loMean, hiMean), swing: Math.abs(hiMean - loMean) };
+      });
+      rows.sort((a, b) => b.swing - a.swing);
+      return { baseline: baseAgg.meanNPV / 1e6, rows };
     }
 
     function renderTornado(data) {
       const svg = $("tornado-svg");
-      const W = 600, H = 180;
-      const baselineX = 350;
-      const maxSwing = Math.max(...data.map(d => d.swing));
-      const scale = 220 / Math.max(maxSwing, 1);
-      const rowH = 26;
-      const startY = 10;
-      const baseValue = data[0] ? (data[0].low + data[0].high) / 2 : 0;
-      let html = `<line class="baseline" x1="${baselineX}" y1="${startY}" x2="${baselineX}" y2="${startY + data.length*rowH + 4}"/>`;
-      data.forEach((d, i) => {
+      const W = 600, H = 200;
+      const baselineX = 360;
+      const maxSwing = Math.max(...data.rows.map(r => r.swing), 1);
+      const scale = 200 / maxSwing;
+      const rowH = 30;
+      const startY = 14;
+      let html = '<line class="baseline" x1="' + baselineX + '" y1="' + startY + '" x2="' + baselineX + '" y2="' + (startY + data.rows.length * rowH + 4) + '"/>';
+      data.rows.forEach((r, i) => {
         const y = startY + i * rowH;
-        const lowW = (baseValue - d.low) * scale;
-        const highW = (d.high - baseValue) * scale;
-        html += `<rect class="bar-low" x="${baselineX - lowW}" y="${y+3}" width="${lowW}" height="18"/>`;
-        html += `<rect class="bar-high" x="${baselineX}" y="${y+3}" width="${highW}" height="18"/>`;
-        html += `<text class="param-label" x="${baselineX - lowW - 8}" y="${y+16}" text-anchor="end">${d.param}</text>`;
-        html += `<text class="axis-label" x="${baselineX + highW + 6}" y="${y+16}">swing $${d.swing.toFixed(0)}M</text>`;
+        const lowW = (data.baseline - r.low) * scale;
+        const highW = (r.high - data.baseline) * scale;
+        const lowDraw = Math.max(0, lowW);
+        const highDraw = Math.max(0, highW);
+        html += '<rect class="bar-low" x="' + (baselineX - lowDraw) + '" y="' + (y+4) + '" width="' + lowDraw + '" height="20"/>';
+        html += '<rect class="bar-high" x="' + baselineX + '" y="' + (y+4) + '" width="' + highDraw + '" height="20"/>';
+        html += '<text class="param-label" x="' + (baselineX - lowDraw - 8) + '" y="' + (y+18) + '" text-anchor="end">' + r.param + '</text>';
+        html += '<text class="axis-label" x="' + (baselineX + highDraw + 6) + '" y="' + (y+18) + '">swing $' + r.swing.toFixed(0) + 'M</text>';
       });
       svg.innerHTML = html;
-      // animate reveal
       requestAnimationFrame(() => {
         svg.querySelectorAll(".bar-low, .bar-high").forEach((b, i) => {
           setTimeout(() => b.classList.add("shown"), i * 80);
@@ -1415,73 +1649,249 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       });
     }
 
-    function getDemoData() {
-      const c = $("company").value;
-      const t = $("ttype").value;
-      const key = c + "|" + t;
-      return REC_DATA[key] || makeFiller(c, t);
-    }
-
     async function runDemo() {
-      const data = getDemoData();
-      const RU = I18N.cur === "ru";
-
-      // Reset UI
-      $("retrieved").innerHTML = "";
-      $("recs").innerHTML = "";
-      $("tornado").classList.remove("shown");
-      $("mc-wrap").style.display = "none";
-      document.querySelectorAll(".stage").forEach(s => { s.classList.remove("active", "done"); });
-
-      // Stage 1
-      setStage(1, "active");
-      setStatus(RU ? "Шаг 1/5: Загрузка цифрового двойника..." : "Step 1/5: Loading digital twin...");
-      await wait(600);
-      setStage(2, "active");
-
-      // Stage 2
-      setStatus(RU ? "Шаг 2/5: Поиск 5 наиболее похожих кейсов в библиотеке..."
-                  : "Step 2/5: Retrieving top-5 similar cases from library...");
-      await showRetrieved(data.cases);
-      await wait(150);
-      setStage(3, "active");
-
-      // Stage 3
-      setStatus(RU ? "Шаг 3/5: Построение эмпирического prior..."
-                  : "Step 3/5: Building empirical prior from retrieved cases...");
-      await wait(700);
-      setStage(4, "active");
-
-      // Stage 4
-      setStatus(RU ? "Шаг 4/5: Запуск 1000 Monte Carlo итераций..."
-                  : "Step 4/5: Running 1,000 Monte Carlo iterations...");
-      await runMonteCarlo(data.prior);
-      await wait(200);
-      setStage(5, "active");
-
-      // Stage 5
-      setStatus(RU ? "Шаг 5/5: Ранжирование и sensitivity-анализ..."
-                  : "Step 5/5: Ranking scenarios and running sensitivity analysis...");
-      await showRecs(data.recs);
-
-      // Tornado for top rec
-      if (data.recs[0] && data.recs[0].tornado) {
-        renderTornado(data.recs[0].tornado);
-        $("tornado").classList.add("shown");
+      const matching = KTZ_SCENARIOS.filter(filterMatch);
+      if (matching.length === 0) {
+        setStatus(I18N.cur === "ru" ? "Нет сценариев под текущие фильтры." : "No scenarios match current filters.");
+        return;
       }
 
-      document.querySelectorAll(".stage").forEach(s => s.classList.add("done"));
-      clearStatus(RU ? "Готово. 1000 сценариев обработано." : "Done. 1,000 scenarios processed.");
+      $("retrieved").innerHTML = ""; $("recs").innerHTML = "";
+      $("tornado").classList.remove("shown"); $("mc-wrap").style.display = "none";
+      $("whatif").classList.remove("shown");
+      $("export-pdf").disabled = true;
+      document.querySelectorAll(".stage").forEach(s => { s.classList.remove("active","done"); });
+
+      const RU = I18N.cur === "ru";
+
+      // Stage 1
+      setStage(1);
+      setStatus(RU ? "Шаг 1/5: Загрузка цифрового двойника KTZ..." : "Step 1/5: Loading KTZ digital twin...");
+      await wait(500);
+
+      // Run sim for ALL matching scenarios — top-3 by P(NPV>0)
+      setStage(2);
+      const allResults = matching.map(scenario => {
+        const prior = buildPrior(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS);
+        const samples = simulate(scenario, BASELINE_REVENUE, BASELINE_OP_COSTS, prior, {iterations: 1000});
+        const agg = aggregate(samples);
+        return { scenario, prior, agg, samples };
+      });
+      allResults.sort((a, b) => b.agg.meanNPV - a.agg.meanNPV);
+      const top3 = allResults.slice(0, 3);
+      const topResult = top3[0];
+
+      // Stage 2: show retrieved peers for top scenario
+      setStatus(RU ? "Шаг 2/5: Подбор rail peer-кейсов для топ-инициативы..."
+                  : "Step 2/5: Matching rail peer cases for top initiative...");
+      await showRetrieved(topResult.prior.peers);
+      await wait(120);
+
+      // Stage 3
+      setStage(3);
+      setStatus(RU ? "Шаг 3/5: Построение эмпирического prior из rail peers..."
+                  : "Step 3/5: Building empirical prior from rail peers...");
+      await wait(600);
+
+      // Stage 4: animate MC for top scenario
+      setStage(4);
+      setStatus(RU ? "Шаг 4/5: Monte Carlo · 1000 итераций по " + matching.length + " сценариям..."
+                  : "Step 4/5: Monte Carlo · 1,000 iterations across " + matching.length + " scenarios...");
+      await drawMonteCarlo(topResult.samples, topResult.agg, true);
+
+      // Stage 5
+      setStage(5);
+      setStatus(RU ? "Шаг 5/5: Ранжирование, sensitivity, рекомендации..."
+                  : "Step 5/5: Ranking, sensitivity, recommendations...");
+      await showRecs(top3);
+
+      // Tornado for top
+      const tornadoData = tornado(topResult.scenario, topResult.prior);
+      renderTornado(tornadoData);
+      $("tornado").classList.add("shown");
+
+      // What-if + PDF
+      $("whatif").classList.add("shown");
+      $("export-pdf").disabled = false;
+
+      // Save state for what-if recalcs
+      lastTopScenario = topResult.scenario;
+      lastTopPrior = topResult.prior;
+      lastAgg = topResult.agg;
+      lastSamples = topResult.samples;
+      window.__lastTop3 = top3;
+      window.__lastMatching = matching;
+
+      setStagesDone();
+      clearStatus(RU ? "Готово. " + matching.length + " сценариев обработано." : "Done. " + matching.length + " scenarios processed.");
     }
 
-    $("run-demo").addEventListener("click", runDemo);
+    document.getElementById("run-demo").addEventListener("click", runDemo);
 
-    // Re-render recs labels when language toggles (so STRONG/CAUTION/PILOT translates if already shown)
-    document.querySelectorAll(".lang-toggle button").forEach(b => {
-      b.addEventListener("click", () => {
-        // No-op: rerun demo to update? Better: don't re-rerun unless user wants.
-      });
+    // ===================================================================
+    // WHAT-IF SLIDERS — instant re-run on top scenario
+    // ===================================================================
+    function rerunWhatIf() {
+      if (!lastTopScenario || !lastTopPrior) return;
+      const samples = simulate(lastTopScenario, BASELINE_REVENUE, BASELINE_OP_COSTS, lastTopPrior, {iterations: 600});
+      const agg = aggregate(samples);
+      lastAgg = agg; lastSamples = samples;
+      drawMonteCarlo(samples, agg, false);
+
+      // Update top recommendation card if present
+      const firstCard = document.querySelector(".rec-card");
+      if (firstCard) {
+        const metrics = firstCard.querySelectorAll(".rec-metric .mv");
+        if (metrics.length >= 5) {
+          metrics[0].textContent = (agg.successP * 100).toFixed(0) + "%";
+          const npvStr = (agg.meanNPV >= 0 ? "$" : "-$") + Math.abs(agg.meanNPV / 1e6).toFixed(1) + "M";
+          metrics[1].textContent = npvStr;
+          metrics[2].textContent = agg.meanROI.toFixed(1) + "x";
+          metrics[3].textContent = agg.medianPayback.toFixed(1) + "y";
+          metrics[4].textContent = "$" + (agg.meanInvest / 1e6).toFixed(0) + "M";
+        }
+        // Update headline
+        const headline = firstCard.querySelector(".rec-headline");
+        if (headline) {
+          const level = headlineFor(agg.successP);
+          headline.className = "rec-headline rec-" + level;
+          headline.textContent = headlineLabel(level);
+        }
+      }
+    }
+    $("wi-r").addEventListener("input", e => {
+      WHATIF.discount = parseInt(e.target.value, 10) / 100;
+      $("wi-r-val").textContent = e.target.value + "%";
+      rerunWhatIf();
     });
+    $("wi-i").addEventListener("input", e => {
+      WHATIF.investmentMul = parseInt(e.target.value, 10) / 100;
+      $("wi-i-val").textContent = (WHATIF.investmentMul).toFixed(1) + "x";
+      rerunWhatIf();
+    });
+    $("wi-a").addEventListener("input", e => {
+      WHATIF.rampSpeed = parseInt(e.target.value, 10);
+      const labels = I18N.cur === "ru" ? RAMP_LABELS_RU : RAMP_LABELS;
+      $("wi-a-val").textContent = labels[WHATIF.rampSpeed];
+      rerunWhatIf();
+    });
+
+    // ===================================================================
+    // PDF EXPORT
+    // ===================================================================
+    $("export-pdf").addEventListener("click", () => {
+      if (!window.__lastTop3) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      const M = 18;
+      const W = 210, H = 297;
+
+      // Cover
+      doc.setFillColor(11, 15, 26);
+      doc.rect(0, 0, W, H, "F");
+      doc.setTextColor(241, 245, 249);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.text("TIMESTONE AI · RAIL VERTICAL", M, M + 6);
+      doc.setFontSize(34);
+      doc.text("Transformation", M, M + 50);
+      doc.text("Assessment", M, M + 64);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(148, 163, 184);
+      doc.text("Kazakhstan Temir Zholy (KTZ)", M, M + 80);
+      doc.setFontSize(11);
+      doc.text("Generated " + new Date().toISOString().slice(0,10) + " · investor preview", M, M + 90);
+
+      // KPI table
+      doc.setDrawColor(31, 42, 68);
+      doc.setLineWidth(0.2);
+      let y = M + 130;
+      doc.setFontSize(10);
+      doc.setTextColor(148, 163, 184);
+      const kpis = [
+        ["Scenarios simulated", String(window.__lastMatching.length)],
+        ["Monte Carlo iterations / initiative", "1,000"],
+        ["Rail peer cases in library", "18"],
+        ["Discount rate (WACC)", (WHATIF.discount * 100).toFixed(0) + "%"],
+        ["Ramp-up speed", ["Slow","Standard","Fast"][WHATIF.rampSpeed]],
+        ["Investment multiplier", WHATIF.investmentMul.toFixed(1) + "x"],
+      ];
+      kpis.forEach(([k, v], i) => {
+        doc.setTextColor(148, 163, 184); doc.text(k, M, y + i * 8);
+        doc.setTextColor(241, 245, 249); doc.text(v, M + 100, y + i * 8);
+      });
+
+      // Page 2: Top 3
+      doc.addPage();
+      doc.setFillColor(11, 15, 26); doc.rect(0, 0, W, H, "F");
+      doc.setTextColor(241, 245, 249); doc.setFont("helvetica", "bold");
+      doc.setFontSize(24);
+      doc.text("Top recommendations", M, M + 6);
+      doc.setFontSize(10); doc.setFont("helvetica", "normal");
+      doc.setTextColor(148, 163, 184);
+      doc.text("Ranked by mean NPV. All metrics derive from the same Monte Carlo cash flows.", M, M + 14);
+
+      y = M + 28;
+      window.__lastTop3.forEach((r, i) => {
+        const npvStr = (r.agg.meanNPV >= 0 ? "$" : "-$") + Math.abs(r.agg.meanNPV / 1e6).toFixed(1) + "M";
+        const level = headlineFor(r.agg.successP);
+        const color = level === "strong" ? [52, 211, 153] : level === "caution" ? [251, 191, 36] : [248, 113, 113];
+        doc.setFillColor(...color);
+        doc.rect(M, y - 4, 3, 24, "F");
+        doc.setTextColor(241, 245, 249);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(12);
+        doc.text("#" + (i+1) + ". " + r.scenario.name, M + 8, y, { maxWidth: W - 2*M - 10 });
+        doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+        doc.setTextColor(148, 163, 184);
+        const descLines = doc.splitTextToSize(r.scenario.desc, W - 2*M - 10);
+        doc.text(descLines, M + 8, y + 7);
+        y += 7 + descLines.length * 4 + 4;
+
+        doc.setFontSize(9);
+        doc.setTextColor(148, 163, 184);
+        doc.text("P(NPV>0)", M + 8, y);
+        doc.text("Mean NPV", M + 38, y);
+        doc.text("Mean ROI", M + 68, y);
+        doc.text("Payback", M + 98, y);
+        doc.text("Investment", M + 128, y);
+
+        doc.setTextColor(241, 245, 249);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+        doc.text((r.agg.successP * 100).toFixed(0) + "%", M + 8, y + 7);
+        doc.text(npvStr, M + 38, y + 7);
+        doc.text(r.agg.meanROI.toFixed(1) + "x", M + 68, y + 7);
+        doc.text(r.agg.medianPayback.toFixed(1) + "y", M + 98, y + 7);
+        doc.text("$" + (r.agg.meanInvest / 1e6).toFixed(0) + "M", M + 128, y + 7);
+
+        doc.setFont("helvetica", "normal"); doc.setFontSize(8);
+        doc.setTextColor(129, 140, 248);
+        const peerIds = r.prior.peers.slice(0, 3).map(p => p.id).join(" · ");
+        doc.text("Based on rail peers: " + peerIds, M + 8, y + 16);
+
+        y += 28;
+      });
+
+      // Page 3: Methodology
+      doc.addPage();
+      doc.setFillColor(11, 15, 26); doc.rect(0, 0, W, H, "F");
+      doc.setTextColor(241, 245, 249); doc.setFont("helvetica", "bold");
+      doc.setFontSize(24); doc.text("Methodology", M, M + 6);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+      doc.setTextColor(203, 213, 225);
+      const meth = doc.splitTextToSize(
+        "TimeStone runs cash-flow consistent Monte Carlo simulations. For each scenario, " +
+        "1,000 iterations sample revenue and cost impacts from Gaussian distributions calibrated " +
+        "against real rail peer transformations. Adoption ramps year-by-year (40 / 70 / 95 / 100%). " +
+        "Per-iteration shocks model execution failure, market downturn, and geopolitical risk. " +
+        "NPV, ROI and median payback are all derived from the same cash-flow paths so the numbers reconcile. " +
+        "Per-scenario execution failure probability is taken from the observed failure rate of similar " +
+        "real rail transformations — not picked by hand.", W - 2*M);
+      doc.text(meth, M, M + 16);
+
+      doc.save("TimeStone_KTZ_Assessment.pdf");
+    });
+
   </script>
 </body>
 </html>
