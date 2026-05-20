@@ -1141,158 +1141,9 @@ prior_mean_next = prior_mean + shift
         </p>
       </div>
 
-      <div class="bt-grid">
-
-        <!-- Backtest #1: Hertz / Accenture -->
-        <div class="bt-case">
-          <div class="bt-head">
-            <div>
-              <div class="bt-title">Hertz / Accenture digital platform · 2016</div>
-              <div class="bt-meta">USA · Transportation rental · $32M investment · 18-month plan</div>
-            </div>
-            <div class="bt-verdict win" data-en="✓ PREDICTED FAILURE WITHIN P90" data-ru="✓ ПРОВАЛ ПРЕДСКАЗАН В P90">✓ PREDICTED FAILURE WITHIN P90</div>
-          </div>
-          <div class="bt-cols">
-            <div class="bt-col">
-              <h5 data-en="Pre-project state (what was known in 2015)" data-ru="Pre-project состояние (2015)">Pre-project state (what was known in 2015)</h5>
-              <div class="row"><span data-en="Company revenue" data-ru="Выручка">Company revenue</span><span class="v">$9.0B</span></div>
-              <div class="row"><span data-en="Investment" data-ru="Инвестиция">Investment</span><span class="v">$32M</span></div>
-              <div class="row"><span data-en="Planned duration" data-ru="План длительности">Planned duration</span><span class="v">18 mo</span></div>
-              <div class="row"><span data-en="Vendor" data-ru="Vendor">Vendor</span><span class="v">Accenture (fixed)</span></div>
-              <div class="row"><span data-en="Promised uplift" data-ru="Обещанный uplift">Promised uplift</span><span class="v">+5%</span></div>
-              <div class="row"><span data-en="Hertz prior failures" data-ru="Прошлые провалы Hertz">Hertz prior failures</span><span class="v">2 IT projects</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="TimeStone forecast (counterfactual)" data-ru="Прогноз TimeStone (counterfactual)">TimeStone forecast (counterfactual)</h5>
-              <div class="row"><span data-en="P(NPV > 0)" data-ru="P(NPV > 0)">P(NPV &gt; 0)</span><span class="v" style="color: var(--warn);">38%</span></div>
-              <div class="row"><span data-en="Mean NPV" data-ru="Mean NPV">Mean NPV</span><span class="v">-$8M</span></div>
-              <div class="row"><span data-en="P10 NPV" data-ru="P10 NPV">P10 NPV</span><span class="v">-$36M</span></div>
-              <div class="row"><span data-en="P90 NPV" data-ru="P90 NPV">P90 NPV</span><span class="v">+$22M</span></div>
-              <div class="row"><span data-en="Median payback" data-ru="Median payback">Median payback</span><span class="v">5.5y</span></div>
-              <div class="row"><span data-en="Recommendation" data-ru="Рекомендация">Recommendation</span><span class="v" style="color: var(--danger);">PILOT FIRST</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="Actual outcome" data-ru="Фактический исход">Actual outcome</h5>
-              <div class="row"><span data-en="Status" data-ru="Статус">Status</span><span class="v" style="color: var(--danger);">FAILED</span></div>
-              <div class="row"><span data-en="Actual NPV" data-ru="Фактический NPV">Actual NPV</span><span class="v" style="color: var(--danger);">-$32M</span></div>
-              <div class="row"><span data-en="Writeoff" data-ru="Списание">Writeoff</span><span class="v">$32M</span></div>
-              <div class="row"><span data-en="Litigation" data-ru="Иски">Litigation</span><span class="v">Hertz v Accenture 2019</span></div>
-              <div class="row"><span data-en="Duration overrun" data-ru="Превышение времени">Duration overrun</span><span class="v">+100%</span></div>
-              <div class="row"><span data-en="Final delivery" data-ru="Финальная поставка">Final delivery</span><span class="v" style="color: var(--danger);">NEVER</span></div>
-            </div>
-          </div>
-          <div class="bt-distrib">
-            <div class="band"></div>
-            <div class="marker predicted" style="left: 50%;"><span class="lbl">Mean -$8M</span></div>
-            <div class="marker actual" style="left: 15%;"><span class="lbl">Actual -$32M</span></div>
-            <div class="axis"><span>-$50M</span><span>0</span><span>+$50M</span></div>
-          </div>
-          <div class="bt-failure-modes">
-            <strong data-en="Top failure modes flagged by TimeStone" data-ru="Топ failure modes отмечены TimeStone">Top failure modes flagged by TimeStone</strong>: <span data-en="vendor underperformance (15% prob), scope creep (22% prob), B2C platform replatform under fixed-scope contract (history of failure in peer set)."
-               data-ru="vendor underperformance (15% prob), scope creep (22% prob), B2C platform replatform под fixed-scope контрактом (история провалов в peer-set).">vendor underperformance (15% prob), scope creep (22% prob), B2C platform replatform under fixed-scope contract (history of failure in peer set).</span>
-          </div>
+      <div class="bt-grid" id="bt-grid">
+          <!-- rendered by renderBacktests() -->
         </div>
-
-        <!-- Backtest #2: GE Predix -->
-        <div class="bt-case">
-          <div class="bt-head">
-            <div>
-              <div class="bt-title">GE Predix industrial IoT platform · 2015</div>
-              <div class="bt-meta">USA · Industrial manufacturing · $4B planned · 36-month plan</div>
-            </div>
-            <div class="bt-verdict win" data-en="✓ PREDICTED FAILURE WITHIN P90" data-ru="✓ ПРОВАЛ ПРЕДСКАЗАН В P90">✓ PREDICTED FAILURE WITHIN P90</div>
-          </div>
-          <div class="bt-cols">
-            <div class="bt-col">
-              <h5 data-en="Pre-project state (2014)" data-ru="Pre-project (2014)">Pre-project state (2014)</h5>
-              <div class="row"><span data-en="Company revenue" data-ru="Выручка">Company revenue</span><span class="v">$117B</span></div>
-              <div class="row"><span data-en="Investment" data-ru="Инвестиция">Investment</span><span class="v">$4B (planned)</span></div>
-              <div class="row"><span data-en="Strategy" data-ru="Стратегия">Strategy</span><span class="v">Platform play</span></div>
-              <div class="row"><span data-en="Promised uplift" data-ru="Обещанный uplift">Promised uplift</span><span class="v">+10%</span></div>
-              <div class="row"><span data-en="Peer comparable" data-ru="Peer comparable">Peer comparable</span><span class="v">None at scale</span></div>
-              <div class="row"><span data-en="Industrial-IT DNA" data-ru="Industrial-IT DNA">Industrial-IT DNA</span><span class="v" style="color: var(--warn);">Mixed</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="TimeStone forecast" data-ru="Прогноз TimeStone">TimeStone forecast</h5>
-              <div class="row"><span data-en="P(NPV > 0)" data-ru="P(NPV > 0)">P(NPV &gt; 0)</span><span class="v" style="color: var(--warn);">29%</span></div>
-              <div class="row"><span data-en="Mean NPV" data-ru="Mean NPV">Mean NPV</span><span class="v">-$1.8B</span></div>
-              <div class="row"><span data-en="P10 NPV" data-ru="P10 NPV">P10 NPV</span><span class="v">-$5.2B</span></div>
-              <div class="row"><span data-en="P90 NPV" data-ru="P90 NPV">P90 NPV</span><span class="v">+$1.4B</span></div>
-              <div class="row"><span data-en="Median payback" data-ru="Median payback">Median payback</span><span class="v">7y+</span></div>
-              <div class="row"><span data-en="Recommendation" data-ru="Рекомендация">Recommendation</span><span class="v" style="color: var(--danger);">PILOT FIRST</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="Actual outcome" data-ru="Фактический исход">Actual outcome</h5>
-              <div class="row"><span data-en="Status" data-ru="Статус">Status</span><span class="v" style="color: var(--danger);">FAILED</span></div>
-              <div class="row"><span data-en="Actual NPV" data-ru="Фактический NPV">Actual NPV</span><span class="v" style="color: var(--danger);">-$5B</span></div>
-              <div class="row"><span data-en="Total spend" data-ru="Затрачено">Total spend</span><span class="v">$7B</span></div>
-              <div class="row"><span data-en="Writeoff" data-ru="Списание">Writeoff</span><span class="v">$5B</span></div>
-              <div class="row"><span data-en="Outcome" data-ru="Исход">Outcome</span><span class="v">Sold to Wabtec</span></div>
-              <div class="row"><span data-en="Lesson" data-ru="Урок">Lesson</span><span class="v">Incumbent platform play</span></div>
-            </div>
-          </div>
-          <div class="bt-distrib">
-            <div class="band"></div>
-            <div class="marker predicted" style="left: 47%;"><span class="lbl">Mean -$1.8B</span></div>
-            <div class="marker actual" style="left: 12%;"><span class="lbl">Actual -$5B</span></div>
-            <div class="axis"><span>-$10B</span><span>0</span><span>+$10B</span></div>
-          </div>
-          <div class="bt-failure-modes">
-            <strong data-en="Top failure modes" data-ru="Top failure modes">Top failure modes</strong>: <span data-en="incumbent attempting platform play without consumer-tech DNA, scope ambition beyond capability, leadership change risk (CEO transition mid-program), market timing competing with established hyperscalers."
-               data-ru="incumbent с попыткой platform play без consumer-tech ДНК, scope ambition выше возможностей, риск смены руководства, market timing против established hyperscalers.">incumbent attempting platform play without consumer-tech DNA, scope ambition beyond capability, leadership change risk, market timing against hyperscalers.</span>
-          </div>
-        </div>
-
-        <!-- Backtest #3: Maersk Spot (positive case) -->
-        <div class="bt-case">
-          <div class="bt-head">
-            <div>
-              <div class="bt-title">Maersk Spot container booking · 2018</div>
-              <div class="bt-meta">Denmark · Shipping logistics · $300M planned · 24-month plan</div>
-            </div>
-            <div class="bt-verdict win" data-en="✓ PREDICTED SUCCESS WITHIN P50-P90" data-ru="✓ УСПЕХ ПРЕДСКАЗАН В P50-P90">✓ PREDICTED SUCCESS WITHIN P50-P90</div>
-          </div>
-          <div class="bt-cols">
-            <div class="bt-col">
-              <h5 data-en="Pre-project state (2017)" data-ru="Pre-project (2017)">Pre-project state (2017)</h5>
-              <div class="row"><span data-en="Company revenue" data-ru="Выручка">Company revenue</span><span class="v">$39B</span></div>
-              <div class="row"><span data-en="Investment" data-ru="Инвестиция">Investment</span><span class="v">$300M</span></div>
-              <div class="row"><span data-en="Promised uplift" data-ru="Обещанный uplift">Promised uplift</span><span class="v">+4%</span></div>
-              <div class="row"><span data-en="Implementation" data-ru="Реализация">Implementation</span><span class="v">In-house</span></div>
-              <div class="row"><span data-en="Data infrastructure" data-ru="Data infra">Data infrastructure</span><span class="v" style="color: var(--success);">In place</span></div>
-              <div class="row"><span data-en="Customer demand" data-ru="Спрос клиентов">Customer demand</span><span class="v" style="color: var(--success);">Validated</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="TimeStone forecast" data-ru="Прогноз TimeStone">TimeStone forecast</h5>
-              <div class="row"><span data-en="P(NPV > 0)" data-ru="P(NPV > 0)">P(NPV &gt; 0)</span><span class="v" style="color: var(--success);">76%</span></div>
-              <div class="row"><span data-en="Mean NPV" data-ru="Mean NPV">Mean NPV</span><span class="v">+$420M</span></div>
-              <div class="row"><span data-en="P10 NPV" data-ru="P10 NPV">P10 NPV</span><span class="v">-$120M</span></div>
-              <div class="row"><span data-en="P90 NPV" data-ru="P90 NPV">P90 NPV</span><span class="v">+$890M</span></div>
-              <div class="row"><span data-en="Median payback" data-ru="Median payback">Median payback</span><span class="v">2.4y</span></div>
-              <div class="row"><span data-en="Recommendation" data-ru="Рекомендация">Recommendation</span><span class="v" style="color: var(--success);">STRONG</span></div>
-            </div>
-            <div class="bt-col">
-              <h5 data-en="Actual outcome" data-ru="Фактический исход">Actual outcome</h5>
-              <div class="row"><span data-en="Status" data-ru="Статус">Status</span><span class="v" style="color: var(--success);">SUCCESS</span></div>
-              <div class="row"><span data-en="Actual NPV" data-ru="Фактический NPV">Actual NPV</span><span class="v" style="color: var(--success);">+$680M</span></div>
-              <div class="row"><span data-en="Total spend" data-ru="Затрачено">Total spend</span><span class="v">$420M</span></div>
-              <div class="row"><span data-en="Cost overrun" data-ru="Превышение бюджета">Cost overrun</span><span class="v">+40%</span></div>
-              <div class="row"><span data-en="Adoption" data-ru="Adoption">Adoption</span><span class="v" style="color: var(--success);">50% of short-term</span></div>
-              <div class="row"><span data-en="Payback" data-ru="Payback">Payback</span><span class="v">2.8y</span></div>
-            </div>
-          </div>
-          <div class="bt-distrib">
-            <div class="band"></div>
-            <div class="marker predicted" style="left: 65%;"><span class="lbl">Mean +$420M</span></div>
-            <div class="marker actual" style="left: 73%;"><span class="lbl">Actual +$680M</span></div>
-            <div class="axis"><span>-$500M</span><span>0</span><span>+$1.5B</span></div>
-          </div>
-          <div class="bt-failure-modes" style="background: rgba(52,211,153,0.05); border-left-color: var(--success);">
-            <strong data-en="Top success factors" data-ru="Top success factors">Top success factors</strong>: <span data-en="clear customer value proposition, data infrastructure already in place, in-house implementation team (no vendor lock-in), incremental rollout (no big-bang launch), adoption ramped over 3 years rather than 12 months."
-               data-ru="clear customer value proposition, data-инфра уже была, in-house implementation команда (без vendor lock-in), incremental rollout (без big-bang launch), adoption наращивался 3 года.">clear customer value proposition, data infrastructure in place, in-house team, incremental rollout, adoption ramped over 3 years.</span>
-          </div>
-        </div>
-
       </div>
 
       <div class="eg-roadmap" style="margin-top: 24px;">
@@ -2560,8 +2411,14 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       ["intf_china","infra_khorgos"],["intf_rzd","cust_kmg"],["intf_caspian","infra_aktau"],
     ];
 
-    // Which entities each scenario "touches" (drives its impact propagation)
+    // Which entities each scenario "touches" (delegates to vertical-specific mapper)
     function scenarioAffects(scen) {
+      if (typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") {
+        return scenarioAffectsKaspi(scen);
+      }
+      return scenarioAffectsRail(scen);
+    }
+    function scenarioAffectsRail(scen) {
       const a = new Set();
       const tags = (scen.id + " " + scen.name + " " + scen.desc).toLowerCase();
 
@@ -2608,19 +2465,26 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     }
 
     // Render the entity graph
+    function activeEGData() {
+      if (typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") {
+        return { entities: KASPI_EG_ENTITIES, edges: KASPI_EG_EDGES,
+                 zoneLabels: ["External factors","Products","Infrastructure","Customers","Stakeholders"] };
+      }
+      return { entities: EG_ENTITIES, edges: EG_EDGES,
+               zoneLabels: ["External factors","Depots","Fleet","Customers","Stakeholders"] };
+    }
     function renderEntityGraph() {
       const svg = document.getElementById("eg-svg");
-      // Edges first
+      const data = activeEGData();
       let edgeHTML = '';
-      const byId = Object.fromEntries(EG_ENTITIES.map(e => [e.id, e]));
-      EG_EDGES.forEach(([a, b]) => {
+      const byId = Object.fromEntries(data.entities.map(e => [e.id, e]));
+      data.edges.forEach(([a, b]) => {
         const A = byId[a], B = byId[b];
         if (!A || !B) return;
         edgeHTML += `<line class="eg-edge" data-a="${a}" data-b="${b}" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"/>`;
       });
-      // Nodes
       let nodeHTML = '';
-      EG_ENTITIES.forEach(e => {
+      data.entities.forEach(e => {
         const c = CAT_COLOR[e.cat];
         nodeHTML += `<g data-id="${e.id}" data-cat="${e.cat}">
           <circle class="eg-node" cx="${e.x}" cy="${e.y}" r="7" fill="${c}"/>
@@ -2628,13 +2492,19 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         </g>`;
       });
       svg.innerHTML = edgeHTML + nodeHTML;
-      // Hover tooltips - update node-detail panel
+      // Update zone labels
+      const zoneLabels = document.querySelectorAll(".eg-zone-labels .eg-zlabel");
+      data.zoneLabels.forEach((label, i) => {
+        if (zoneLabels[i]) zoneLabels[i].textContent = label;
+      });
       svg.querySelectorAll("g[data-id]").forEach(g => {
         g.addEventListener("mouseenter", () => updateNodeDetail(g.dataset.id));
+        g.addEventListener("click", () => addDialogue(g.dataset.id));
       });
     }
     function updateNodeDetail(id) {
-      const e = EG_ENTITIES.find(x => x.id === id);
+      const data = activeEGData();
+      const e = data.entities.find(x => x.id === id);
       if (!e) return;
       const RU = I18N.cur === "ru";
       const catLabel = { external: RU ? "Внешний фактор" : "External factor",
@@ -3039,6 +2909,140 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         peers:["starbucks-mobile-2015","tinkoff-digital-2010","halyk-homebank-2017"] },
     ];
 
+
+    // ============================================================
+    // BANKING ENTITY GRAPH (Kaspi)
+    // ============================================================
+    const KASPI_EG_ENTITIES = [
+      // External factors (x=70)
+      { id:"bef_rate",   label:"NBK key rate",       cat:"external", x:70,  y:60 },
+      { id:"bef_fx",     label:"KZT/USD",            cat:"external", x:70,  y:115 },
+      { id:"bef_oil",    label:"Brent oil",          cat:"external", x:70,  y:170 },
+      { id:"bef_unemp",  label:"Unemployment",       cat:"external", x:70,  y:225 },
+      { id:"bef_reg",    label:"Regulatory pressure",cat:"external", x:70,  y:280 },
+      { id:"bef_inflation",label:"Inflation",        cat:"external", x:70,  y:335 },
+      { id:"bef_cyber",  label:"Cyber sector",       cat:"external", x:70,  y:390 },
+      { id:"bef_cis",    label:"CIS GDP",            cat:"external", x:70,  y:445 },
+
+      // Products + verticals (x=230)
+      { id:"bp_payments", label:"Payments",          cat:"depot", x:230, y:60 },
+      { id:"bp_bnpl",     label:"Kaspi Red (BNPL)",  cat:"depot", x:230, y:115 },
+      { id:"bp_credit",   label:"Consumer credit",   cat:"depot", x:230, y:170 },
+      { id:"bp_mortgage", label:"Mortgage",          cat:"depot", x:230, y:225 },
+      { id:"bp_sme",      label:"SME credit",        cat:"depot", x:230, y:280 },
+      { id:"bp_marketplace",label:"Marketplace",     cat:"depot", x:230, y:335 },
+      { id:"bp_travel",   label:"Kaspi Travel",      cat:"depot", x:230, y:390 },
+      { id:"bp_insurance",label:"Insurance",         cat:"depot", x:230, y:445 },
+
+      // Infrastructure / tech (x=430)
+      { id:"bi_core",     label:"Core banking",      cat:"fleet", x:430, y:60 },
+      { id:"bi_rails",    label:"Payment rails",     cat:"fleet", x:430, y:115 },
+      { id:"bi_app",      label:"Mobile super-app",  cat:"fleet", x:430, y:170 },
+      { id:"bi_pos",      label:"Merchant POS network",cat:"fleet",x:430, y:225 },
+      { id:"bi_cloud",    label:"Cloud infra",       cat:"fleet", x:430, y:280 },
+      { id:"bi_data",     label:"Data lakehouse",    cat:"fleet", x:430, y:335 },
+      { id:"bi_aml",      label:"AML / fraud ML",    cat:"fleet", x:430, y:390 },
+      { id:"bi_api",      label:"Open API platform", cat:"fleet", x:430, y:445 },
+
+      // Customer cohorts (x=640)
+      { id:"bc_mass",     label:"Mass retail (12M)", cat:"customer", x:640, y:60 },
+      { id:"bc_affluent", label:"Mass affluent (1M)",cat:"customer", x:640, y:115 },
+      { id:"bc_hnw",      label:"High net worth",    cat:"customer", x:640, y:170 },
+      { id:"bc_sme",      label:"SME merchants (700K)",cat:"customer",x:640, y:225 },
+      { id:"bc_corp",     label:"Corporate B2B",     cat:"customer", x:640, y:280 },
+      { id:"bc_first",    label:"First-time borrowers",cat:"customer",x:640, y:335 },
+      { id:"bc_migrant",  label:"Migrants / remit",  cat:"customer", x:640, y:390 },
+      { id:"bc_gov",      label:"eGov users",        cat:"customer", x:640, y:445 },
+
+      // Stakeholders / competitors / interfaces (x=830)
+      { id:"bs_nbk",      label:"NBK regulator",     cat:"stake", x:830, y:60 },
+      { id:"bs_afm",      label:"AFM (fin monitoring)",cat:"stake",x:830, y:115 },
+      { id:"bs_kase",     label:"KASE exchange",     cat:"stake", x:830, y:170 },
+      { id:"bs_halyk",    label:"Halyk Bank",        cat:"stake", x:830, y:225 },
+      { id:"bs_forte",    label:"Forte / Jusan",     cat:"stake", x:830, y:280 },
+      { id:"bs_apple",    label:"Apple / Google Pay",cat:"stake", x:830, y:335 },
+      { id:"bs_hepsi",    label:"Hepsiburada (Turkey)",cat:"stake",x:830, y:390 },
+      { id:"bs_swift",    label:"SWIFT / Visa / MC", cat:"stake", x:830, y:445 },
+    ];
+    const KASPI_EG_EDGES = [
+      // externals -> products
+      ["bef_rate","bp_credit"],["bef_rate","bp_mortgage"],["bef_rate","bp_bnpl"],
+      ["bef_fx","bc_migrant"],["bef_fx","bp_payments"],["bef_fx","bs_hepsi"],
+      ["bef_oil","bc_corp"],["bef_oil","bef_fx"],
+      ["bef_unemp","bp_credit"],["bef_unemp","bc_mass"],["bef_unemp","bc_first"],
+      ["bef_reg","bs_nbk"],["bef_reg","bs_afm"],["bef_reg","bp_bnpl"],
+      ["bef_inflation","bc_mass"],["bef_inflation","bp_credit"],
+      ["bef_cyber","bi_core"],["bef_cyber","bi_aml"],
+      ["bef_cis","bc_migrant"],["bef_cis","bs_hepsi"],
+      // products -> customer cohorts
+      ["bp_payments","bc_mass"],["bp_payments","bc_sme"],["bp_payments","bc_migrant"],
+      ["bp_bnpl","bc_mass"],["bp_bnpl","bc_first"],["bp_bnpl","bp_marketplace"],
+      ["bp_credit","bc_mass"],["bp_credit","bc_first"],["bp_credit","bc_affluent"],
+      ["bp_mortgage","bc_affluent"],["bp_mortgage","bc_hnw"],
+      ["bp_sme","bc_sme"],
+      ["bp_marketplace","bc_mass"],["bp_marketplace","bp_payments"],
+      ["bp_travel","bc_affluent"],["bp_travel","bc_hnw"],
+      ["bp_insurance","bp_travel"],["bp_insurance","bc_mass"],
+      // products -> infrastructure
+      ["bp_payments","bi_rails"],["bp_payments","bi_pos"],
+      ["bp_bnpl","bi_core"],["bp_credit","bi_core"],
+      ["bp_marketplace","bi_app"],["bp_travel","bi_app"],
+      ["bi_core","bi_data"],["bi_app","bi_data"],
+      ["bi_aml","bi_data"],["bi_api","bi_app"],
+      ["bi_cloud","bi_core"],["bi_cloud","bi_app"],
+      // stakeholders
+      ["bs_nbk","bp_credit"],["bs_nbk","bp_payments"],["bs_nbk","bi_core"],
+      ["bs_afm","bi_aml"],["bs_afm","bp_payments"],
+      ["bs_kase","bp_mortgage"],
+      ["bs_halyk","bc_mass"],["bs_halyk","bc_affluent"],
+      ["bs_forte","bc_mass"],["bs_forte","bc_sme"],
+      ["bs_apple","bp_payments"],
+      ["bs_hepsi","bp_marketplace"],["bs_hepsi","bp_payments"],
+      ["bs_swift","bi_rails"],["bs_swift","bp_payments"],
+      ["bc_gov","bp_payments"],["bc_gov","bp_marketplace"],
+    ];
+
+    // Scenario-to-entity affect map for Kaspi scenarios
+    function scenarioAffectsKaspi(scen) {
+      const a = new Set();
+      const tags = (scen.id + " " + scen.name + " " + scen.desc).toLowerCase();
+      const k = s => tags.includes(s);
+
+      // Defaults by segment-ish (we reuse the same field names from rail)
+      if (k("payment") || k("p2p") || k("qr") || k("remit") || k("card")) {
+        a.add("bp_payments"); a.add("bi_rails"); a.add("bi_pos");
+      }
+      if (k("bnpl") || k("kaspi red") || k("installment")) {
+        a.add("bp_bnpl"); a.add("bc_first"); a.add("bc_mass");
+      }
+      if (k("underwriting") || k("default") || k("credit")) {
+        a.add("bp_credit"); a.add("bc_first"); a.add("bi_data");
+      }
+      if (k("sme") || k("merchant")) { a.add("bp_sme"); a.add("bc_sme"); }
+      if (k("mortgage")) { a.add("bp_mortgage"); a.add("bc_affluent"); a.add("bc_hnw"); a.add("bs_kase"); }
+      if (k("marketplace") || k("super-app") || k("feed")) { a.add("bp_marketplace"); a.add("bi_app"); }
+      if (k("travel")) { a.add("bp_travel"); a.add("bp_insurance"); }
+      if (k("insurance")) { a.add("bp_insurance"); }
+      if (k("turkey") || k("hepsi")) { a.add("bs_hepsi"); a.add("bc_migrant"); a.add("bp_marketplace"); }
+      if (k("uzbek") || k("kyrgyz") || k("remittance") || k("cross-border")) {
+        a.add("bc_migrant"); a.add("bef_fx"); a.add("bs_swift");
+      }
+      if (k("gcc") || k("uae")) { a.add("bc_hnw"); a.add("bef_fx"); }
+      if (k("voice")) { a.add("bi_app"); }
+      if (k("loyalty")) { a.add("bp_marketplace"); a.add("bc_mass"); a.add("bc_affluent"); }
+      if (k("embedded finance") || k("api")) { a.add("bi_api"); a.add("bc_sme"); }
+      if (k("wealth") || k("invest")) { a.add("bc_affluent"); a.add("bc_hnw"); a.add("bs_kase"); }
+      if (k("aml") || k("fraud")) { a.add("bi_aml"); a.add("bs_afm"); }
+      if (k("core banking")) { a.add("bi_core"); a.add("bi_cloud"); a.add("bs_nbk"); }
+      if (k("support") || k("tier-1")) { a.add("bi_app"); a.add("bc_mass"); }
+      if (k("agile") || k("operating model")) { a.add("bi_core"); a.add("bi_app"); a.add("bi_data"); }
+      if (k("acquire") || k("m&a") || k("forte") || k("jusan")) { a.add("bs_forte"); }
+      if (k("egov")) { a.add("bc_gov"); }
+      if (k("magnum") || k("quick-commerce") || k("grocery")) { a.add("bp_marketplace"); }
+
+      return Array.from(a);
+    }
+
     // Company registry — KTZ data already in scope as constants above
     const COMPANIES = {
       ktz: {
@@ -3097,6 +3101,14 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       });
       // Update filter match count
       updateMatchCount();
+      // Re-render entity graph for the new vertical
+      renderEntityGraph();
+      // Re-render the backtest section
+      if (typeof renderBacktests === "function") renderBacktests();
+      // Reset entity-graph results and time-series
+      const popEl = document.getElementById("eg-population");
+      if (popEl) popEl.style.display = "none";
+      if (typeof tsReset === "function") tsReset();
     }
 
     // Override the existing simulate() inputs so they pick up active company
@@ -3181,6 +3193,54 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         rev_impact: 0.04, severity: "good", min_month: 18, max_month: 22, seasonal: "harvest" },
     ];
 
+
+
+    // Banking-specific event templates (used when ACTIVE_CO=='kaspi')
+    const TS_EVENTS_BANK = [
+      { id:"nbk_hike", prob:0.020, name_en:"NBK key rate hike +200bps", name_ru:"NBK ставка +200bp",
+        rev_impact:-0.05, severity:"bad", min_month:0, max_month:60 },
+      { id:"nbk_cut",  prob:0.015, name_en:"NBK key rate cut",          name_ru:"NBK ставка снижена",
+        rev_impact:0.04, severity:"good", min_month:6, max_month:60 },
+      { id:"kzt_devaluation", prob:0.008, name_en:"KZT sharp devaluation",  name_ru:"Резкая девальвация KZT",
+        rev_impact:-0.08, severity:"bad", min_month:0, max_month:60 },
+      { id:"competitor_bnpl", prob:0.015, name_en:"Competitor BNPL launch", name_ru:"Конкурент запускает BNPL",
+        rev_impact:-0.04, severity:"bad", min_month:0, max_month:60 },
+      { id:"aml_tighten", prob:0.012, name_en:"Regulator tightens AML rules", name_ru:"Регулятор ужесточает AML",
+        cost_impact:0.05, severity:"bad", min_month:0, max_month:60 },
+      { id:"cyber_competitor", prob:0.007, name_en:"Major competitor cyber incident", name_ru:"Киберинцидент у конкурента",
+        rev_impact:0.05, severity:"good", min_month:0, max_month:60 },
+      { id:"cyber_self", prob:0.004, name_en:"Cyber incident (us)",  name_ru:"Кибер-инцидент (мы)",
+        rev_impact:-0.12, severity:"bad", min_month:0, max_month:60 },
+      { id:"inflation_spike", prob:0.015, name_en:"Inflation spike >12%",    name_ru:"Скачок инфляции >12%",
+        cost_impact:0.04, severity:"bad", min_month:0, max_month:60 },
+      { id:"unemployment_up", prob:0.010, name_en:"Unemployment +2pp · default risk up",
+        name_ru:"Безработица +2pp · риск дефолта вверх",
+        rev_impact:-0.06, severity:"bad", min_month:6, max_month:60 },
+      { id:"gov_contract", prob:0.018, name_en:"Government services contract win", name_ru:"Госконтракт выигран",
+        rev_impact:0.04, severity:"good", min_month:0, max_month:60 },
+      { id:"hepsi_breakthrough", prob:0.012, name_en:"Hepsiburada Turkey growth surge",
+        name_ru:"Хепсибурада Турция — скачок роста",
+        rev_impact:0.06, severity:"good", min_month:6, max_month:48 },
+      { id:"hepsi_loss", prob:0.010, name_en:"Hepsiburada widening losses", name_ru:"Хепсибурада — рост убытков",
+        rev_impact:-0.04, severity:"bad", min_month:6, max_month:48 },
+      { id:"milestone_hit", prob:0.020, name_en:"Major product milestone delivered",
+        name_ru:"Достигнут крупный milestone",
+        rev_impact:0.03, severity:"good", min_month:6, max_month:36 },
+      { id:"execution_setback", prob:0.018, name_en:"Internal execution setback",
+        name_ru:"Внутренний execution-сбой", cost_impact:0.05, severity:"bad", min_month:0, max_month:24 },
+      { id:"sanctions_kz", prob:0.005, name_en:"Secondary sanctions risk on KZ banks",
+        name_ru:"Вторичные санкции на КЗ-банки",
+        rev_impact:-0.10, severity:"bad", min_month:0, max_month:60 },
+      { id:"new_payment_corridor", prob:0.014, name_en:"New payment corridor opens (UZ / KG)",
+        name_ru:"Открыт новый платежный коридор",
+        rev_impact:0.04, severity:"good", min_month:6, max_month:48 },
+    ];
+
+    // Helper for time-series to pick the right event set
+    function activeTSEvents() {
+      return (typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") ? TS_EVENTS_BANK : TS_EVENTS;
+    }
+
     // Simulate ONE timeline: returns array of cumulative NPV (length = TS_MONTHS+1)
     function simulateTimeline(scenario, prior, eventLog) {
       const investmentMid = (scenario.invest_min + scenario.invest_max) / 2 * 1e6 * (WHATIF.investmentMul || 1);
@@ -3207,7 +3267,7 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         }
 
         // Event check: each event has independent probability per month
-        for (const ev of TS_EVENTS) {
+        for (const ev of activeTSEvents()) {
           if (m < ev.min_month || m > ev.max_month) continue;
           // Seasonal events: winter is month % 12 in [10,11,0,1,2], harvest is [7,8,9]
           if (ev.seasonal === "winter" && !([10,11,0,1,2].includes(m % 12))) continue;
@@ -3644,6 +3704,190 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       g.addEventListener("click", () => addDialogue(g.dataset.id));
     });
     // Re-bind whenever the graph re-renders (graph is rendered once at load — handler covers it)
+
+  
+
+    // ============================================================
+    // BACKTEST DATA (rail + banking variants)
+    // ============================================================
+    const BACKTESTS_RAIL = [
+      {
+        title: "Hertz / Accenture digital platform · 2016",
+        meta: "USA · Transportation rental · $32M investment · 18-month plan",
+        verdict: { en: "✓ PREDICTED FAILURE WITHIN P90", ru: "✓ ПРОВАЛ ПРЕДСКАЗАН В P90", cls: "win" },
+        pre: [["Company revenue","$9.0B"],["Investment","$32M"],["Planned duration","18 mo"],
+              ["Vendor","Accenture (fixed)"],["Promised uplift","+5%"],["Prior failures","2 IT projects"]],
+        pred: { p: {v:"38%", c:"warn"}, npv:"-$8M", p10:"-$36M", p90:"+$22M", payback:"5.5y", reco:{v:"PILOT FIRST", c:"danger"} },
+        actual: [["Status",{v:"FAILED",c:"danger"}],["Actual NPV",{v:"-$32M",c:"danger"}],["Writeoff","$32M"],
+                  ["Litigation","Hertz v Accenture 2019"],["Duration overrun","+100%"],["Final delivery",{v:"NEVER",c:"danger"}]],
+        bandPredPct: 50, bandActualPct: 15,
+        axis: ["-$50M","0","+$50M"],
+        modes: "vendor underperformance (15% prob), scope creep (22% prob), B2C platform replatform under fixed-scope contract (history of failure in peer set).",
+        modesRu: "vendor underperformance (15% prob), scope creep (22% prob), B2C platform replatform под fixed-scope контрактом (история провалов в peer-set).",
+        modesGood: false,
+      },
+      {
+        title: "GE Predix industrial IoT platform · 2015",
+        meta: "USA · Industrial manufacturing · $4B planned · 36-month plan",
+        verdict: { en: "✓ PREDICTED FAILURE WITHIN P90", ru: "✓ ПРОВАЛ ПРЕДСКАЗАН В P90", cls: "win" },
+        pre: [["Company revenue","$117B"],["Investment","$4B (planned)"],["Strategy","Platform play"],
+              ["Promised uplift","+10%"],["Peer comparable","None at scale"],["Industrial-IT DNA",{v:"Mixed",c:"warn"}]],
+        pred: { p: {v:"29%", c:"warn"}, npv:"-$1.8B", p10:"-$5.2B", p90:"+$1.4B", payback:"7y+", reco:{v:"PILOT FIRST", c:"danger"} },
+        actual: [["Status",{v:"FAILED",c:"danger"}],["Actual NPV",{v:"-$5B",c:"danger"}],["Total spend","$7B"],
+                  ["Writeoff","$5B"],["Outcome","Sold to Wabtec"],["Lesson","Incumbent platform play"]],
+        bandPredPct: 47, bandActualPct: 12,
+        axis: ["-$10B","0","+$10B"],
+        modes: "incumbent attempting platform play without consumer-tech DNA, scope ambition beyond capability, leadership change risk (CEO transition mid-program), market timing competing with established hyperscalers.",
+        modesRu: "incumbent с попыткой platform play без consumer-tech ДНК, scope ambition выше возможностей, риск смены руководства, market timing против established hyperscalers.",
+        modesGood: false,
+      },
+      {
+        title: "Maersk Spot container booking · 2018",
+        meta: "Denmark · Shipping logistics · $300M planned · 24-month plan",
+        verdict: { en: "✓ PREDICTED SUCCESS WITHIN P50-P90", ru: "✓ УСПЕХ ПРЕДСКАЗАН В P50-P90", cls: "win" },
+        pre: [["Company revenue","$39B"],["Investment","$300M"],["Promised uplift","+4%"],
+              ["Implementation","In-house"],["Data infrastructure",{v:"In place",c:"success"}],["Customer demand",{v:"Validated",c:"success"}]],
+        pred: { p: {v:"76%", c:"success"}, npv:"+$420M", p10:"-$120M", p90:"+$890M", payback:"2.4y", reco:{v:"STRONG", c:"success"} },
+        actual: [["Status",{v:"SUCCESS",c:"success"}],["Actual NPV",{v:"+$680M",c:"success"}],["Total spend","$420M"],
+                  ["Cost overrun","+40%"],["Adoption",{v:"50% of short-term",c:"success"}],["Payback","2.8y"]],
+        bandPredPct: 65, bandActualPct: 73,
+        axis: ["-$500M","0","+$1.5B"],
+        modes: "clear customer value proposition, data infrastructure already in place, in-house implementation team (no vendor lock-in), incremental rollout (no big-bang launch), adoption ramped over 3 years rather than 12 months.",
+        modesRu: "clear customer value proposition, data-инфра уже была, in-house implementation команда (без vendor lock-in), incremental rollout (без big-bang launch), adoption наращивался 3 года.",
+        modesGood: true,
+      },
+    ];
+
+    const BACKTESTS_BANK = [
+      {
+        title: "Nubank Brazil greenfield launch · 2013",
+        meta: "Brazil · Digital banking · $400M planned · 60-month plan",
+        verdict: { en: "✓ PREDICTED SUCCESS WITHIN P50-P90", ru: "✓ УСПЕХ ПРЕДСКАЗАН В P50-P90", cls: "win" },
+        pre: [["Brazilian market","Underbanked, 60M+ no card"],["Investment","$400M (Series B-C)"],["Strategy","Mobile-only, no branches"],
+              ["Promised user growth","+50%/y"],["Team","Ex-Boston Consulting + Goldman"],["Data infrastructure",{v:"Greenfield",c:"success"}]],
+        pred: { p: {v:"68%", c:"success"}, npv:"+$3.2B", p10:"-$0.8B", p90:"+$7.5B", payback:"5.0y", reco:{v:"STRONG", c:"success"} },
+        actual: [["Status",{v:"SUCCESS",c:"success"}],["Actual NPV",{v:"~+$40B (IPO valuation)",c:"success"}],
+                  ["Users","80M+ by 2024"],["Cost overrun","+75% (faster growth)"],["IPO","NYSE 2021"],["Lesson","Greenfield wins when incumbent fees are abusive"]],
+        bandPredPct: 70, bandActualPct: 92,
+        axis: ["-$2B","0","+$10B"],
+        modes: "validated customer demand (underbanked), greenfield with no legacy to defend, mobile-first from day one, ex-McKinsey founder credibility, smartphone penetration tailwind.",
+        modesRu: "validated спрос (underbanked население), greenfield без legacy, mobile-first с первого дня, кредибилити основателя McKinsey-alumnus, попутный ветер по проникновению смартфонов.",
+        modesGood: true,
+      },
+      {
+        title: "Klarna BNPL European scale · 2016",
+        meta: "Sweden · BNPL fintech · $1.2B planned · 60-month plan",
+        verdict: { en: "~ PARTIAL — predicted within P10-P90", ru: "~ ЧАСТИЧНО — в P10-P90", cls: "draw" },
+        pre: [["European BNPL market","Nascent, no large competitor"],["Investment","$1.2B planned"],["Promised uplift","+30%"],
+              ["Implementation","Vendor-led + in-house"],["Customer demand",{v:"Validated in Nordics",c:"success"}],["Margin model","Merchant-funded fees"]],
+        pred: { p: {v:"58%", c:"warn"}, npv:"+$840M", p10:"-$420M", p90:"+$2.4B", payback:"4.0y", reco:{v:"PROCEED WITH CAUTION", c:"warn"} },
+        actual: [["Status",{v:"PARTIAL",c:"warn"}],["Actual NPV",{v:"+$300M then -",c:"warn"}],
+                  ["Peak valuation","$46B (2021)"],["2022 valuation drop","-85%"],["IPO 2024","$15B"],["Lesson","BNPL margins squeezed by rate hikes"]],
+        bandPredPct: 60, bandActualPct: 45,
+        axis: ["-$1B","0","+$3B"],
+        modes: "competitor entry (Klarna, Affirm, Afterpay all peaked together), rate hike compression on margins, regulatory tightening in EU 2023, late-stage loss spiral, IPO valuation reset.",
+        modesRu: "массовый вход конкурентов одновременно, сжатие маржи из-за роста ставок, ужесточение регуляторики в ЕС 2023, late-stage loss spiral, переоценка к IPO.",
+        modesGood: false,
+      },
+      {
+        title: "Citi Banamex digital push · 2018",
+        meta: "Mexico · Retail banking · $600M planned · 60-month plan",
+        verdict: { en: "✓ PREDICTED FAILURE WITHIN P90", ru: "✓ ПРОВАЛ ПРЕДСКАЗАН В P90", cls: "win" },
+        pre: [["Banamex revenue","~$5B/y"],["Investment","$600M planned"],["Promised uplift","+8%"],
+              ["Implementation","Vendor-led"],["Local fintech competition",{v:"Intense (Konfio etc)",c:"danger"}],["Parent Citi posture",{v:"Restructuring",c:"warn"}]],
+        pred: { p: {v:"32%", c:"warn"}, npv:"-$140M", p10:"-$520M", p90:"+$280M", payback:"6y+", reco:{v:"PILOT FIRST", c:"danger"} },
+        actual: [["Status",{v:"FAILED",c:"danger"}],["Actual NPV",{v:"~-$400M",c:"danger"}],
+                  ["2022 decision","Citi to sell Banamex"],["2024 deal","Sale to Mifel for $7B (~50% book)"],
+                  ["Couldn't catch","Mexican fintechs (Konfio, NuMexico)"],["Lesson","Big-bank inertia under fintech assault"]],
+        bandPredPct: 40, bandActualPct: 20,
+        axis: ["-$800M","0","+$400M"],
+        modes: "big-bank inertia vs nimble fintech competition, parent-company restructuring distraction, vendor-led implementation under-delivering, regulatory complexity, brand-equity erosion in mass-retail.",
+        modesRu: "инерция большого банка vs nimble fintech, отвлечение от ресрутктуризации parent-компании, vendor-led внедрение не вытягивает, регуляторная сложность, эрозия brand equity в mass-retail.",
+        modesGood: false,
+      },
+    ];
+
+    function renderBacktests() {
+      const grid = document.getElementById("bt-grid");
+      if (!grid) return;
+      const RU = (typeof I18N !== "undefined" && I18N.cur === "ru");
+      const data = (typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") ? BACKTESTS_BANK : BACKTESTS_RAIL;
+
+      const verdictCls = v => v.cls === "win" ? "win" : v.cls === "draw" ? "draw" : "loss";
+      const cellHTML = (cell) => {
+        if (typeof cell === "string") return `<span class="v">${cell}</span>`;
+        return `<span class="v" style="color: var(--${cell.c});">${cell.v}</span>`;
+      };
+
+      const labels = RU ? {
+        pre: "Pre-project state",
+        forecast: "TimeStone forecast",
+        actual: "Фактический исход",
+        modesBad: "Top failure modes flagged by TimeStone",
+        modesGood: "Top success factors",
+        Investment: "Инвестиция", Recommendation: "Рекомендация",
+      } : {
+        pre: "Pre-project state",
+        forecast: "TimeStone pre-project forecast",
+        actual: "Actual outcome",
+        modesBad: "Top failure modes flagged by TimeStone",
+        modesGood: "Top success factors",
+        Investment: "Investment", Recommendation: "Recommendation",
+      };
+
+      let html = "";
+      data.forEach((c, i) => {
+        const verdictText = RU ? c.verdict.ru : c.verdict.en;
+        const modesText = c.modesGood ? (RU ? c.modesRu : c.modes) : (RU ? c.modesRu : c.modes);
+        const modesBlockClass = c.modesGood ? 'bt-failure-modes" style="background: rgba(52,211,153,0.05); border-left-color: var(--success);'
+                                              : 'bt-failure-modes';
+
+        const preRows = c.pre.map(([k, v]) => `<div class="row"><span>${k}</span>${cellHTML(v)}</div>`).join("");
+
+        const p = c.pred;
+        const predRows = [
+          `<div class="row"><span>P(NPV > 0)</span>${cellHTML(p.p)}</div>`,
+          `<div class="row"><span>Mean NPV</span><span class="v">${p.npv}</span></div>`,
+          `<div class="row"><span>P10 NPV</span><span class="v">${p.p10}</span></div>`,
+          `<div class="row"><span>P90 NPV</span><span class="v">${p.p90}</span></div>`,
+          `<div class="row"><span>Median payback</span><span class="v">${p.payback}</span></div>`,
+          `<div class="row"><span>${labels.Recommendation}</span>${cellHTML(p.reco)}</div>`,
+        ].join("");
+
+        const actRows = c.actual.map(([k, v]) => `<div class="row"><span>${k}</span>${cellHTML(v)}</div>`).join("");
+
+        html += `
+        <div class="bt-case">
+          <div class="bt-head">
+            <div>
+              <div class="bt-title">${c.title}</div>
+              <div class="bt-meta">${c.meta}</div>
+            </div>
+            <div class="bt-verdict ${verdictCls(c.verdict)}">${verdictText}</div>
+          </div>
+          <div class="bt-cols">
+            <div class="bt-col"><h5>${labels.pre}</h5>${preRows}</div>
+            <div class="bt-col"><h5>${labels.forecast}</h5>${predRows}</div>
+            <div class="bt-col"><h5>${labels.actual}</h5>${actRows}</div>
+          </div>
+          <div class="bt-distrib">
+            <div class="band"></div>
+            <div class="marker predicted" style="left: ${c.bandPredPct}%;"><span class="lbl">Mean ${p.npv}</span></div>
+            <div class="marker actual" style="left: ${c.bandActualPct}%;"><span class="lbl">Actual ${c.actual.find(a => a[0].toLowerCase().includes("actual npv"))?.[1]?.v || c.actual[1][1].v || ""}</span></div>
+            <div class="axis"><span>${c.axis[0]}</span><span>${c.axis[1]}</span><span>${c.axis[2]}</span></div>
+          </div>
+          <div class="${modesBlockClass}">
+            <strong>${c.modesGood ? labels.modesGood : labels.modesBad}</strong>: <span>${modesText}</span>
+          </div>
+        </div>`;
+      });
+      grid.innerHTML = html;
+    }
+
+    // Initial render
+    document.addEventListener("DOMContentLoaded", () => renderBacktests());
+    // Also render immediately since script is at the end of body
+    renderBacktests();
 
   </script>
 </body>
