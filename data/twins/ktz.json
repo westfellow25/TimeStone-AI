@@ -1,20 +1,126 @@
 {
   "company_name": "Kazakhstan Temir Zholy (KTZ)",
+  "notes": "National rail operator of Kazakhstan, holding company over passenger/freight/infrastructure subsidiaries. Quasi-sovereign, ultimately owned by Samruk-Kazyna.",
+  "created_at": "2026-05-20",
   "metrics": {
-    "revenue": 500000000,
-    "operating_costs": 450000000,
-    "employee_count": 10000,
+    "revenue": 5500000000,
+    "operating_costs": 4800000000,
+    "employees": 130000,
+    "profit_margin": 0.10,
     "market_share": 0.85,
-    "customer_count": 50000,
-    "avg_transaction_value": 10000,
-    "growth_rate": 0.05,
-    "industry": "Transportation & Logistics"
-  },
-  "metadata": {
-    "country": "Kazakhstan",
-    "founded": 2002,
-    "type": "National Railway Operator"
-  },
-  "created_at": "2026-02-22T10:34:52.980793",
-  "version": "1.0.0"
+    "industry": "transportation_rail",
+    "geography": "Kazakhstan",
+    "industry_tags": ["transportation", "logistics", "rail", "infrastructure"],
+    "segments": [
+      {
+        "name": "Freight (general cargo)",
+        "revenue_share": 0.55,
+        "description": "Bulk and general freight transportation across Kazakhstan and transit",
+        "growth_rate_pct": 0.04,
+        "margin_pct": 0.12
+      },
+      {
+        "name": "Container transit (Middle Corridor)",
+        "revenue_share": 0.18,
+        "description": "Trans-Caspian / China-Europe transit container traffic via KTZ network",
+        "growth_rate_pct": 0.25,
+        "margin_pct": 0.18
+      },
+      {
+        "name": "Passenger services",
+        "revenue_share": 0.12,
+        "description": "Long-distance and suburban passenger trains; subsidized tariffs",
+        "growth_rate_pct": 0.02,
+        "margin_pct": -0.05
+      },
+      {
+        "name": "Infrastructure access fees",
+        "revenue_share": 0.10,
+        "description": "Track access charges from private operators",
+        "growth_rate_pct": 0.06,
+        "margin_pct": 0.35
+      },
+      {
+        "name": "Other (terminals, repair, services)",
+        "revenue_share": 0.05,
+        "description": "Terminals, locomotive repair, ancillary B2B services",
+        "growth_rate_pct": 0.05,
+        "margin_pct": 0.08
+      }
+    ],
+    "competitors": [
+      {
+        "name": "RZD (Russian Railways)",
+        "relationship": "adjacent",
+        "market_share_ratio": 0.20,
+        "notes": "Alternative northern corridor; cooperative + competitive depending on geopolitics"
+      },
+      {
+        "name": "Trucking / road freight",
+        "relationship": "substitute",
+        "market_share_ratio": 1.4,
+        "notes": "Trucking takes ~30% of domestic ton-km; growing"
+      },
+      {
+        "name": "China Railway International",
+        "relationship": "adjacent",
+        "market_share_ratio": null,
+        "notes": "Counterpart on China side of Middle Corridor; cooperation partner"
+      },
+      {
+        "name": "Caspian Sea shipping",
+        "relationship": "adjacent",
+        "market_share_ratio": null,
+        "notes": "Middle Corridor depends on Caspian links - bottleneck and competitor"
+      }
+    ],
+    "prior_transformations": [
+      {
+        "name": "SAP ERP rollout",
+        "year": 2014,
+        "outcome": "partial",
+        "description": "Standard SAP implementation across HQ and major subsidiaries",
+        "investment_usd": 80000000,
+        "learnings": "Customization-heavy; integration with legacy ASOP-12 freight system never fully achieved"
+      },
+      {
+        "name": "Locomotive fleet renewal",
+        "year": 2016,
+        "outcome": "success",
+        "description": "Replace Soviet-era locomotives with GE / Alstom platforms",
+        "investment_usd": 2000000000,
+        "learnings": "On-time, on-budget for hardware; predictive maintenance promised but not delivered"
+      },
+      {
+        "name": "Container terminal Khorgos",
+        "year": 2018,
+        "outcome": "success",
+        "description": "Dry port on China border for Middle Corridor traffic",
+        "investment_usd": 250000000,
+        "learnings": "Demand exceeded forecasts after 2022 geopolitical shift; capacity now constrained"
+      },
+      {
+        "name": "Digital booking pilot 2020",
+        "year": 2020,
+        "outcome": "failed",
+        "description": "Web-based freight booking pilot with corporate clients",
+        "investment_usd": 12000000,
+        "learnings": "Clients did not adopt - relationship sales model too entrenched; UX too basic vs internal sales reps"
+      }
+    ],
+    "strategic_priorities": [
+      "Capture Middle Corridor (Trans-Caspian) volume growth",
+      "Reduce dependence on Russian transit corridor",
+      "Modernize freight pricing and yield management",
+      "Decarbonization / ESG reporting for European clients",
+      "Locomotive predictive maintenance to reduce downtime"
+    ],
+    "pain_points": [
+      "Fragmented IT landscape across 20+ legacy systems",
+      "Passenger segment structurally loss-making (social tariff cap)",
+      "Skilled tech talent shortage in regional offices",
+      "Cross-border data exchange friction with neighbours (RZD, China Railway)",
+      "Limited automated tracking - clients demand visibility we cannot provide reliably"
+    ]
+  }
 }

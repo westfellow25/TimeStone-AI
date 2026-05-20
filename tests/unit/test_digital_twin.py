@@ -47,3 +47,45 @@ def test_company_from_legacy_format():
     assert c.company_name == "Legacy Co"
     assert c.metrics.revenue == 100.0
     assert c.metrics.industry == "saas"
+
+
+def test_company_with_segments_competitors_priors():
+    """Rich Company model: segments, competitors, prior_transformations round-trip."""
+    from timestone.domain.company import (
+        Company, CompanyMetrics, BusinessSegment, Competitor, PriorTransformation,
+    )
+    c = Company(
+        company_name="Rich Co",
+        metrics=CompanyMetrics(
+            revenue=1e9, operating_costs=9e8, employees=10000,
+            industry="banking", geography="KZ",
+            segments=[BusinessSegment(name="Retail", revenue_share=0.6, margin_pct=0.15)],
+            competitors=[Competitor(name="Halyk", relationship="direct", market_share_ratio=0.5)],
+            prior_transformations=[
+                PriorTransformation(name="ERP rollout", year=2020, outcome="partial",
+                                     investment_usd=50_000_000)],
+            strategic_priorities=["Mobile-first", "ESG"],
+            pain_points=["Tech talent shortage"],
+        ))
+    payload = c.to_dict()
+    c2 = Company.from_dict(payload)
+    assert len(c2.metrics.segments) == 1
+    assert c2.metrics.segments[0].name == "Retail"
+    assert len(c2.metrics.competitors) == 1
+    assert c2.metrics.competitors[0].name == "Halyk"
+    assert len(c2.metrics.prior_transformations) == 1
+    assert c2.metrics.prior_transformations[0].outcome == "partial"
+    assert c2.metrics.strategic_priorities == ["Mobile-first", "ESG"]
+    assert c2.metrics.pain_points == ["Tech talent shortage"]
+
+
+def test_legacy_twin_still_loads_without_new_fields():
+    """Old JSON without segments/competitors/etc. must continue to work."""
+    from timestone.domain.company import Company
+    legacy = {
+        "company_name": "Legacy", "metrics": {"revenue": 100.0, "industry": "saas"}}
+    c = Company.from_dict(legacy)
+    assert c.metrics.segments == []
+    assert c.metrics.competitors == []
+    assert c.metrics.prior_transformations == []
+    assert c.metrics.strategic_priorities == []

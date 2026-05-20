@@ -2098,6 +2098,610 @@
         }
       ],
       "tacit_notes": "CEO change in 2018 reset strategy. Closing gap with X5 but slowly."
+    },
+    {
+      "id": "halyk-homebank-2017",
+      "company": "Halyk Bank",
+      "industry": "financial_services",
+      "industry_tags": [
+        "banking",
+        "financial_services",
+        "digital_native_app"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 2500000000,
+        "employees": 16000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "digital_transformation",
+        "subtype": "mobile_banking_app",
+        "description": "Halyk Homebank app + super-app expansion (payments, marketplace, services)",
+        "start_year": 2017,
+        "planned_duration_months": 36,
+        "actual_duration_months": 48,
+        "status": "success",
+        "vendor": "in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 150000000,
+        "actual_investment_usd": 220000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.05,
+        "actual_revenue_uplift_pct": 0.12,
+        "promised_cost_reduction_pct": 0.1,
+        "actual_cost_reduction_pct": 0.15
+      },
+      "failure_modes": [
+        "initial_kaspi_loyalty_resistance"
+      ],
+      "success_factors": [
+        "large_retail_base",
+        "regulatory_advantage",
+        "ATM_network_synergy"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "Halyk Group annual reports 2018-2022",
+          "year": 2022
+        }
+      ],
+      "tacit_notes": "Closing gap with Kaspi but never fully caught up. Strong B2B + corporate complement to consumer push."
+    },
+    {
+      "id": "kaspi-evolution-2008",
+      "company": "Kaspi.kz",
+      "industry": "financial_services",
+      "industry_tags": [
+        "fintech",
+        "ecommerce",
+        "consumer_services"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 4500000000,
+        "employees": 14000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "product_innovation",
+        "subtype": "bank_to_fintech_super_app",
+        "description": "Transform regional bank into payments + marketplace + travel super-app",
+        "start_year": 2008,
+        "planned_duration_months": 120,
+        "actual_duration_months": 144,
+        "status": "success",
+        "vendor": "in-house+Goldman_LSE"
+      },
+      "financials": {
+        "promised_investment_usd": 300000000,
+        "actual_investment_usd": 800000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.2,
+        "actual_revenue_uplift_pct": 0.4,
+        "promised_cost_reduction_pct": 0.3,
+        "actual_cost_reduction_pct": 0.55
+      },
+      "failure_modes": [],
+      "success_factors": [
+        "ceo_long_term_vision",
+        "underbanked_population_at_start",
+        "merchant_acceptance_first",
+        "consumer_super_app_DNA"
+      ],
+      "sources": [
+        {
+          "type": "IPO_prospectus",
+          "title": "Kaspi 2020 LSE / NASDAQ listings",
+          "year": 2020
+        }
+      ],
+      "tacit_notes": "Outlier success in CIS. Built ecosystem before fintech buzzword existed. 13M MAU in country of 19M. Reference case for emerging-market super-apps."
+    },
+    {
+      "id": "air-astana-digital-2018",
+      "company": "Air Astana",
+      "industry": "transportation",
+      "industry_tags": [
+        "transportation",
+        "aviation",
+        "consumer_services"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 1100000000,
+        "employees": 5500,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "digital_transformation",
+        "subtype": "direct_distribution_loyalty",
+        "description": "Modernize direct booking, loyalty (Nomad Club), revenue management",
+        "start_year": 2018,
+        "planned_duration_months": 30,
+        "actual_duration_months": 42,
+        "status": "partial",
+        "vendor": "Amadeus+in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 40000000,
+        "actual_investment_usd": 55000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.04,
+        "actual_revenue_uplift_pct": 0.025,
+        "promised_cost_reduction_pct": 0.03,
+        "actual_cost_reduction_pct": 0.02
+      },
+      "failure_modes": [
+        "covid_2020_disruption",
+        "GDS_lock_in"
+      ],
+      "success_factors": [
+        "loyalty_growth",
+        "regional_route_dominance"
+      ],
+      "sources": [
+        {
+          "type": "press",
+          "title": "Air Astana IPO London 2024",
+          "year": 2024
+        }
+      ],
+      "tacit_notes": "Pandemic stretched timeline by 12+ months. Direct booking grew but couldn't fully escape GDS dependency. Successful IPO 2024 partly on digital story."
+    },
+    {
+      "id": "kmg-digital-oilfield-2019",
+      "company": "KazMunayGas",
+      "industry": "oil_and_gas",
+      "industry_tags": [
+        "energy",
+        "oil_and_gas",
+        "industrial_iot"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 18000000000,
+        "employees": 90000,
+        "revenue_bucket": "large"
+      },
+      "transformation": {
+        "type": "operational_efficiency",
+        "subtype": "digital_oilfield_industrial_iot",
+        "description": "Digital field for upstream assets - predictive maintenance, drilling optimization",
+        "start_year": 2019,
+        "planned_duration_months": 48,
+        "actual_duration_months": 60,
+        "status": "partial",
+        "vendor": "Schlumberger+Halliburton+local"
+      },
+      "financials": {
+        "promised_investment_usd": 500000000,
+        "actual_investment_usd": 700000000,
+        "writeoff_usd": 100000000,
+        "promised_revenue_uplift_pct": 0.02,
+        "actual_revenue_uplift_pct": 0.01,
+        "promised_cost_reduction_pct": 0.06,
+        "actual_cost_reduction_pct": 0.03
+      },
+      "failure_modes": [
+        "mature_field_decline_dwarfs_gains",
+        "vendor_lock_in",
+        "skill_shortage_locally"
+      ],
+      "success_factors": [
+        "partial_predictive_maintenance_wins"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "KMG IPO prospectus 2022",
+          "year": 2022
+        }
+      ],
+      "tacit_notes": "Typical pattern in mature fields - digital wins exist but cannot offset natural decline rates. Lesson for any 'digital oilfield' pitch."
+    },
+    {
+      "id": "ktz-express-cargo-2020",
+      "company": "KTZ Express",
+      "industry": "transportation_rail",
+      "industry_tags": [
+        "transportation",
+        "logistics",
+        "rail",
+        "B2B"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 2000000000,
+        "employees": 26000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "digital_transformation",
+        "subtype": "cargo_booking_platform",
+        "description": "Digital cargo booking + tracking for Trans-Caspian corridor",
+        "start_year": 2020,
+        "planned_duration_months": 24,
+        "actual_duration_months": 36,
+        "status": "partial",
+        "vendor": "in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 50000000,
+        "actual_investment_usd": 70000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.05,
+        "actual_revenue_uplift_pct": 0.03,
+        "promised_cost_reduction_pct": 0.04,
+        "actual_cost_reduction_pct": 0.02
+      },
+      "failure_modes": [
+        "complex_cross_border_processes",
+        "competing_platforms_corridor"
+      ],
+      "success_factors": [
+        "middle_corridor_geopolitical_tailwind"
+      ],
+      "sources": [
+        {
+          "type": "press",
+          "title": "Trans-Caspian middle corridor coverage 2022-2024",
+          "year": 2023
+        }
+      ],
+      "tacit_notes": "Geopolitics drove demand independent of digital. Hard to attribute uplift to platform vs corridor shift."
+    },
+    {
+      "id": "beeline-kz-network-2019",
+      "company": "Beeline Kazakhstan (Veon)",
+      "industry": "telecom",
+      "industry_tags": [
+        "telecom",
+        "B2C"
+      ],
+      "geography": "Kazakhstan",
+      "company_size": {
+        "revenue_usd": 800000000,
+        "employees": 3500,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "operational_efficiency",
+        "subtype": "network_modernization_5G_prep",
+        "description": "Network modernization, 5G readiness, BSS replacement",
+        "start_year": 2019,
+        "planned_duration_months": 36,
+        "actual_duration_months": 48,
+        "status": "partial",
+        "vendor": "Ericsson+Huawei"
+      },
+      "financials": {
+        "promised_investment_usd": 200000000,
+        "actual_investment_usd": 280000000,
+        "writeoff_usd": 30000000,
+        "promised_revenue_uplift_pct": 0.04,
+        "actual_revenue_uplift_pct": 0.01,
+        "promised_cost_reduction_pct": 0.06,
+        "actual_cost_reduction_pct": 0.04
+      },
+      "failure_modes": [
+        "competition_from_kazakhtelecom",
+        "tele2_merger_complexity"
+      ],
+      "success_factors": [
+        "network_quality_improved"
+      ],
+      "sources": [
+        {
+          "type": "press",
+          "title": "Veon Kazakhstan operations reports",
+          "year": 2023
+        }
+      ],
+      "tacit_notes": "Hard for #3 player to monetize network upgrade vs market leader Kazakhtelecom."
+    },
+    {
+      "id": "vtb-digital-2018",
+      "company": "VTB Bank",
+      "industry": "financial_services",
+      "industry_tags": [
+        "banking",
+        "financial_services"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 15000000000,
+        "employees": 85000,
+        "revenue_bucket": "large"
+      },
+      "transformation": {
+        "type": "digital_transformation",
+        "subtype": "core_modernization_app",
+        "description": "Core banking modernization + mobile app pivot to chase Sber/Tinkoff",
+        "start_year": 2018,
+        "planned_duration_months": 48,
+        "actual_duration_months": 60,
+        "status": "partial",
+        "vendor": "in-house+IBM+SAP"
+      },
+      "financials": {
+        "promised_investment_usd": 1500000000,
+        "actual_investment_usd": 2200000000,
+        "writeoff_usd": 400000000,
+        "promised_revenue_uplift_pct": 0.06,
+        "actual_revenue_uplift_pct": 0.02,
+        "promised_cost_reduction_pct": 0.05,
+        "actual_cost_reduction_pct": 0.02
+      },
+      "failure_modes": [
+        "sanctions_2022",
+        "always_2_years_behind_sber"
+      ],
+      "success_factors": [
+        "corporate_segment_held"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "VTB annual reports 2019-2022",
+          "year": 2022
+        }
+      ],
+      "tacit_notes": "Classic #2 problem in digital banking - always responding, never setting agenda. Sanctions in 2022 cut access to global tech."
+    },
+    {
+      "id": "polyus-digital-mining-2019",
+      "company": "Polyus",
+      "industry": "mining",
+      "industry_tags": [
+        "mining",
+        "gold",
+        "industrial_iot"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 5000000000,
+        "employees": 21000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "operational_efficiency",
+        "subtype": "autonomous_mining_predictive",
+        "description": "Autonomous haulage + predictive maintenance at Olimpiada mine",
+        "start_year": 2019,
+        "planned_duration_months": 36,
+        "actual_duration_months": 48,
+        "status": "success",
+        "vendor": "Komatsu+Sandvik+in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 200000000,
+        "actual_investment_usd": 250000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.0,
+        "actual_revenue_uplift_pct": 0.0,
+        "promised_cost_reduction_pct": 0.1,
+        "actual_cost_reduction_pct": 0.08
+      },
+      "failure_modes": [
+        "sanctions_spare_parts"
+      ],
+      "success_factors": [
+        "concentrated_operation_easier_automation",
+        "labor_cost_arbitrage_remote"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "Polyus annual reports 2020-2023",
+          "year": 2023
+        }
+      ],
+      "tacit_notes": "Replicating Rio Tinto Pilbara playbook successfully. Single-site concentration helps. Sanctions threaten spare parts pipeline post-2022."
+    },
+    {
+      "id": "x5-pyaterochka-digital-2017",
+      "company": "X5 Retail Group",
+      "industry": "retail_grocery",
+      "industry_tags": [
+        "retail",
+        "supply_chain",
+        "ecommerce"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 25000000000,
+        "employees": 350000,
+        "revenue_bucket": "large"
+      },
+      "transformation": {
+        "type": "digital_transformation",
+        "subtype": "omnichannel_loyalty",
+        "description": "Pyaterochka loyalty + Vprok online + Mnogo Lososya / 5Post pickup network",
+        "start_year": 2017,
+        "planned_duration_months": 48,
+        "actual_duration_months": 60,
+        "status": "success",
+        "vendor": "in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 800000000,
+        "actual_investment_usd": 1100000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.06,
+        "actual_revenue_uplift_pct": 0.08,
+        "promised_cost_reduction_pct": 0.02,
+        "actual_cost_reduction_pct": 0.025
+      },
+      "failure_modes": [
+        "online_unit_margin_pressure"
+      ],
+      "success_factors": [
+        "store_network_scale",
+        "loyalty_data_advantage",
+        "in_house_tech_team_size"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "X5 IR materials 2019-2022",
+          "year": 2022
+        }
+      ],
+      "tacit_notes": "Closing gap with Magnit then pulling ahead. Loyalty programme is the unsung hero - 60M+ members."
+    },
+    {
+      "id": "severstal-industry-4-0-2016",
+      "company": "Severstal",
+      "industry": "industrial_manufacturing",
+      "industry_tags": [
+        "manufacturing",
+        "industrial_iot",
+        "steel"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 8000000000,
+        "employees": 50000,
+        "revenue_bucket": "large"
+      },
+      "transformation": {
+        "type": "operational_efficiency",
+        "subtype": "industrial_iot_steel",
+        "description": "Industry 4.0 across Cherepovets - sensorized blast furnaces, ML quality",
+        "start_year": 2016,
+        "planned_duration_months": 60,
+        "actual_duration_months": 60,
+        "status": "success",
+        "vendor": "in-house+SAP+local"
+      },
+      "financials": {
+        "promised_investment_usd": 300000000,
+        "actual_investment_usd": 350000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.02,
+        "actual_revenue_uplift_pct": 0.02,
+        "promised_cost_reduction_pct": 0.05,
+        "actual_cost_reduction_pct": 0.04
+      },
+      "failure_modes": [
+        "sanctions_2022_export_loss"
+      ],
+      "success_factors": [
+        "concentrated_geography",
+        "in_house_R&D_legacy",
+        "vertical_integration"
+      ],
+      "sources": [
+        {
+          "type": "press",
+          "title": "Severstal digital initiatives 2017-2022",
+          "year": 2022
+        }
+      ],
+      "tacit_notes": "Russian steel-tech reference. Sanctions wiped much of the export advantage post-2022."
+    },
+    {
+      "id": "sovcombank-halva-2014",
+      "company": "Sovcombank",
+      "industry": "financial_services",
+      "industry_tags": [
+        "banking",
+        "fintech",
+        "BNPL"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 2000000000,
+        "employees": 18000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "product_innovation",
+        "subtype": "BNPL_card_launch",
+        "description": "Halva card - installment-payments product, partner-funded interest",
+        "start_year": 2014,
+        "planned_duration_months": 36,
+        "actual_duration_months": 48,
+        "status": "success",
+        "vendor": "in-house"
+      },
+      "financials": {
+        "promised_investment_usd": 50000000,
+        "actual_investment_usd": 80000000,
+        "writeoff_usd": 0,
+        "promised_revenue_uplift_pct": 0.1,
+        "actual_revenue_uplift_pct": 0.3,
+        "promised_cost_reduction_pct": 0.0,
+        "actual_cost_reduction_pct": 0.0
+      },
+      "failure_modes": [],
+      "success_factors": [
+        "merchant_funded_model_unique",
+        "no_competition_at_launch",
+        "regulatory_arbitrage"
+      ],
+      "sources": [
+        {
+          "type": "annual_report",
+          "title": "Sovcombank IPO 2023 materials",
+          "year": 2023
+        }
+      ],
+      "tacit_notes": "Pre-empted BNPL trend by 5 years. 10M+ cardholders. IPO success 2023. Reference case for product-led growth in CIS banking."
+    },
+    {
+      "id": "yandex-market-pivot-2018",
+      "company": "Yandex.Market",
+      "industry": "retail",
+      "industry_tags": [
+        "ecommerce",
+        "technology",
+        "marketplace"
+      ],
+      "geography": "Russia",
+      "company_size": {
+        "revenue_usd": 2000000000,
+        "employees": 9000,
+        "revenue_bucket": "mid"
+      },
+      "transformation": {
+        "type": "product_innovation",
+        "subtype": "price_aggregator_to_marketplace",
+        "description": "Convert price aggregator (Beru) into full marketplace, fulfilment, JV with Sber",
+        "start_year": 2018,
+        "planned_duration_months": 36,
+        "actual_duration_months": 60,
+        "status": "failed",
+        "vendor": "in-house+Sberbank_JV"
+      },
+      "financials": {
+        "promised_investment_usd": 1000000000,
+        "actual_investment_usd": 2000000000,
+        "writeoff_usd": 1200000000,
+        "promised_revenue_uplift_pct": 0.3,
+        "actual_revenue_uplift_pct": 0.1,
+        "promised_cost_reduction_pct": null,
+        "actual_cost_reduction_pct": null
+      },
+      "failure_modes": [
+        "JV_dissolution_2020",
+        "ozon_wildberries_dominance",
+        "fulfilment_unit_economics"
+      ],
+      "success_factors": [
+        "yandex_traffic_funnel_intact"
+      ],
+      "sources": [
+        {
+          "type": "press",
+          "title": "Yandex-Sber JV unwind 2020",
+          "year": 2020
+        }
+      ],
+      "tacit_notes": "Lost ecommerce race to Ozon and Wildberries. Sber JV dissolution wrote off ~$1B. Yandex sold business 2024 amid restructuring."
     }
   ]
 }

@@ -73,3 +73,26 @@ def test_outcome_records_are_append_only(tmp_path):
     with pytest.raises(FileExistsError):
         repo.append(rec)   # cannot delete or overwrite
     assert len(repo.list_all()) == 1
+
+
+def test_ktz_enriched_twin_has_rich_metadata():
+    """The data/twins/ktz.json seed must have segments + competitors + prior_transformations."""
+    from timestone.repositories.company import CompanyRepository
+    repo = CompanyRepository(twins_dir=REPO_ROOT / "data" / "twins", also_repo_root=False)
+    ktz = repo.load_by_name("Kazakhstan Temir Zholy (KTZ)")
+    assert ktz is not None
+    assert len(ktz.metrics.segments) >= 3
+    assert len(ktz.metrics.competitors) >= 2
+    assert len(ktz.metrics.prior_transformations) >= 3
+    # Must include at least one failed prior transformation - so simulator can learn
+    outcomes = {t.outcome for t in ktz.metrics.prior_transformations}
+    assert "failed" in outcomes or "partial" in outcomes
+
+
+def test_cis_cases_present_in_library():
+    """At least 10 CIS-region cases must be present (the local moat)."""
+    from timestone.repositories.case_library import CaseLibraryRepository
+    cases = CaseLibraryRepository(REPO_ROOT / "data" / "case_library.json").load_all()
+    cis = [c for c in cases if c.geography in
+           ("Kazakhstan", "Russia", "Russia-CIS")]
+    assert len(cis) >= 10, f"Only {len(cis)} CIS cases - need 10+ for local moat"
