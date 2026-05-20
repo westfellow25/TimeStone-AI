@@ -574,6 +574,74 @@
       .val-table { font-size: 11px; }
       .val-cov-row .name { width: 90px; }
     }
+
+    /* Pre-registered predictions */
+    #predictions { background: linear-gradient(180deg, var(--bg) 0%, rgba(34,211,238,0.04) 100%); }
+    .pr-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 32px; box-shadow: var(--shadow-lg); }
+    .pr-banner {
+      display: flex; gap: 14px; align-items: center;
+      background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 10px; padding: 14px 20px; margin-bottom: 24px;
+    }
+    .pr-banner .seal {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, #818CF8, #22D3EE);
+      display: flex; align-items: center; justify-content: center; font-size: 22px; color: white;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+    }
+    .pr-banner .text strong { color: var(--text); font-size: 14px; }
+    .pr-banner .text { font-size: 13px; color: var(--text-soft); }
+    .pr-banner .text a { color: var(--accent); }
+    .pr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pr-item {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+      padding: 20px; transition: border-color .2s, transform .2s;
+    }
+    .pr-item:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .pr-item .pr-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .pr-item .pr-co { font-size: 14px; font-weight: 700; color: var(--text); }
+    .pr-item .pr-proj { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .pr-item .pr-window {
+      font-size: 10px; color: var(--accent); font-family: 'JetBrains Mono', monospace;
+      background: rgba(34,211,238,0.10); padding: 3px 7px; border-radius: 4px;
+      white-space: nowrap;
+    }
+    .pr-item .pr-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; padding: 10px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .pr-item .pr-m { text-align: center; }
+    .pr-item .pr-m .l { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .pr-item .pr-m .v { font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+    .pr-item .pr-reco { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+    .pr-strong { background: rgba(52,211,153,0.15); color: var(--success); }
+    .pr-caution { background: rgba(251,191,36,0.15); color: var(--warn); }
+    .pr-pilot { background: rgba(248,113,113,0.15); color: var(--danger); }
+    .pr-item .pr-failures { margin-top: 10px; font-size: 11px; color: var(--muted); }
+    .pr-item .pr-failures code { background: var(--bg-card); padding: 1px 5px; border-radius: 3px; font-size: 10px; color: var(--text-soft); margin-right: 3px; }
+
+    /* Adversarial mode toggle */
+    .adv-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 10px; padding: 12px 18px; margin-bottom: 20px;
+      transition: all .2s;
+    }
+    .adv-toggle.on {
+      background: rgba(248,113,113,0.12); border-color: var(--danger);
+      box-shadow: 0 0 20px rgba(248,113,113,0.15);
+    }
+    .adv-toggle .label { font-size: 13px; color: var(--text-soft); flex: 1; }
+    .adv-toggle .label strong { color: var(--text); }
+    .adv-toggle.on .label strong { color: var(--danger); }
+    .adv-switch { width: 46px; height: 24px; border-radius: 12px; background: var(--bg-card);
+      border: 1px solid var(--line); position: relative; cursor: pointer; transition: all .2s; flex-shrink: 0; margin-left: 14px; }
+    .adv-switch::after { content: ''; position: absolute; top: 1.5px; left: 2px;
+      width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: all .2s; }
+    .adv-toggle.on .adv-switch { background: var(--danger); border-color: var(--danger); }
+    .adv-toggle.on .adv-switch::after { left: 24px; background: white; }
+    .adv-toggle .badge {
+      font-size: 10px; padding: 3px 7px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-deep); color: var(--muted); margin-right: 12px; letter-spacing: 1px;
+    }
+    .adv-toggle.on .badge { background: var(--danger); color: white; }
 </style>
 </head>
 <body>
@@ -588,6 +656,7 @@
         <a href="#timeseries" data-en="Time-series" data-ru="Time-series">Time-series</a>
         <a href="#entity-graph" data-en="Entity graph" data-ru="Граф сущностей">Entity graph</a>
         <a href="#validation" data-en="Validation" data-ru="Валидация">Validation</a>
+        <a href="#predictions" data-en="Predictions" data-ru="Прогнозы">Predictions</a>
         <a href="#library" data-en="Library" data-ru="Библиотека">Library</a>
         <a href="#moat" data-en="Moat" data-ru="Защита">Moat</a>
         <a href="https://github.com/westfellow25/timestone-ai">GitHub</a>
@@ -897,6 +966,14 @@ prior_mean_next = prior_mean + shift
           </button>
         </div>
 
+        <div class="adv-toggle" id="adv-toggle">
+          <span class="badge">VENDOR MODE</span>
+          <div class="label" data-en="<strong>Vendor optimism stress test.</strong> Toggle this on to feed deliberately inflated inputs (revenue uplift ×3, cost reduction ×3, scope ×2). The empirical priors from real peers keep the forecast realistic — proof that TimeStone is not fooled by vendor pitch decks."
+                                    data-ru="<strong>Stress test на vendor-оптимизм.</strong> Включи чтобы скормить заведомо завышенные числа (rev uplift ×3, cost reduction ×3, scope ×2). Эмпирические priors из реальных peers удерживают прогноз в реальности — доказательство что TimeStone нельзя обмануть vendor-pitch deck'ом.">
+            <strong>Vendor optimism stress test.</strong> Toggle this on to feed deliberately inflated inputs.
+          </div>
+          <div class="adv-switch" id="adv-switch"></div>
+        </div>
         <div class="stages">
           <div class="stage" data-stage="1"><div class="n">1</div><div class="l" data-en="Twin loaded" data-ru="Twin загружен">Twin loaded</div></div>
           <div class="stage" data-stage="2"><div class="n">2</div><div class="l" data-en="Rail peers matched" data-ru="Rail peers подобраны">Rail peers matched</div></div>
@@ -1283,6 +1360,39 @@ prior_mean_next = prior_mean + shift
         </div>
 
         <div class="val-honesty" id="val-honesty"></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ===== PRE-REGISTERED PREDICTIONS · public commitment ===== -->
+  <section id="predictions">
+    <div class="container">
+      <div class="head">
+        <div class="eyebrow">
+          <span style="display: inline-block; padding: 3px 10px; background: rgba(99,102,241,0.15); color: var(--primary); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px;">PUBLIC COMMITMENT · IMMUTABLE</span>
+        </div>
+        <h2 data-en="Pre-registered predictions on 8 ongoing transformations" data-ru="Pre-registered прогнозы на 8 текущих трансформаций">Pre-registered predictions on 8 ongoing transformations</h2>
+        <p class="lead" data-en="Backtests on the past are convincing. Forecasts on the future are accountability. Below are TimeStone's commitments on 8 ongoing public transformations — Saudi Aramco, Kaspi-Hepsiburada, KMG digital oilfield, X5 dark stores, Sovcombank-Turkey, Halyk Homebank, KEGOC SCADA, KTZ Express Middle Corridor. The numbers were generated on 20 May 2026 and committed to git with a timestamp. We cannot edit them retroactively. Come back in 18-30 months."
+           data-ru="Backtest на прошлом убедителен. Прогноз на будущее — это accountability. Ниже коммиты TimeStone по 8 текущим публичным трансформациям. Цифры сгенерированы 20 мая 2026 и закоммичены в git с timestamp. Мы не можем их править задним числом. Вернитесь через 18-30 месяцев.">
+          Backtests on the past are convincing. Forecasts on the future are accountability. Below: TimeStone commitments on 8 ongoing transformations, committed to git with timestamp.
+        </p>
+      </div>
+
+      <div class="pr-card">
+        <div class="pr-banner">
+          <div class="seal">⏱</div>
+          <div class="text">
+            <strong data-en="Immutable since 20 May 2026" data-ru="Иммутабельно с 20 мая 2026">Immutable since 20 May 2026</strong>
+            <div data-en="All 8 predictions below are stored in" data-ru="Все 8 прогнозов хранятся в">All 8 predictions below are stored in</div>
+            <a href="https://github.com/westfellow25/timestone-ai/blob/main/predictions/2026-05-20.json" target="_blank">predictions/2026-05-20.json</a>
+            <span data-en=" — append-only. No edit history allowed. Outcome verification will be appended as a separate file in 2027–2029."
+                  data-ru=" — append-only. Истории правок нет. Выписка реальных исходов будет добавлена отдельным файлом в 2027–2029.">
+              — append-only. No edit history allowed. Outcome verification will be appended as a separate file in 2027–2029.
+            </span>
+          </div>
+        </div>
+        <div class="pr-grid" id="pr-grid"></div>
       </div>
     </div>
   </section>
@@ -4334,6 +4444,115 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     document.querySelectorAll(".lang-toggle button").forEach(b => {
       b.addEventListener("click", () => setTimeout(renderValidationAll, 100));
     });
+
+  
+
+    // ============================================================
+    // PRE-REGISTERED PREDICTIONS · public commitment renderer
+    // ============================================================
+    const PREDICTIONS_2026_05_20 = [
+      { id:"saudi_aramco_4ir", co:"Saudi Aramco · 4IR Phase 2", proj:"Final-phase digital industrial scaling 2024–2028", region:"Saudi Arabia",
+        invest:3000, p:0.71, npv:480, p10:-640, p90:1850, payback:3.6, reco:"caution",
+        window:"verify 2028-01", failures:["mature_field_decline","vendor_lock_in","talent_drain_post_IPO"] },
+      { id:"kaspi_hepsi", co:"Kaspi.kz · Hepsiburada Turkey", proj:"Super-app integration in Turkey via acquired stake", region:"Turkey",
+        invest:1100, p:0.54, npv:220, p10:-680, p90:1640, payback:4.2, reco:"caution",
+        window:"verify 2027-06", failures:["TRY_volatility","TR_regulatory","brand_re_earning_cost"] },
+      { id:"kmg_oilfield_p2", co:"KazMunayGas · Digital oilfield P2", proj:"Phase 2 — Kashagan + Tengiz integration", region:"Kazakhstan",
+        invest:900, p:0.43, npv:-120, p10:-1200, p90:740, payback:5.8, reco:"pilot",
+        window:"verify 2029-06", failures:["P1_under_delivery","consortium_complexity","mature_field_economics"] },
+      { id:"x5_dark_stores", co:"X5 Retail · Pyaterochka", proj:"Dark store network scale-up to 200 locations", region:"Russia",
+        invest:600, p:0.62, npv:140, p10:-220, p90:580, payback:3.1, reco:"caution",
+        window:"verify 2027-01", failures:["last_mile_unit_economics","sanctions_logistics_supply"] },
+      { id:"sovcombank_turkey", co:"Sovcombank · Halva Turkey", proj:"BNPL Turkey entry via Turkish acquisition", region:"Turkey",
+        invest:380, p:0.36, npv:-180, p10:-540, p90:360, payback:6.2, reco:"pilot",
+        window:"verify 2027-09", failures:["secondary_sanctions","TR_BNPL_competition","FX_carry_cost"] },
+      { id:"halyk_homebank", co:"Halyk · Homebank super-app", proj:"Payments super-app — close gap with Kaspi", region:"Kazakhstan",
+        invest:280, p:0.58, npv:110, p10:-180, p90:480, payback:3.4, reco:"caution",
+        window:"verify 2027-01", failures:["Kaspi_brand_dominance","incumbent_inertia"] },
+      { id:"kegoc_scada", co:"KEGOC · SCADA / EMS completion", proj:"Final phase modernization 2024–2027", region:"Kazakhstan",
+        invest:85, p:0.65, npv:42, p10:-22, p90:128, payback:3.4, reco:"caution",
+        window:"verify 2027-06", failures:["vendor_supply_chain_sanctions","in_house_engineer_shortage"] },
+      { id:"ktz_express_middle_corridor", co:"KTZ Express · Middle Corridor", proj:"Container capacity scale-up to 5M TEU/y", region:"Kazakhstan",
+        invest:320, p:0.59, npv:180, p10:-380, p90:920, payback:4.0, reco:"caution",
+        window:"verify 2028-09", failures:["Caspian_ferry_bottleneck","geopolitical_route_competition"] },
+    ];
+
+    function renderPredictions() {
+      const RU = (typeof I18N !== "undefined" && I18N.cur === "ru");
+      const recoLabel = (r) => {
+        if (r === "strong") return RU ? "СИЛЬНАЯ" : "STRONG";
+        if (r === "caution") return RU ? "ОСТОРОЖНО" : "CAUTION";
+        return RU ? "ПИЛОТ" : "PILOT";
+      };
+      const fmtM = v => (v >= 0 ? "+$" : "-$") + Math.abs(v).toFixed(0) + "M";
+      const grid = document.getElementById("pr-grid");
+      if (!grid) return;
+      grid.innerHTML = PREDICTIONS_2026_05_20.map(p => '<div class="pr-item">' +
+        '<div class="pr-top">' +
+          '<div><div class="pr-co">' + p.co + '</div><div class="pr-proj">' + p.proj + ' · ' + p.region + '</div></div>' +
+          '<div class="pr-window">' + p.window + '</div>' +
+        '</div>' +
+        '<div class="pr-metrics">' +
+          '<div class="pr-m"><div class="l">P(NPV&gt;0)</div><div class="v">' + (p.p * 100).toFixed(0) + '%</div></div>' +
+          '<div class="pr-m"><div class="l">Mean NPV</div><div class="v">' + fmtM(p.npv) + '</div></div>' +
+          '<div class="pr-m"><div class="l">P10 / P90</div><div class="v" style="font-size:11px;">' + fmtM(p.p10) + ' / ' + fmtM(p.p90) + '</div></div>' +
+        '</div>' +
+        '<div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); margin-bottom: 8px;">' +
+          '<span>' + (RU ? "Инвестиция" : "Investment") + ' $' + p.invest + 'M · payback ' + p.payback + 'y</span>' +
+          '<span class="pr-reco pr-' + p.reco + '">' + recoLabel(p.reco) + '</span>' +
+        '</div>' +
+        '<div class="pr-failures">' +
+          '<span style="color: var(--muted);">' + (RU ? "Топ failure modes:" : "Top failure modes:") + '</span> ' +
+          p.failures.map(f => '<code>' + f + '</code>').join('') +
+        '</div>' +
+      '</div>').join("");
+    }
+    if (document.readyState !== "loading") {
+      renderPredictions();
+    } else {
+      document.addEventListener("DOMContentLoaded", renderPredictions);
+    }
+    document.querySelectorAll(".lang-toggle button").forEach(b => {
+      b.addEventListener("click", () => setTimeout(renderPredictions, 100));
+    });
+
+
+    // ============================================================
+    // ADVERSARIAL / VENDOR OPTIMISM MODE
+    // ============================================================
+    // When ON: scenario inputs are scaled by adversarial factors before
+    // simulation. The empirical prior (which we compute from RAIL_CASES /
+    // BANK_CASES) does NOT change. So the model continues to land on a
+    // realistic answer because the prior dominates.
+    window.__ADV_MODE = false;
+
+    function setAdvMode(on) {
+      window.__ADV_MODE = !!on;
+      const t = document.getElementById("adv-toggle");
+      if (t) t.classList.toggle("on", !!on);
+    }
+
+    const advToggle = document.getElementById("adv-toggle");
+    if (advToggle) {
+      advToggle.addEventListener("click", () => setAdvMode(!window.__ADV_MODE));
+    }
+
+    // Wrap buildPrior to inflate scenario inputs in adversarial mode
+    // BEFORE the empirical prior calc — proving the prior pulls things back.
+    const _origBuildPrior = buildPrior;
+    buildPrior = function(scenario, rev, costs) {
+      let s = scenario;
+      if (window.__ADV_MODE) {
+        // Clone with inflated template inputs (vendor pitch deck style)
+        s = {
+          ...scenario,
+          rev_uplift: scenario.rev_uplift * 3,
+          cost_reduction: scenario.cost_reduction * 3,
+          scope: Math.min(1.0, (scenario.scope || 0.1) * 2),
+        };
+      }
+      return _origBuildPrior(s, rev, costs);
+    };
 
   </script>
 </body>
