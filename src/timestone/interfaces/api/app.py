@@ -326,3 +326,8 @@ def create_app() -> "FastAPI":  # noqa: F821
 # Module-level app for the conventional `uvicorn module:app` invocation.
 # If FastAPI is missing we still expose `app = None` so imports don't blow up.
 app = create_app() if HAS_FASTAPI else None
+level app for the conventional `uvicorn module:app` invocation.
+# If FastAPI is missing we still expose `app = None` so imports don't blow up.
+app = create_app() if HAS_FASTAPI else None
+mports don't blow up.
+app = create_app() if HAS_FASTAPI else None
