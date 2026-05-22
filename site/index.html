@@ -228,6 +228,14 @@
       font-family: 'JetBrains Mono', monospace;
     }
     .filter-summary .matches small { font-size: 12px; color: var(--muted); margin-left: 6px; font-weight: 400; }
+    .match-hint {
+      margin-top: -14px; margin-bottom: 24px; padding: 11px 16px;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      border-radius: 8px; color: var(--text-soft); font-size: 13px;
+      line-height: 1.5;
+    }
+    .match-hint strong { color: var(--warn); font-weight: 700; }
 
     .stages { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 28px; padding: 18px; background: var(--bg); border-radius: 10px; border: 1px solid var(--line); }
     .stage { text-align: center; padding: 10px 6px; border-radius: 6px; transition: all .3s; }
@@ -1087,14 +1095,15 @@ prior_mean_next = prior_mean + shift
         <div class="filter-summary">
           <div>
             <span data-en="Scenarios matching your filters:" data-ru="Сценариев под фильтры:">Scenarios matching your filters:</span>
-            <span class="matches" id="match-count">40</span>
-            <small data-en="of 40 in the rail library" data-ru="из 40 в rail-библиотеке">of 40 in the rail library</small>
+            <span class="matches" id="match-count">50</span>
+            <small data-en="of 50 in the rail library" data-ru="из 50 в rail-библиотеке">of 50 in the rail library</small>
           </div>
           <button class="btn btn-primary" id="run-demo">
             <span data-en="Run simulation" data-ru="Запустить симуляцию">Run simulation</span>
             <span>▶</span>
           </button>
         </div>
+        <div id="match-hint" class="match-hint" style="display:none;"></div>
 
         <div class="adv-toggle" id="adv-toggle">
           <span class="badge">VENDOR MODE</span>
@@ -2069,7 +2078,68 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         desc: "Network-wide observability for IT and OT systems. ML-driven root-cause analysis cuts incident response time.",
         segment: "tech", objective: "service_quality", risk: "conservative", impl: "vendor",
         invest_min: 3, invest_max: 7, time_min: 8, time_max: 14,
-        rev_uplift: 0.0, cost_reduction: 0.012, scope: 0.1, peers: ["network-rail-scada-2019","cn-rail-edmonton-2017"] }
+        rev_uplift: 0.0, cost_reduction: 0.012, scope: 0.1, peers: ["network-rail-scada-2019","cn-rail-edmonton-2017"] },
+
+      // === GAP-FILLERS · 10 scenarios covering common CFO filter combinations ===
+      { id: "f13", name: "Conservative dynamic pricing pilot — 2 high-margin freight routes (KZ↔CN container, KZ↔RU oil)",
+        desc: "Two-route pilot of yield management on KTZ's most predictable corridors. Conservative scope to validate uplift before scaling to full network. Mirrors China Railway 2015 pilot before national rollout.",
+        segment: "freight", objective: "revenue_growth", risk: "conservative", impl: "in_house",
+        invest_min: 6, invest_max: 12, time_min: 7, time_max: 11,
+        rev_uplift: 0.018, cost_reduction: 0.0, scope: 0.08, peers: ["china-rail-yield-2015","ktz-express-cargo-2020"] },
+
+      { id: "f14", name: "Wagon GPS retrofit pilot — Astana yard 200 wagons",
+        desc: "Bluetooth+LTE trackers on 200 wagons at single yard. Cuts dwell time, reduces lost-wagon write-offs. Vendor solution, conservative scope before fleet-wide deploy.",
+        segment: "freight", objective: "cost_reduction", risk: "conservative", impl: "vendor",
+        invest_min: 4, invest_max: 9, time_min: 6, time_max: 10,
+        rev_uplift: 0.0, cost_reduction: 0.022, scope: 0.06, peers: ["union-pacific-ptc-2008","cn-rail-edmonton-2017"] },
+
+      { id: "p4", name: "Yield management pilot — Nur-Sultan↔Almaty Talgo premium class",
+        desc: "Dynamic pricing on premium Talgo seats during business-travel windows. Single corridor pilot, replicable to other intercity routes if successful.",
+        segment: "passenger", objective: "revenue_growth", risk: "balanced", impl: "in_house",
+        invest_min: 7, invest_max: 13, time_min: 8, time_max: 12,
+        rev_uplift: 0.028, cost_reduction: 0.0, scope: 0.1, peers: ["sncf-tgv-yield-2014","amtrak-acela-2017"] },
+
+      { id: "p5", name: "Mobile ticketing UX revamp — 5 city station pilot",
+        desc: "Modernize ticketing app + station kiosks at 5 highest-traffic stations. Reduces queue time, increases self-service share. Low-risk UX project.",
+        segment: "passenger", objective: "service_quality", risk: "conservative", impl: "vendor",
+        invest_min: 2, invest_max: 4, time_min: 5, time_max: 9,
+        rev_uplift: 0.008, cost_reduction: 0.005, scope: 0.05, peers: ["renfe-mobile-2018","db-navigator-2016"] },
+
+      { id: "op3", name: "Dispatch center consolidation — merge Almaty + Astana operations",
+        desc: "Unify two regional dispatch centers into single operations hub with shared analytics. Reduces overhead, improves cross-region routing. CSX PSR playbook adapted to KTZ geography.",
+        segment: "operations", objective: "cost_reduction", risk: "balanced", impl: "in_house",
+        invest_min: 28, invest_max: 65, time_min: 18, time_max: 30,
+        rev_uplift: 0.0, cost_reduction: 0.038, scope: 0.18, peers: ["csx-psr-2017","cn-rail-edmonton-2017"] },
+
+      { id: "op4", name: "ETA accuracy upgrade — Khorgos gateway terminal",
+        desc: "Real-time ETA recalculation engine at China-border terminal. Conservative single-terminal pilot. Improves shipper trust on Trans-Caspian flows.",
+        segment: "operations", objective: "service_quality", risk: "conservative", impl: "vendor",
+        invest_min: 5, invest_max: 11, time_min: 7, time_max: 12,
+        rev_uplift: 0.012, cost_reduction: 0.008, scope: 0.08, peers: ["china-rail-yield-2015","db-cargo-myraillog-2017"] },
+
+      { id: "st3", name: "Sanctions-resilient alternative routing via Caspian + Iran",
+        desc: "Diversify away from Russia-corridor dependency. Long-term JV plus infrastructure investment for Caspian ferry capacity. Hedges against geopolitical shocks.",
+        segment: "strategic", objective: "resilience", risk: "balanced", impl: "JV",
+        invest_min: 80, invest_max: 180, time_min: 36, time_max: 60,
+        rev_uplift: 0.04, cost_reduction: 0.0, scope: 0.25, peers: ["ktz-express-cargo-2020","indian-rail-fois-2018"] },
+
+      { id: "st4", name: "Green hydrogen locomotive pilot — JV with KazMunayGas",
+        desc: "Decarbonization push: pilot fleet of hydrogen locomotives on grain corridor. JV with KMG for fuel supply. Long-horizon, capital-intensive, future-proofs against EU CBAM.",
+        segment: "strategic", objective: "decarbonization", risk: "balanced", impl: "JV",
+        invest_min: 120, invest_max: 280, time_min: 36, time_max: 60,
+        rev_uplift: 0.015, cost_reduction: 0.0, scope: 0.20, peers: ["db-cargo-myraillog-2017","sncf-fret-cabotage-2018"] },
+
+      { id: "f15", name: "Acquire stake in Caspian ferry consortium for Middle Corridor scale-up",
+        desc: "M&A play to secure capacity on Caspian crossing — the bottleneck for Trans-Caspian container growth. Aggressive bet on China-EU rail freight boom.",
+        segment: "freight", objective: "revenue_growth", risk: "aggressive", impl: "M&A",
+        invest_min: 150, invest_max: 350, time_min: 24, time_max: 42,
+        rev_uplift: 0.065, cost_reduction: 0.0, scope: 0.30, peers: ["china-rail-yield-2015","ktz-express-cargo-2020"] },
+
+      { id: "f16", name: "Precision Scheduled Railroading rollout across grain network",
+        desc: "Adopt CSX-style PSR — fixed schedules, asset-utilization focus. Aggressive operational overhaul. Big upside if execution holds, big downside if union backlash. Mirrors CSX 2017 and CN Rail playbooks.",
+        segment: "freight", objective: "cost_reduction", risk: "aggressive", impl: "in_house",
+        invest_min: 35, invest_max: 80, time_min: 18, time_max: 30,
+        rev_uplift: 0.02, cost_reduction: 0.055, scope: 0.22, peers: ["csx-psr-2017","cn-rail-edmonton-2017"] }
     ];
 
     // ===================================================================
@@ -2165,8 +2235,66 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       return true;
     }
     function updateMatchCount() {
-      const n = KTZ_SCENARIOS.filter(filterMatch).length;
-      document.getElementById("match-count").textContent = n;
+      const scenarios = (typeof window.__activeScenarios !== "undefined" && window.__activeScenarios) ? window.__activeScenarios : KTZ_SCENARIOS;
+      const n = scenarios.filter(filterMatch).length;
+      const el = document.getElementById("match-count");
+      if (el) el.textContent = n;
+      // Update "of N in the rail library" label to actual library size
+      const lib = document.querySelector(".filter-summary small");
+      if (lib) {
+        const ru = (typeof I18N !== "undefined" && I18N.cur === "ru");
+        lib.textContent = ru ? ("из " + scenarios.length + " в rail-библиотеке") : ("of " + scenarios.length + " in the rail library");
+      }
+      // Disable Run button when 0 matches
+      const runBtn = document.getElementById("run-demo");
+      if (runBtn) {
+        if (n === 0) {
+          runBtn.disabled = true;
+          runBtn.style.opacity = "0.5";
+          runBtn.style.cursor = "not-allowed";
+        } else {
+          runBtn.disabled = false;
+          runBtn.style.opacity = "";
+          runBtn.style.cursor = "";
+        }
+      }
+      // Smart empty-state: if 0 matches, find which single filter to relax.
+      const hint = document.getElementById("match-hint");
+      if (hint) {
+        if (n > 0) {
+          hint.style.display = "none";
+          hint.textContent = "";
+        } else {
+          const filterLabels = {
+            objective: I18N.cur === "ru" ? "Стратегическую цель" : "Strategic objective",
+            budget: I18N.cur === "ru" ? "Инвестиционный envelope" : "Investment envelope",
+            horizon: I18N.cur === "ru" ? "Горизонт" : "Horizon",
+            risk: I18N.cur === "ru" ? "Аппетит к риску" : "Risk appetite",
+            segment: I18N.cur === "ru" ? "Бизнес-сегмент" : "Segment",
+            impl: I18N.cur === "ru" ? "Модель реализации" : "Implementation model",
+          };
+          let best = null;
+          Object.keys(FILTERS).forEach(k => {
+            if (FILTERS[k] === "all") return;
+            const saved = FILTERS[k];
+            FILTERS[k] = "all";
+            const cnt = scenarios.filter(filterMatch).length;
+            FILTERS[k] = saved;
+            if (!best || cnt > best.cnt) best = { key: k, cnt: cnt };
+          });
+          hint.style.display = "block";
+          if (best && best.cnt > 0) {
+            const verb = I18N.cur === "ru" ? "Снимите фильтр" : "Clear filter";
+            const tail = I18N.cur === "ru" ? "и получите" : "to see";
+            const init = I18N.cur === "ru" ? "инициатив" : "initiatives";
+            hint.innerHTML = "💡 " + verb + " <strong>" + filterLabels[best.key] + "</strong> " + tail + " <strong>" + best.cnt + "</strong> " + init;
+          } else {
+            hint.textContent = I18N.cur === "ru"
+              ? "Под выбранную комбинацию инициатив нет. Ослабьте несколько фильтров."
+              : "No scenarios match this combination. Try relaxing several filters.";
+          }
+        }
+      }
     }
     // Wire filter chips
     document.querySelectorAll(".filter-row").forEach(row => {
