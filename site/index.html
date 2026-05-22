@@ -3754,6 +3754,30 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       const popEl = document.getElementById("eg-population");
       if (popEl) popEl.style.display = "none";
       if (typeof tsReset === "function") tsReset();
+      // CRITICAL: clear stale simulation results from previous vertical
+      const recsEl = document.getElementById("recs");
+      if (recsEl) recsEl.innerHTML = "";
+      const retrievedEl = document.getElementById("retrieved");
+      if (retrievedEl) retrievedEl.innerHTML = "";
+      const mcWrap = document.getElementById("mc-wrap");
+      if (mcWrap) mcWrap.style.display = "none";
+      const tornadoEl = document.getElementById("tornado");
+      if (tornadoEl) tornadoEl.classList.remove("shown");
+      const whatifEl = document.getElementById("whatif");
+      if (whatifEl) whatifEl.classList.remove("shown");
+      const synergyCard = document.getElementById("synergy-card");
+      if (synergyCard) synergyCard.classList.remove("shown");
+      const moCard = document.getElementById("mo-card");
+      if (moCard) moCard.style.display = "none";
+      // Reset pipeline stages
+      document.querySelectorAll(".stage").forEach(s => { s.classList.remove("active","done"); });
+      // Show a status hint prompting re-run
+      const statusEl = document.getElementById("status");
+      if (statusEl) {
+        statusEl.textContent = I18N.cur === "ru"
+          ? "Переключено на " + co.label + ". Нажмите «Запустить симуляцию» для пересчёта."
+          : "Switched to " + co.label + ". Click Run simulation to recompute.";
+      }
     }
 
     // Override the existing simulate() inputs so they pick up active company
