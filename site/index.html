@@ -2328,10 +2328,11 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       return mean + std * z;
     }
 
-    // Build empirical prior from rail peer cases
+    // Build empirical prior from the active vertical's peer cases
     function buildPrior(scenario, baselineRevenue, baselineOpCosts) {
       const peerIds = scenario.peers || [];
-      const peers = RAIL_CASES.filter(c => peerIds.includes(c.id));
+      const activePeers = (typeof window.__activePeers !== "undefined" && window.__activePeers) ? window.__activePeers : RAIL_CASES;
+      const peers = activePeers.filter(c => peerIds.includes(c.id));
       if (peers.length === 0) {
         return { revImpact: scenario.rev_uplift, costImpact: scenario.cost_reduction, failureProb: 0.10, peers: [] };
       }
@@ -2478,8 +2479,21 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     }
 
     let lastTopScenario = null; let lastAgg = null; let lastSamples = null; let lastTopPrior = null;
-    const BASELINE_REVENUE = 5_500_000_000;
-    const BASELINE_OP_COSTS = 4_800_000_000;
+    // Dynamic baselines — read from the active company's COMPANIES entry every time
+    // the engine runs. Falls back to KTZ figures if registry isn't loaded yet.
+    const BASELINE_DEFAULTS = { rev: 5_500_000_000, op: 4_800_000_000 };
+    function getBaselineRevenue() {
+      try { return COMPANIES[ACTIVE_CO].revenue; } catch (e) { return BASELINE_DEFAULTS.rev; }
+    }
+    function getBaselineOpCosts() {
+      try { return COMPANIES[ACTIVE_CO].op_costs; } catch (e) { return BASELINE_DEFAULTS.op; }
+    }
+    // Backwards-compatible aliases via Object.defineProperty so existing code
+    // that reads BASELINE_REVENUE / BASELINE_OP_COSTS still works.
+    Object.defineProperty(window, "BASELINE_REVENUE", { get: getBaselineRevenue, configurable: true });
+    Object.defineProperty(window, "BASELINE_OP_COSTS", { get: getBaselineOpCosts, configurable: true });
+    var BASELINE_REVENUE = getBaselineRevenue();
+    var BASELINE_OP_COSTS = getBaselineOpCosts();
 
     async function drawMonteCarlo(samples, finalAgg, animate) {
       const canvas = $("mc-canvas");
@@ -2599,7 +2613,7 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
             '<div class="rec-metric"><div class="ml">Payback</div><div class="mv">' + r.agg.medianPayback.toFixed(1) + 'y</div></div>' +
             '<div class="rec-metric"><div class="ml">Investment</div><div class="mv">$' + (r.agg.meanInvest / 1e6).toFixed(0) + 'M</div></div>' +
           '</div>' +
-          '<div class="rec-cases">Based on rail peers: ' + peers + '</div>' +
+          '<div class="rec-cases">' + ((typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") ? (I18N.cur === "ru" ? "На банковских peer-кейсах: " : "Based on banking peers: ") : (I18N.cur === "ru" ? "На rail peer-кейсах: " : "Based on rail peers: ")) + peers + '</div>' +
           flagBlock +
           '</div>';
       }).join("");
@@ -2684,7 +2698,9 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     }
 
     async function runDemo() {
-      const matching = KTZ_SCENARIOS.filter(filterMatch);
+      // Use the active vertical's scenarios (KTZ rail or Kaspi banking)
+      const activeScenarios = (typeof window.__activeScenarios !== "undefined" && window.__activeScenarios) ? window.__activeScenarios : KTZ_SCENARIOS;
+      const matching = activeScenarios.filter(filterMatch);
       if (matching.length === 0) {
         setStatus(I18N.cur === "ru" ? "Нет сценариев под текущие фильтры." : "No scenarios match current filters.");
         return;
@@ -2901,7 +2917,7 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
         doc.setFont("helvetica", "normal"); doc.setFontSize(8);
         doc.setTextColor(129, 140, 248);
         const peerIds = r.prior.peers.slice(0, 3).map(p => p.id).join(" · ");
-        doc.text("Based on rail peers: " + peerIds, M + 8, y + 16);
+        doc.text(((typeof ACTIVE_CO !== "undefined" && ACTIVE_CO === "kaspi") ? "Based on banking peers: " : "Based on rail peers: ") + peerIds, M + 8, y + 16);
 
         y += 28;
       });
@@ -3700,6 +3716,10 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
       // Update active globals for the demo engine
       window.__activeScenarios = co.scenarios;
       window.__activePeers = co.peers;
+      // Refresh baseline financials — different verticals have different revenue/cost bases
+      try { BASELINE_REVENUE = co.revenue; BASELINE_OP_COSTS = co.op_costs; } catch (e) {}
+      // Update filter match count + run button state for the new vertical
+      if (typeof updateMatchCount === "function") updateMatchCount();
       // Update twin context bar
       const RU = I18N.cur === "ru";
       const bar = document.querySelector(".twin-bar");
