@@ -2479,21 +2479,10 @@ streamlit run src/timestone/interfaces/web/dashboard.py</code></pre>
     }
 
     let lastTopScenario = null; let lastAgg = null; let lastSamples = null; let lastTopPrior = null;
-    // Dynamic baselines — read from the active company's COMPANIES entry every time
-    // the engine runs. Falls back to KTZ figures if registry isn't loaded yet.
-    const BASELINE_DEFAULTS = { rev: 5_500_000_000, op: 4_800_000_000 };
-    function getBaselineRevenue() {
-      try { return COMPANIES[ACTIVE_CO].revenue; } catch (e) { return BASELINE_DEFAULTS.rev; }
-    }
-    function getBaselineOpCosts() {
-      try { return COMPANIES[ACTIVE_CO].op_costs; } catch (e) { return BASELINE_DEFAULTS.op; }
-    }
-    // Backwards-compatible aliases via Object.defineProperty so existing code
-    // that reads BASELINE_REVENUE / BASELINE_OP_COSTS still works.
-    Object.defineProperty(window, "BASELINE_REVENUE", { get: getBaselineRevenue, configurable: true });
-    Object.defineProperty(window, "BASELINE_OP_COSTS", { get: getBaselineOpCosts, configurable: true });
-    var BASELINE_REVENUE = getBaselineRevenue();
-    var BASELINE_OP_COSTS = getBaselineOpCosts();
+    // Dynamic baselines — mutable so switchCompany() can refresh per-vertical.
+    // Defaults to KTZ rail; updated when Kaspi (or future verticals) is selected.
+    var BASELINE_REVENUE = 5_500_000_000;
+    var BASELINE_OP_COSTS = 4_800_000_000;
 
     async function drawMonteCarlo(samples, finalAgg, animate) {
       const canvas = $("mc-canvas");
