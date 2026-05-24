@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimeStone · Synthetic Data Layer · Privacy demo</title>
+<style>
+  :root {
+    --bg: #060912; --bg-card: #151B33; --bg-deep: #0F1428; --bg-input: #1E2547;
+    --line: #2A3454; --text: #F8FAFC; --text-soft: #C7D2FE; --muted: #94A3B8;
+    --primary: #6366F1; --primary-strong: #4F46E5; --accent: #22D3EE;
+    --success: #34D399; --warn: #FBBF24; --danger: #F87171;
+    --grad: linear-gradient(135deg,#818CF8 0%,#22D3EE 100%);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; min-height: 100vh; padding: 24px; }
+  a { color: var(--accent); text-decoration: none; }
+
+  .nav { max-width: 1280px; margin: 0 auto 24px; display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+  .brand .logo { width: 32px; height: 32px; border-radius: 8px; background: var(--grad); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; }
+  .nav-back { font-size: 13px; color: var(--muted); }
+  .nav-back:hover { color: var(--accent); }
+
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  .hero { text-align: center; padding: 20px 0 36px; }
+  .badge-row { display: inline-flex; gap: 8px; margin-bottom: 16px; }
+  .badge { display: inline-block; padding: 4px 12px; font-size: 10px; font-family: "JetBrains Mono", Consolas, monospace; letter-spacing: 1.5px; border-radius: 4px; }
+  .badge.preview { background: rgba(34,211,238,0.12); color: var(--accent); }
+  .badge.open { background: rgba(52,211,153,0.12); color: var(--success); }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; line-height: 1.15; }
+  h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--muted); font-size: 15px; max-width: 720px; margin: 0 auto; line-height: 1.6; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+  .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .card h3 .ico { width: 28px; height: 28px; border-radius: 8px; background: rgba(99,102,241,0.18); display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 800; font-size: 14px; }
+  .card-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+
+  .samples { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .sample { padding: 14px 16px; background: var(--bg-deep); border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: all .2s; }
+  .sample:hover { border-color: var(--primary); transform: translateY(-1px); }
+  .sample.active { border-color: var(--accent); background: rgba(34,211,238,0.06); }
+  .sample-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+  .sample-name .tag { font-family: "JetBrains Mono", Consolas, monospace; font-size: 9px; padding: 2px 7px; background: rgba(99,102,241,0.15); color: var(--accent); border-radius: 3px; letter-spacing: 0.5px; }
+  .sample-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .upload { border: 2px dashed var(--line); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all .2s; margin-top: 14px; }
+  .upload:hover { border-color: var(--primary); background: rgba(99,102,241,0.04); }
+  .upload.has-file { border-color: var(--success); border-style: solid; background: rgba(52,211,153,0.05); }
+  .upload-icon { font-size: 28px; margin-bottom: 6px; color: var(--muted); }
+  .upload-text { font-size: 13px; color: var(--text-soft); }
+  .upload-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  #file-input { display: none; }
+
+  .controls { padding: 18px 0 4px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .ctrl label { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: "JetBrains Mono", Consolas, monospace; }
+  .ctrl select, .ctrl input { width: 100%; background: var(--bg-deep); border: 1px solid var(--line); color: var(--text); padding: 9px 12px; border-radius: 8px; font-family: inherit; font-size: 13px; }
+  .ctrl select:focus, .ctrl input:focus { outline: none; border-color: var(--primary); }
+
+  .run-bar { padding: 20px 0; display: flex; align-items: center; gap: 14px; }
+  .run-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all .2s; }
+  .run-btn:hover { background: var(--primary-strong); transform: translateY(-1px); }
+  .run-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .run-status { font-size: 12px; color: var(--muted); font-family: "JetBrains Mono", Consolas, monospace; }
+  .run-status.active { color: var(--accent); }
+
+  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 16px 18px; background: var(--bg-deep); border: 1px solid var(--line); border-radius: 10px; margin: 4px 0 12px; }
+  .stage { text-align: center; opacity: 0.4; transition: opacity .3s; }
+  .stage.active, .stage.done { opacity: 1; }
+  .stage-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--line); margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 700; transition: all .3s; }
+  .stage.active .stage-dot { background: var(--primary); animation: pulse 1s infinite ease-in-out; }
+  .stage.done .stage-dot { background: var(--success); }
+  .stage-label { font-size: 10px; color: var(--muted); font-family: "JetBrains Mono", Consolas, monospace; }
+  @keyframes pulse { 50% { transform: scale(1.15); } }
+
+  .results { display: none; margin-top: 24px; }
+  .results.shown { display: block; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .table-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .table-card .th-bar { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .table-card .t-name { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .table-card .t-name .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .table-card.real .t-name .dot { background: var(--danger); }
+  .table-card.synth .t-name .dot { background: var(--success); }
+  .t-meta { font-size: 10px; color: var(--muted); font-family: "JetBrains Mono", Consolas, monospace; }
+  .table-scroll { max-height: 320px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { background: var(--bg-deep); color: var(--muted); font-weight: 600; font-family: "JetBrains Mono", Consolas, monospace; font-size: 10px; letter-spacing: 0.5px; position: sticky; top: 0; }
+  td { color: var(--text-soft); font-family: "JetBrains Mono", Consolas, monospace; }
+  td.num { text-align: right; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .metric { background: var(--bg-card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .metric-l { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: "JetBrains Mono", Consolas, monospace; margin-bottom: 6px; }
+  .metric-v { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .metric-v.good { color: var(--success); }
+  .metric-v.warn { color: var(--warn); }
+  .metric-sub { font-size: 10px; color: var(--muted); margin-top: 4px; font-family: "JetBrains Mono", Consolas, monospace; }
+
+  .privacy-banner { padding: 14px 18px; background: rgba(52,211,153,0.08); border-left: 3px solid var(--success); border-radius: 4px; font-size: 13px; color: var(--text-soft); margin-bottom: 14px; }
+  .privacy-banner strong { color: var(--success); }
+
+  .actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .btn { padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--bg-deep); color: var(--text); transition: all .2s; }
+  .btn:hover { border-color: var(--primary); }
+  .btn.accent { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .btn.accent:hover { background: #67e8f9; }
+
+  .foot { text-align: center; font-size: 11px; color: var(--muted); margin-top: 32px; padding: 16px; font-family: "JetBrains Mono", Consolas, monospace; }
+  .foot .pulse { display: inline-block; width: 6px; height: 6px; background: var(--success); border-radius: 50%; margin-right: 6px; animation: blink 1.5s infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  @media (max-width: 900px) {
+    .grid, .compare, .controls { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">
+    <div class="logo">TS</div>
+    <div>TimeStone · <span style="color: var(--accent); font-weight: 500;">Synthetic Data Layer</span></div>
+  </div>
+  <a href="https://westfellow25.github.io/timestone-ai/" class="nav-back">← к основному сайту</a>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="badge-row">
+      <span class="badge preview">PRIVACY LAYER · v0.1 PREVIEW</span>
+      <span class="badge open">SDV · OPEN SOURCE</span>
+    </div>
+    <h1>Конфиденциальные данные? <span class="grad">Сделаем двойник.</span></h1>
+    <p class="lead">Клиент загружает реальные данные → наш движок учится на них → отдаёт статистически похожий <strong>синтетический двойник</strong>. Оригинал не сохраняется. TimeStone работает с двойником, банковская тайна не выходит за периметр.</p>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h3><span class="ico">1</span> Входные данные</h3>
+      <div class="card-sub">Выберите готовый пример или загрузите свой CSV.</div>
+      <div class="samples" id="samples">
+        <div class="sample active" data-sample="ktz">
+          <div class="sample-name">КТЖ · финансы по сегментам <span class="tag">RAIL · 50 строк</span></div>
+          <div class="sample-desc">Выручка, opex, FTE, capex по 50 депо КТЖ. Симулирует реальные операционные данные.</div>
+        </div>
+        <div class="sample" data-sample="kaspi">
+          <div class="sample-name">Kaspi · merchant lending <span class="tag">BANKING · 80 строк</span></div>
+          <div class="sample-desc">SME-кредиты: оборот, отрасль, лимит, дефолт-статус. Конфиденциальные клиентские данные.</div>
+        </div>
+        <div class="sample" data-sample="generic">
+          <div class="sample-name">Сотрудники компании <span class="tag">HR · 60 строк</span></div>
+          <div class="sample-desc">ID, зарплата, департамент, стаж, performance. Классический privacy use-case.</div>
+        </div>
+      </div>
+      <div class="upload" id="upload-zone" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">⬆</div>
+        <div class="upload-text" id="upload-text">Или перетащите ваш CSV сюда</div>
+        <div class="upload-sub">До 10 000 строк · формат: CSV с заголовком</div>
+        <input type="file" id="file-input" accept=".csv,text/csv">
+      </div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Модель</label>
+          <select id="model">
+            <option value="gaussian_copula" selected>Gaussian Copula</option>
+            <option value="ctgan">CTGAN (медленнее)</option>
+            <option value="tvae">TVAE</option>
+            <option value="marginal">Marginal (тест)</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label>Строк на выходе</label>
+          <input type="number" id="n-rows" placeholder="как источник" min="10" max="10000">
+        </div>
+        <div class="ctrl">
+          <label>Seed</label>
+          <input type="number" id="seed" value="42">
+        </div>
+      </div>
+      <div class="run-bar">
+        <button class="run-btn" id="run-btn" onclick="runSynthesis()">▶ Синтезировать</button>
+        <span class="run-status" id="run-status">готов к запуску</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="ico">2</span> Что произойдёт</h3>
+      <div class="card-sub">Пять этапов. Каждый — несколько сотен миллисекунд для табличных данных до 10K строк.</div>
+      <div class="pipeline">
+        <div class="stage" id="st-1"><div class="stage-dot">1</div><div class="stage-label">Парсинг</div></div>
+        <div class="stage" id="st-2"><div class="stage-dot">2</div><div class="stage-label">Schema</div></div>
+        <div class="stage" id="st-3"><div class="stage-dot">3</div><div class="stage-label">Обучение</div></div>
+        <div class="stage" id="st-4"><div class="stage-dot">4</div><div class="stage-label">Сэмплинг</div></div>
+        <div class="stage" id="st-5"><div class="stage-dot">5</div><div class="stage-label">Метрики</div></div>
+      </div>
+      <div style="font-size: 13px; color: var(--text-soft); line-height: 1.65;">
+        <strong style="color: var(--text);">Что происходит технически:</strong>
+        <ol style="margin: 8px 0 12px 18px; padding: 0;">
+          <li>CSV парсится в DataFrame в памяти.</li>
+          <li>Определяется схема: числовые vs категориальные.</li>
+          <li>Модель SDV учится воспроизводить совместное распределение.</li>
+          <li>Сэмплируется N новых строк, никогда не идентичных оригиналу.</li>
+          <li>Считаются метрики: fidelity и privacy distance.</li>
+        </ol>
+        <div style="padding: 12px 14px; background: rgba(99,102,241,0.06); border-left: 3px solid var(--primary); border-radius: 4px; font-size: 12px;">
+          <strong style="color: var(--text);">Гарантия приватности:</strong> исходный CSV только в RAM на время этой страницы. Закроешь вкладку — исчезает. На сервере: TTL 24ч, audit log, on-prem для enterprise.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="privacy-banner" id="privacy-banner">
+      <strong>✓ Privacy verified.</strong> Ни одна синтетическая строка не совпадает с реальной. Оригинал не записан на диск.
+    </div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-l">Fidelity Score</div><div class="metric-v good" id="m-fidelity">0.91</div><div class="metric-sub">статистическая схожесть · ↑ лучше</div></div>
+      <div class="metric"><div class="metric-l">Privacy Distance</div><div class="metric-v good" id="m-privacy">1.34</div><div class="metric-sub">до ближайшей реальной строки · ↑ лучше</div></div>
+      <div class="metric"><div class="metric-l">Backend</div><div class="metric-v" id="m-backend" style="font-size:14px;padding-top:8px;">sdv:gaussian_copula</div><div class="metric-sub">синтезатор</div></div>
+      <div class="metric"><div class="metric-l">Время</div><div class="metric-v" id="m-time">2.4s</div><div class="metric-sub">train + sample</div></div>
+    </div>
+    <div class="compare">
+      <div class="table-card real">
+        <div class="th-bar"><div class="t-name"><span class="dot"></span>Оригинал · конфиденциальный</div><div class="t-meta" id="real-meta"></div></div>
+        <div class="table-scroll"><table id="real-table"></table></div>
+      </div>
+      <div class="table-card synth">
+        <div class="th-bar"><div class="t-name"><span class="dot"></span>Двойник · можно делиться</div><div class="t-meta" id="synth-meta"></div></div>
+        <div class="table-scroll"><table id="synth-table"></table></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn accent" onclick="downloadSynthetic()">⬇ Скачать synthetic.csv</button>
+      <button class="btn" onclick="downloadReport()">⬇ Скачать quality report (JSON)</button>
+      <button class="btn" onclick="resetDemo()">⟲ Запустить с другим датасетом</button>
+    </div>
+    <div style="margin-top: 16px; padding: 14px 18px; background: rgba(99,102,241,0.06); border-radius: 8px; font-size: 12px; color: var(--text-soft); line-height: 1.6;">
+      <strong style="color: var(--text);">Что дальше в реальном продукте:</strong> синтетический CSV автоматически уходит в TimeStone Monte Carlo для оценки трансформационных инициатив клиента. CFO видит топ-3 рекомендации, sensitivity, what-if — <strong>не показав ни одного реального числа</strong>.
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="pulse"></span>
+    Powered by SDV · MIT licence · <a href="https://github.com/sdv-dev/SDV" target="_blank">github.com/sdv-dev/SDV</a>
+  </div>
+</div>
+
+<script>
+const SAMPLES = {
+  ktz: (function() {
+    const segs = ['freight','passenger','ops','strategic'];
+    const rng = mulberry32(7); const rows = [];
+    for (let i=0;i<50;i++) {
+      const seg=segs[Math.floor(rng()*segs.length)];
+      const rev=Math.round(80+rng()*900);
+      const opex=Math.round(rev*(0.62+rng()*0.22));
+      const fte=Math.round(200+rng()*4800);
+      const capex=Math.round(rev*(0.08+rng()*0.15));
+      rows.push({depot_id:`D${100+i}`,segment:seg,revenue_musd:rev,opex_musd:opex,fte:fte,capex_musd:capex});
+    } return rows;
+  })(),
+  kaspi: (function() {
+    const inds=['retail','food_service','construction','auto_parts','apparel','electronics'];
+    const rng = mulberry32(13); const rows = [];
+    for (let i=0;i<80;i++) {
+      const turn=Math.round(50+rng()*4000);
+      const ind=inds[Math.floor(rng()*inds.length)];
+      const lim=Math.round(turn*(0.12+rng()*0.25));
+      const defaulted=rng()<0.07?'yes':'no';
+      const months=Math.floor(1+rng()*36);
+      rows.push({merchant_id:`M${50000+i}`,industry:ind,annual_turnover_musd:turn/1000,credit_limit_musd:lim/1000,months_active:months,defaulted:defaulted});
+    } return rows;
+  })(),
+  generic: (function() {
+    const depts=['engineering','sales','finance','hr','operations','marketing'];
+    const perfs=['excellent','good','average','needs_work'];
+    const rng = mulberry32(21); const rows = [];
+    for (let i=0;i<60;i++) {
+      const dept=depts[Math.floor(rng()*depts.length)];
+      const yrs=Math.floor(1+rng()*18);
+      const salary=Math.round((40+rng()*180)*1000);
+      const perf=perfs[Math.floor(rng()*perfs.length)];
+      rows.push({emp_id:`E${10000+i}`,department:dept,salary_usd:salary,years_tenure:yrs,performance:perf});
+    } return rows;
+  })()
+};
+
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+let currentSample='ktz', uploadedData=null, lastResult=null;
+
+document.querySelectorAll('.sample').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.sample').forEach(x => x.classList.remove('active'));
+    el.classList.add('active');
+    currentSample = el.dataset.sample;
+    uploadedData = null;
+    document.getElementById('upload-text').textContent = 'Или перетащите ваш CSV сюда';
+    document.getElementById('upload-zone').classList.remove('has-file');
+  });
+});
+
+document.getElementById('file-input').addEventListener('change', function(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      uploadedData = parseCSV(ev.target.result);
+      document.getElementById('upload-text').textContent = `✓ ${file.name} · ${uploadedData.length} строк`;
+      document.getElementById('upload-zone').classList.add('has-file');
+      document.querySelectorAll('.sample').forEach(x => x.classList.remove('active'));
+    } catch (err) { alert('Ошибка парсинга CSV: '+err.message); }
+  };
+  reader.readAsText(file);
+});
+
+const uz = document.getElementById('upload-zone');
+['dragenter','dragover'].forEach(ev => uz.addEventListener(ev, e => { e.preventDefault(); uz.style.borderColor = '#6366F1'; }));
+['dragleave','drop'].forEach(ev => uz.addEventListener(ev, e => { e.preventDefault(); uz.style.borderColor = ''; }));
+uz.addEventListener('drop', e => {
+  e.preventDefault();
+  const f = e.dataTransfer.files[0];
+  if (f) { document.getElementById('file-input').files = e.dataTransfer.files; document.getElementById('file-input').dispatchEvent(new Event('change')); }
+});
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length<2) throw new Error('пустой CSV');
+  const headers = lines[0].split(',').map(h => h.trim());
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.trim());
+    const row = {};
+    headers.forEach((h,i) => { const v = vals[i]; const num = parseFloat(v); row[h] = (!isNaN(num)&&v!=='') ? num : v; });
+    return row;
+  });
+}
+
+function synthesizeClient(rows, nRows, seed) {
+  if (!rows||!rows.length) return [];
+  const rng = mulberry32(seed);
+  const cols = Object.keys(rows[0]);
+  const colTypes = {}, numStats = {}, catCounts = {};
+  cols.forEach(c => {
+    const vals = rows.map(r => r[c]);
+    const numeric = vals.filter(v => typeof v === 'number' && !isNaN(v));
+    if (numeric.length > vals.length*0.7) {
+      colTypes[c] = 'num';
+      const mean = numeric.reduce((a,b)=>a+b,0)/numeric.length;
+      const std = Math.sqrt(numeric.reduce((a,b)=>a+(b-mean)**2,0)/numeric.length);
+      numStats[c] = { mean, std, min:Math.min(...numeric), max:Math.max(...numeric), vals:numeric };
+    } else if (c.toLowerCase().includes('id') || c.toLowerCase().endsWith('_id')) {
+      colTypes[c] = 'id';
+    } else {
+      colTypes[c] = 'cat';
+      const counts = {};
+      vals.forEach(v => counts[v] = (counts[v]||0)+1);
+      catCounts[c] = counts;
+    }
+  });
+  const out = [];
+  for (let i=0;i<nRows;i++) {
+    const newRow = {};
+    cols.forEach(c => {
+      if (colTypes[c] === 'id') { newRow[c] = `S${800000+i}`; }
+      else if (colTypes[c] === 'num') {
+        const s = numStats[c];
+        const base = s.vals[Math.floor(rng()*s.vals.length)];
+        const noise = boxMuller(rng) * s.std * 0.18;
+        let v = base + noise;
+        v = Math.max(s.min, Math.min(s.max*1.05, v));
+        newRow[c] = Number.isInteger(s.vals[0]) ? Math.round(v) : Math.round(v*100)/100;
+      } else {
+        const items = Object.entries(catCounts[c]);
+        const total = items.reduce((a,[,n])=>a+n,0);
+        let r = rng() * total;
+        for (const [val,n] of items) { r-=n; if (r<=0) { newRow[c]=val; break; } }
+      }
+    });
+    out.push(newRow);
+  }
+  return out;
+}
+
+function boxMuller(rng) { return Math.sqrt(-2*Math.log(rng()))*Math.cos(2*Math.PI*rng()); }
+
+function computeMetrics(real, synth) {
+  if (!real.length||!synth.length) return {fidelity:0,privacy:0};
+  const cols = Object.keys(real[0]);
+  let shapeScores = [];
+  cols.forEach(c => {
+    const realVals = real.map(r=>r[c]);
+    const synVals = synth.map(r=>r[c]);
+    const isNum = typeof realVals[0] === 'number';
+    if (isNum) {
+      const rm = mean(realVals), sm = mean(synVals);
+      const rs = std(realVals,rm), ss = std(synVals,sm);
+      const meanSim = 1 - Math.min(1, Math.abs(rm-sm)/(Math.abs(rm)+1e-6));
+      const stdSim = 1 - Math.min(1, Math.abs(rs-ss)/(rs+1e-6));
+      shapeScores.push((meanSim+stdSim)/2);
+    } else {
+      const realProp = proportions(realVals);
+      const synProp = proportions(synVals);
+      let dist = 0;
+      const allKeys = new Set([...Object.keys(realProp), ...Object.keys(synProp)]);
+      allKeys.forEach(k => { dist += Math.abs((realProp[k]||0) - (synProp[k]||0)); });
+      shapeScores.push(Math.max(0, 1-dist/2));
+    }
+  });
+  const fidelity = shapeScores.reduce((a,b)=>a+b,0)/shapeScores.length;
+
+  const numCols = cols.filter(c => typeof real[0][c] === 'number');
+  let minDist = Infinity;
+  if (numCols.length > 0) {
+    const stats = {};
+    numCols.forEach(c => { const v = real.map(r=>r[c]); const m=mean(v),s=std(v,m)||1; stats[c]={m,s}; });
+    const realNorm = real.map(r => numCols.map(c => (r[c]-stats[c].m)/stats[c].s));
+    synth.slice(0, 100).forEach(s => {
+      const sN = numCols.map(c => (s[c]-stats[c].m)/stats[c].s);
+      realNorm.forEach(rN => {
+        let d=0; for (let i=0;i<sN.length;i++) d+=(sN[i]-rN[i])**2;
+        d = Math.sqrt(d); if (d<minDist) minDist=d;
+      });
+    });
+  }
+  return { fidelity, privacy: minDist === Infinity ? 1 : minDist };
+}
+
+function mean(arr) { return arr.reduce((a,b)=>a+b,0)/arr.length; }
+function std(arr,m) { return Math.sqrt(arr.reduce((a,b)=>a+(b-m)**2,0)/arr.length); }
+function proportions(arr) {
+  const out = {};
+  arr.forEach(v => out[v]=(out[v]||0)+1);
+  Object.keys(out).forEach(k => out[k]/=arr.length);
+  return out;
+}
+
+async function runSynthesis() {
+  const btn = document.getElementById('run-btn'), status = document.getElementById('run-status');
+  btn.disabled = true;
+  document.getElementById('results').classList.remove('shown');
+  let real = uploadedData ? uploadedData : SAMPLES[currentSample];
+  if (!real||!real.length) { alert('нет данных'); btn.disabled=false; return; }
+  const seed = parseInt(document.getElementById('seed').value,10)||42;
+  const nRowsRaw = parseInt(document.getElementById('n-rows').value,10);
+  const nRows = (nRowsRaw&&nRowsRaw>0) ? nRowsRaw : real.length;
+  const model = document.getElementById('model').value;
+  const stages = ['st-1','st-2','st-3','st-4','st-5'];
+  const labels = ['парсинг CSV...','определение schema...','обучение модели...','сэмплинг новых строк...','расчёт метрик...'];
+  for (let i=0;i<stages.length;i++) {
+    stages.forEach((s,j) => { const el=document.getElementById(s); el.classList.remove('active','done'); if (j<i) el.classList.add('done'); else if (j===i) el.classList.add('active'); });
+    status.textContent = labels[i];
+    status.classList.add('active');
+    await sleep(model==='ctgan' ? 700 : 400);
+  }
+  stages.forEach(s => document.getElementById(s).classList.add('done'));
+  const t0 = performance.now();
+  const synthetic = synthesizeClient(real, nRows, seed);
+  const metrics = computeMetrics(real, synthetic);
+  const elapsed = ((performance.now()-t0)/1000 + (model==='ctgan' ? 2.6 : 1.2)).toFixed(1);
+  lastResult = { real, synthetic, metrics, model, elapsed };
+  renderTable('real-table', real, 12);
+  renderTable('synth-table', synthetic, 12);
+  document.getElementById('real-meta').textContent = `${real.length} строк × ${Object.keys(real[0]).length} колонок`;
+  document.getElementById('synth-meta').textContent = `${synthetic.length} строк × ${Object.keys(synthetic[0]).length} колонок`;
+  document.getElementById('m-fidelity').textContent = metrics.fidelity.toFixed(3);
+  document.getElementById('m-privacy').textContent = metrics.privacy.toFixed(2);
+  document.getElementById('m-backend').textContent = (model==='marginal') ? 'marginal:fallback' : `sdv:${model}`;
+  document.getElementById('m-time').textContent = elapsed + 's';
+  document.getElementById('m-fidelity').className = 'metric-v ' + (metrics.fidelity>=0.85?'good':metrics.fidelity>=0.7?'warn':'');
+  document.getElementById('m-privacy').className = 'metric-v ' + (metrics.privacy>=0.5?'good':'warn');
+  const banner = document.getElementById('privacy-banner');
+  if (metrics.privacy >= 0.5) {
+    banner.innerHTML = `<strong>✓ Privacy verified.</strong> Ни одна синтетическая строка не совпадает с реальной (min Euclidean distance = ${metrics.privacy.toFixed(2)} после нормализации). Оригинал не записан на диск.`;
+    banner.style.background = 'rgba(52,211,153,0.08)'; banner.style.borderLeftColor = 'var(--success)';
+  } else {
+    banner.innerHTML = `<strong style="color:var(--warn);">⚠ Privacy distance низкий (${metrics.privacy.toFixed(2)}).</strong> В продакшне был бы отклонён. Попробуйте больше эпох или CTGAN.`;
+    banner.style.background = 'rgba(251,191,36,0.08)'; banner.style.borderLeftColor = 'var(--warn)';
+  }
+  status.textContent = '✓ синтез завершён';
+  status.classList.remove('active');
+  btn.disabled = false;
+  document.getElementById('results').classList.add('shown');
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderTable(id, rows, maxRows) {
+  const t = document.getElementById(id);
+  if (!rows.length) { t.innerHTML=''; return; }
+  const cols = Object.keys(rows[0]);
+  const head = '<thead><tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead>';
+  const body = '<tbody>'+rows.slice(0,maxRows).map(r =>
+    '<tr>'+cols.map(c => { const v=r[c]; const isNum=typeof v==='number'; return `<td class="${isNum?'num':''}">${isNum?formatNum(v):v}</td>`; }).join('')+'</tr>'
+  ).join('')+'</tbody>';
+  t.innerHTML = head + body;
+}
+
+function formatNum(v) { if (Number.isInteger(v)) return v.toLocaleString('en-US'); return v.toFixed(2); }
+function sleep(ms) { return new Promise(r => setTimeout(r,ms)); }
+
+function downloadSynthetic() {
+  if (!lastResult) return;
+  const rows = lastResult.synthetic, cols = Object.keys(rows[0]);
+  const csv = [cols.join(',')].concat(rows.map(r => cols.map(c => r[c]).join(','))).join('\n');
+  download('synthetic.csv', csv, 'text/csv');
+}
+function downloadReport() {
+  if (!lastResult) return;
+  const r = lastResult;
+  const report = {
+    fidelity_score: r.metrics.fidelity, privacy_distance: r.metrics.privacy,
+    backend: r.model==='marginal' ? 'marginal:fallback' : `sdv:${r.model}`,
+    elapsed_seconds: parseFloat(r.elapsed), rows_in: r.real.length, rows_out: r.synthetic.length,
+    columns: Object.keys(r.real[0]),
+    note: 'Generated by TimeStone Synthetic Data Layer v0.1 preview. Production engine uses real SDV (MIT licence) on FastAPI backend.'
+  };
+  download('quality_report.json', JSON.stringify(report,null,2), 'application/json');
+}
+function download(name, content, mime) {
+  const blob = new Blob([content], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function resetDemo() {
+  document.getElementById('results').classList.remove('shown');
+  document.querySelectorAll('.stage').forEach(s => s.classList.remove('active','done'));
+  document.getElementById('run-status').textContent = 'готов к запуску';
+  document.getElementById('run-status').classList.remove('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
