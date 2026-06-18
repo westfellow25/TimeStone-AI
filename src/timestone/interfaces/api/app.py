@@ -32,6 +32,12 @@ from . import schemas
 from .auth import QuotaTracker, Tenant, TenantRegistry
 from .tenant_runs import RunSummary, TenantRunLog
 
+# Optional synthetic-data router; import-safe if FastAPI is missing.
+try:
+    from .synthesis import router as _synthesis_router
+except Exception:  # noqa: BLE001
+    _synthesis_router = None
+
 VERSION = "0.6.0"
 
 _PREDICTIONS_PATH = REPO_ROOT / "predictions" / "2026-05-20.json"
@@ -68,6 +74,11 @@ def create_app() -> "FastAPI":  # noqa: F821
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # Mount privacy-preserving synthetic-data endpoints:
+    #   POST /synthesize/records, POST /synthesize/csv, GET /synthesize/health.
+    if _synthesis_router is not None:
+        app.include_router(_synthesis_router)
 
     registry = TenantRegistry(store_path=_TENANTS_PATH)
     quotas = QuotaTracker()

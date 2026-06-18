@@ -130,6 +130,10 @@ class MonteCarloSimulator:
                     break
             payback_samples[i] = payback
 
+        # Expose the raw NPV draws so callers can build a distribution
+        # (percentiles, histogram). Additive: does not change the result.
+        self.last_npv_samples = npv_samples
+
         return SimulationResult(
             scenario_id=sid, scenario_name=sname,
             mean_npv=float(np.mean(npv_samples)),

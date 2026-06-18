@@ -1,41 +1,82 @@
 # TimeStone AI
 
-**Predict business transformation outcomes before you commit.**
-
-TimeStone AI uses synthetic digital twins and Monte Carlo simulations to forecast the success probability, NPV and payback of business transformations under realistic uncertainty.
+**Predict the outcome of a business transformation before you commit to it.**
 
 > "See 1,000 futures. Choose the one truth."
 
----
-
-## What is TimeStone AI?
-
-TimeStone creates a **digital twin** of a company, generates **up to 1,000 transformation scenarios** (Claude-powered when an API key is set, rule-based otherwise), runs **Monte Carlo simulations** with realistic risk modeling, and ranks the strategies that maximize risk-adjusted NPV.
-
-**Use cases:**
-
-- Digital transformation strategy
-- M&A integration planning
-- Product launch decisions
-- Market expansion analysis
-- Technology adoption roadmaps
+TimeStone builds a synthetic **digital twin** of a company, generates up to **1,000 transformation scenarios** (Claude-powered, with a rule-based fallback), runs each through a **Monte Carlo simulation** with realistic risk, and ranks the strategies that maximize **risk-adjusted NPV** — so leaders decide with a probability distribution, not a single optimistic number.
 
 ---
 
-## How it works
+## The problem
+
+Transformation decisions — digital programs, M&A integration, market expansion, big tech bets — are made on one deterministic spreadsheet and a gut feel. Then most of them miss their targets. The spreadsheet never showed the downside, the execution risk, or the ramp-up curve.
+
+TimeStone replaces the single number with a distribution of outcomes you can actually reason about.
+
+---
+
+## What you do with it
+
+| Step | Example |
+| --- | --- |
+| 01 — Build the twin | Model the company's financials, operations, and market as a digital twin. |
+| 02 — Generate scenarios | Produce up to 1,000 transformation hypotheses (Claude or rule-based). |
+| 03 — Simulate | Run Monte Carlo on each scenario with shocks, delays, and adoption ramp. |
+| 04 — Rank & stress-test | Sort by P(NPV>0), mean NPV, and payback; tornado-analyze the top picks. |
+
+---
+
+## TimeStone is for you if
+
+- ✅ You're a transformation lead, strategy team, or operator weighing a major bet
+- ✅ You're tired of single-point NPV that hides the downside
+- ✅ You want execution risk, market shocks, and adoption ramp modeled explicitly
+- ✅ You need a defensible, probability-weighted recommendation for the board
+
+---
+
+## Features
+
+🏢 **Digital Twins** — Synthetic models of an organization across financials, operations, and market.
+
+🎲 **Monte Carlo Engine** — 1,000 iterations per scenario with external shocks and ramp-up; deterministic seeding for reproducibility.
+
+🧠 **Scenario Generation** — Claude generates transformation hypotheses; falls back to a rule-based generator with no API key.
+
+📊 **Risk-Adjusted Ranking** — Strategies ranked by P(NPV>0), mean NPV, ROI multiple, and median payback.
+
+🌪️ **Sensitivity / Tornado** — See which assumptions actually move the outcome.
+
+🧪 **Invariant Test Suite** — pytest locks the financial-model invariants (NPV math, risk variance, no-perfect-success guardrail, seeding).
+
+🖥️ **Interactive Dashboard** — Streamlit + Plotly UI plus a CLI for batch runs.
+
+🏭 **Multi-Industry Templates** — Transportation, energy, fintech, SaaS, manufacturing out of the box.
+
+---
+
+## What's under the hood
 
 ```
 1. DATA INPUT          -> Company financials, operations, market data
 2. DIGITAL TWIN        -> Synthetic model of the business
-3. SCENARIO GENERATION -> 1,000 transformation hypotheses (Claude or rule-based)
-4. MONTE CARLO         -> 1,000 iterations per scenario with shocks & ramp-up
-5. RANKING             -> TOP-N by P(NPV>0), NPV, payback period
-6. SENSITIVITY         -> Tornado analysis on top scenarios
+3. SCENARIO GENERATION -> up to 1,000 hypotheses (Claude or rule-based)
+4. MONTE CARLO         -> 1,000 iterations/scenario with shocks + ramp-up
+5. SYNTHESIS API       -> Programmatic access to runs, scenarios, results
+6. RANKING             -> Top-N by P(NPV>0), NPV, payback
+7. SENSITIVITY         -> Tornado analysis on the top scenarios
 ```
+
+**Financial model:** capex in year 0, benefits after a (delayed) implementation period, adoption ramp 40% / 70% / 95% / 100% by year, 5-year NPV at configurable WACC (default 12%).
+
+**Risk modeled per iteration:** execution failure (~5%), market downturn (~8%, −30% revenue), competitive response (~15%, −20% revenue), cost overruns (up to +50%), implementation delays (up to +80%). All configurable via `SimulationConfig`.
 
 ---
 
-## Example output (Railway Company)
+## Example output (national rail operator — transportation)
+
+Anonymized example. The model ships with several industry twins; company names are illustrative.
 
 ```
 RANK #1  Dynamic Pricing Implementation
@@ -43,139 +84,70 @@ RANK #1  Dynamic Pricing Implementation
    Mean NPV (5y)       : $43M
    Mean ROI multiplier : 8.9x
    Median payback      : 2 years
-   90% CI ROI          : [4.1x, 14.6x]
    Recommendation      : PROCEED with phased rollout
-
-RANK #2  AI-Powered Route Optimization
-   P(NPV > 0)          : 94%
-   Mean NPV (5y)       : $32M
-   Median payback      : 2 years
-   Recommendation      : PROCEED, monitor adoption
 
 RANK #3  Predictive Maintenance System
    P(NPV > 0)          : 64%
-   Mean NPV (5y)       : $4M
    Median payback      : 5 years
-   Recommendation      : PILOT first - high execution risk
+   Recommendation      : PILOT first — high execution risk
 ```
+
+Example industry twins included: a **national rail operator** (transportation), a **consumer-fintech platform**, a **national power grid** (energy), a **B2B SaaS** company, and a **discrete manufacturer**.
 
 ---
 
 ## Tech stack
 
 - **Language:** Python 3.10+
-- **AI:** Anthropic Claude (`anthropic` SDK) - optional, falls back to rule-based
-- **Simulation:** NumPy, Monte Carlo with NPV
-- **Visualization:** Streamlit, Plotly
-- **Data modeling:** dataclasses + Pydantic
-- **Testing:** pytest
+- **AI:** Anthropic Claude SDK (optional; rule-based fallback)
+- **Simulation:** NumPy, Monte Carlo
+- **Modeling:** dataclasses + Pydantic
+- **API:** synthesis API + synthetic-data service for programmatic runs
+- **UI:** Streamlit + Plotly
+- **Testing:** pytest (financial-invariant suite)
 
 ---
 
-## Installation
+## Quickstart
 
 ```bash
 git clone https://github.com/westfellow25/timestone-ai.git
 cd timestone-ai
-
 pip install -r requirements.txt
+cp .env.example .env          # optional: ANTHROPIC_API_KEY for AI scenarios
 
-# (Optional) configure Claude API for AI-generated scenarios
-cp .env.example .env
-# edit .env and set ANTHROPIC_API_KEY=sk-ant-...
-```
-
----
-
-## Quick start
-
-```bash
-# Install (editable mode)
-pip install -e .
-
-# List available digital twins
-python -m timestone list-companies
-
-# Run a full assessment (scenarios + Monte Carlo + report)
-python -m timestone assess "Kazakhstan Temir Zholy (KTZ)"
-
-# Browse past runs
-python -m timestone list-runs
-
-# Launch the interactive dashboard
+python -m timestone list-companies          # see available industry twins
+python -m timestone assess "<company name>" # run a full assessment
 streamlit run src/timestone/interfaces/web/dashboard.py
 ```
 
-See `docs/architecture.md` for the project's layered architecture.
-
----
-
-## Deploy
-
-**Streamlit Community Cloud (free, 30 seconds):**
-
-1. Push to a public GitHub repo
-2. Go to https://share.streamlit.io
-3. New app -> point at `streamlit_app.py` in this repo
-4. Click Deploy. URL like `https://timestone.streamlit.app`
-
-**Static landing page:**
-
-`site/index.html` is a single-file landing page (no build step). Drop it on any
-static host (GitHub Pages, Vercel, Netlify, Cloudflare Pages) and point a
-domain like `timestone.ai` at it.
-
----
-
-## Tests
+Run the tests:
 
 ```bash
 pytest tests/ -v
 ```
 
-The test suite locks in the core financial-model invariants (NPV math, risk-level variance, no-perfect-success guardrail, deterministic seeding).
-
 ---
 
-## Financial model
+## What TimeStone is not
 
-- Capex paid in year 0
-- Benefits start after the (delayed) implementation period
-- Adoption ramps up: **40% / 70% / 95% / 100%** by year
-- `cost_reduction` applies to **operating costs** (not revenue)
-- 5-year NPV at configurable WACC (default 12%)
-
-External risks modeled per iteration:
-
-- **Execution failure:** 5% prob (project lost)
-- **Market downturn:** 8% prob (-30% to revenue impact)
-- **Competitive response:** 15% prob (-20% to revenue impact)
-- **Cost overruns:** up to +50% for high-risk projects
-- **Implementation delays:** up to +80% for high-risk projects
-
-All defaults are configurable through `SimulationConfig`.
+- **Not a BI dashboard.** It simulates futures, it doesn't just chart the past.
+- **Not a point forecast.** Every answer is a distribution with explicit risk.
+- **Not a black box.** The financial model and risks are configurable and test-locked.
 
 ---
 
 ## Roadmap
 
-- [x] Core simulation engine with NPV, ramp-up, external shocks
-- [x] Digital twin modeling
-- [x] Multi-industry templates (transportation, energy, fintech, SaaS, manufacturing)
-- [x] Interactive dashboard with sensitivity analysis
-- [x] Claude-powered scenario generation (optional)
-- [x] Test suite locking in financial invariants
-- [ ] PDF export of executive report
+- [x] Monte Carlo engine, digital twins, multi-industry templates
+- [x] Claude scenario generation + rule-based fallback
+- [x] Synthesis API + synthetic-data service
+- [x] Invariant test suite
+- [ ] PDF export of the executive report
 - [ ] Real-time data integration (financial APIs)
 - [ ] Multi-objective optimization (NPV vs risk vs time)
 - [ ] Bayesian updating from pilot results
 
 ---
 
-## License
-
-MIT - see `LICENSE`.
-
----
-
-Built by [@westfellow25](https://github.com/westfellow25) | 2026
+Built by [@westfellow25](https://github.com/westfellow25).
